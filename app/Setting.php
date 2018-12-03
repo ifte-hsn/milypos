@@ -14,11 +14,11 @@ class Setting extends Model
     use ValidatingTrait;
 
     protected $rules = [
-        'qr_text'         => 'max:31|nullable',
-        'logo'         => 'mimes:jpeg,bmp,png,gif',
-        'mini_logo'         => 'mimes:jpeg,bmp,png,gif',
-        'alert_email'   => 'email_array|nullable',
-        'default_currency'   => 'required',
+        'qr_text'             => 'max:31|nullable',
+        'logo'                => 'mimes:jpeg,bmp,png,gif',
+        'mini_logo'           => 'mimes:jpeg,bmp,png,gif',
+        'alert_email'         => 'email_array|nullable',
+        'default_currency'    => 'required',
         'thumbnail_max_h'     => 'numeric|max:500|min:25',
         'privacy_policy_link' => 'nullable|url'
     ];
@@ -69,7 +69,7 @@ class Setting extends Model
      *
      * @return string escaped CSS
      */
-    public function show_custom_css()
+    public function showCustomCss()
     {
         $custom_css = Setting::getSettings()->custom_css;
         $custom_css = e($custom_css);
