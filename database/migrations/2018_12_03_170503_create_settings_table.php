@@ -29,6 +29,7 @@ class CreateSettingsTable extends Migration
             $table->boolean('load_remote')->default(1); // TODO: Check and remove if necessary
             $table->string('logo')->nullable()->default(NULL);
             $table->string('mini_logo')->nullable()->default(NULL);
+            $table->integer('thumbnail_max_h')->nullable()->default('50');
             $table->string('header_color')->nullable()->default(NULL);
             $table->string('alert_email')->nullable()->default(NULL);
             $table->boolean('alerts_enabled')->default(1);
@@ -43,24 +44,6 @@ class CreateSettingsTable extends Migration
             $table->text('custom_css')->nullable()->default(NULL);
             $table->enum('brand',['text_only', 'logo_only', 'text_logo'])->default('text_only');
             $table->string('locale',5)->nullable()->default(config('app.locale'));
-
-            // Lebel settings
-            $table->tinyInteger('labels_per_page')->default(30);
-            $table->decimal('labels_width', 6, 5)->default(2.625);
-            $table->decimal('labels_height', 6, 5)->default(1);
-            $table->decimal('labels_pmargin_left', 6, 5)->default(0.21975);
-            $table->decimal('labels_pmargin_right', 6, 5)->default(0.21975);
-            $table->decimal('labels_pmargin_top', 6, 5)->default(0.5);
-            $table->decimal('labels_pmargin_bottom', 6, 5)->default(0.5);
-            $table->decimal('labels_display_bgutter', 6, 5)->default(0.07);
-            $table->decimal('labels_display_sgutter', 6, 5)->default(0.05);
-            $table->tinyInteger('labels_fontsize')->default(9);
-            $table->decimal('labels_pagewidth', 7, 5)->default(8.5);
-            $table->decimal('labels_pageheight', 7, 5)->default(11);
-            $table->tinyInteger('labels_display_name')->default(0);
-            $table->tinyInteger('labels_display_serial')->default(1);
-            $table->tinyInteger('labels_display_tag')->default(1);
-
 
             // Date time display format
             $table->string('date_display_format')->default('Y-m-d');
