@@ -1,4 +1,15 @@
 @extends('layouts.default')
+
+@section('title')
+    {{ __('general.dashboard') }}
+@endsection
+
+
+@section('breadcrumb')
+    <li><a href="{{ url('/') }}"><i class="fa fa-dashboard"></i> {{ __('general.home') }}</a></li>
+    <li class="active">{{ __('general.dashboard') }}</li>
+@endsection
+
 @section('content')
     <!-- Small boxes (Stat box) -->
     <div class="row">
