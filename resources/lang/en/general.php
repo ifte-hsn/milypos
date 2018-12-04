@@ -1,6 +1,15 @@
 <?php
 
 return [
+    'check_form' => 'Please check the form below for errors',
+    'dashboard' => 'Dashboard',
+    'error' => 'Error',
     'home' => 'Home',
-    'dashboard' => 'Dashboard'
-    ];
+    'remember' => 'Remember me',
+    'login' => 'Login',
+    'login_prompt' => 'Sign in to start your session',
+    'password' => 'Password',
+    'success' => 'Success',
+    'email' => 'Email',
+    'warning' => 'Warning',
+];
