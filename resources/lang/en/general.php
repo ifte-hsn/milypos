@@ -9,6 +9,7 @@ return [
     'login' => 'Login',
     'login_prompt' => 'Sign in to start your session',
     'password' => 'Password',
+    'sign_out' => 'Sign out',
     'success' => 'Success',
     'email' => 'Email',
     'warning' => 'Warning',
