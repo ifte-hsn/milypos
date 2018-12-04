@@ -12,5 +12,7 @@
 */
 
 Route::get('/', function () {
-    return view('layouts.default');
+    return view('dashboard');
 });
+
+Auth::routes();
