@@ -5,10 +5,14 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use App\Traits\Searchable;
 
 class User extends Authenticatable
 {
     use Notifiable;
+    use SoftDeletes, ValidatingTrait;
+
+    protected $presenter = 'App\Presenters\UserPresenter';
 
     /**
      * The attributes that are mass assignable.
@@ -16,7 +20,44 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name',
+        'email',
+        'password',
+        'activated',
+        'address',
+        'city',
+        'company_id',
+        'country',
+        'department_id',
+        'employee_num',
+        'first_name',
+        'jobtitle',
+        'last_name',
+        'ldap_import',
+        'locale',
+        'location_id',
+        'manager_id',
+        'phone',
+        'state',
+        'zip',
+    ];
+
+    protected $casts = [
+        'activated' => 'boolean',
+    ];
+
+    /**
+     * Model validation rules
+     *
+     * @var array
+     */
+
+    protected $rules = [
+        'first_name'              => 'required|string|min:1',
+        'username'                => 'required|string|min:1|unique_undeleted',
+        'email'                   => 'email|nullable',
+        'password'                => 'required|min:6',
+        'locale'                  => 'max:10|nullable',
     ];
 
     /**
@@ -26,5 +67,26 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'password', 'remember_token',
+    ];
+
+    protected $dates = ['deleted_at'];
+    protected $injectUniqueIdentifier = true;
+
+    use Searchable;
+
+    /**
+     * The attributes that should be included when searching the model.
+     *
+     * @var array
+     */
+    protected $searchableAttributes = [
+        'first_name',
+        'last_name',
+        'email',
+        'username',
+        'notes',
+        'phone',
+        'jobtitle',
+        'employee_num'
     ];
 }
