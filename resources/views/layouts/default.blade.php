@@ -17,7 +17,7 @@
     <!-- Ionicons -->
     <link rel="stylesheet" href="{{ asset('bower_components/Ionicons/css/ionicons.min.css') }}">
     <!-- Theme style -->
-    <link rel="stylesheet" href="{{ asset('css/AdminLTE.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/AdminLTE.css') }}">
     <!-- AdminLTE Skins. Choose a skin from the css/skins
          folder instead of downloading all of them to reduce the load. -->
     <link rel="stylesheet" href="{{ asset('css/skins/_all-skins.min.css') }}">
@@ -33,6 +33,7 @@
     <!-- bootstrap wysihtml5 - text editor -->
     <link rel="stylesheet" href="{{ asset('plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css') }}">
 
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <script nonce="{{ csrf_token() }}">
@@ -87,9 +88,9 @@
 <body class="hold-transition skin-blue sidebar-mini {{ (session('menu_state')!='open') ? 'sidebar-mini sidebar-collapse' : ''  }}"">
 <div class="wrapper">
 
-@include('layouts.header')
+@include('layouts.partials.header')
 <!-- Left side column. contains the logo and sidebar -->
-@include('layouts.left-sidebar')
+@include('layouts.partials.left-sidebar')
 
 <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
@@ -111,7 +112,7 @@
     </div>
     <!-- /.content-wrapper -->
     @yield('footer')
-    @include('layouts.right-sidebar')
+    @include('layouts.partials.right-sidebar')
 
 </div>
 <!-- ./wrapper -->
@@ -153,5 +154,7 @@
 <script src="{{ asset('js/pages/dashboard.js') }}"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="{{ asset('js/demo.js') }}"></script>
+
+@yield('page_scripts')
 </body>
 </html>
