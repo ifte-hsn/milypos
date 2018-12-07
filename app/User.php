@@ -99,7 +99,7 @@ class User extends Authenticatable
     }
 
     /**
-     * Run additional advanced serches
+     * Run additional advanced searches
      * @param Builder $query
      * @param array $terms
      * @return mixed
