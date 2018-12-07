@@ -6,8 +6,8 @@ namespace App\Traits;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
- * This trait allows for cleaner searching of models,
- * moving from complex queries to an easier declarative syntax.
+ * This trait allows for cleaner searching of models, moving
+ * from complex queries to an easier declarative syntax.
  *
  * @author Till Deeke <kontakt@tilldeeke.de>
  */
@@ -82,8 +82,8 @@ trait Searchable
                 }
 
                 /**
-                 * We need to form the query properly, starting with a "where"
-                 * otherwise the generated select is wrong
+                 * We need to form the query properly, starting with a
+                 * "where" otherwise the generated select is wrong
                  */
                 if(!$firstConditionAdded) {
                     $query->where($table . '.' . $column, 'LIKE', '%' . $term. '%');
@@ -105,12 +105,32 @@ trait Searchable
      */
     private function searchRelations(Builder $query, array $terms)
     {
-        foreach ($this->getSearchableRelations() as $relation => $column )
+        foreach ($this->getSearchableRelations() as $relation => $columns )
         {
-            $query->orWhereHas($relation, function ($query) use ($relation, $column, $terms) {
+            $query->orWhereHas($relation, function ($query) use ($relation, $columns, $terms) {
                 $table = $this->getRelationTable($relation);
+
+                /**
+                 * We need to form the query properly, starting with a "where",
+                 * otherwise the generated nested select is wrong.
+                 */
+
+                $firstConditionAdded = false;
+
+                foreach ($columns as $column) {
+                    foreach ($terms as $term) {
+                        if(!$firstConditionAdded) {
+                            $query->where($table . '.' . $column, 'LIKE', '%' . $term . '%');
+                            $firstConditionAdded = true;
+                            continue;
+                        }
+
+                        $query->orWhere($table . '.' . $column, 'LIKE', '%' . $term . '%');
+                    }
+                }
             });
         }
+        return $query;
     }
 
     /**
@@ -135,6 +155,19 @@ trait Searchable
     }
 
 
+    /**
+     * Get the table name of relation.
+     *
+     * This method loops over a relation name, getting the table name
+     * of the last relation in the series.
+     *
+     * So categories would get the table name for the Category model
+     * "model.manufacturer" would be get the tablename for the
+     * Manufacturer model.
+     *
+     * @param $relation
+     * @return string   The table name
+     */
     private function getRelationTable($relation) {
         $related = $this;
 
@@ -142,5 +175,32 @@ trait Searchable
             $related = $related->{$relationName}()->getRelated();
         }
 
+        /**
+         * Are we referencing the model that are called?
+         * Then get the internal join-tablename, since
+         * Laravel has trouble selecting the
+         * correct one in this type of
+         * parent-child self-json
+         */
+        if($this instanceof $related) {
+            /**
+             * Since Laravel increases counter on the hash on
+             * retrieval, we have to count it down again.
+             *
+             * This causes side effects! Every time we access
+             * this method, Laravel increase the counter
+             *
+             * Format: laravel_reserved_XXX
+             */
+
+            $relationCountHash = $this->{$relationName}()->getRelationCountHash();
+            $parts = collect(explode('_', $relationCountHash));
+
+            $counter = $parts->pop();
+            $parts->push($counter-1);
+            return implode('_', $parts->toArray());
+        }
+
+        return $related->getTable();
     }
 }
