@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -13,6 +14,7 @@ class User extends Authenticatable
 {
     use Notifiable;
     use SoftDeletes, ValidatingTrait;
+    use Searchable;
 
     protected $presenter = 'App\Presenters\UserPresenter';
 
@@ -74,7 +76,6 @@ class User extends Authenticatable
     protected $dates = ['deleted_at'];
     protected $injectUniqueIdentifier = true;
 
-    use Searchable;
 
     /**
      * The attributes that should be included when searching the model.
@@ -91,4 +92,23 @@ class User extends Authenticatable
         'jobtitle',
         'employee_num'
     ];
+
+    public function getFullNameAttribute()
+    {
+        return $this->first_name . " " . $this->last_name;
+    }
+
+    /**
+     * Run additional advanced serches
+     * @param Builder $query
+     * @param array $terms
+     * @return mixed
+     */
+    public function advancedTextSearch(Builder $query, array $terms)
+    {
+        foreach ($terms as $term) {
+            $query = $query->orWhereRaw('CONCAT('.DB::getTablePrefix().'users.first_name," ",'.DB::getTablePrefix().'users.last_name) LIKE ?', ["%$term%", "%$term%"]);
+        }
+        return query;
+    }
 }
