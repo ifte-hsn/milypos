@@ -3,7 +3,7 @@
 namespace App\Traits;
 
 
-use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Builder as Builder;
 
 /**
  * This trait allows for cleaner searching of models, moving
@@ -16,13 +16,10 @@ trait Searchable
     /**
      * Performs a search on the model, using the provided search terms
      *
-     * @param  Illuminate\Database\Eloquent\Builder $query The query to start the search on
-     *
-     * @param  string $search
-     *
-     * @return Illuminate\Database\Eloquent\Builder A query with added "where" clauses
+     * @param $query
+     * @param $search
+     * @return Builder
      */
-
     public function scopeTextSearch($query, $search)
     {
         $terms = $this->prepareSearchTerms($search);
@@ -77,7 +74,7 @@ trait Searchable
                  * Making sure if only search in date column if search term
                  * consists of characters that can makeup MySQL timestamp!
                  */
-                if(!preg_match('/^[0-9 :-]++$/', $term) && is_array($column, $this->getDates())) {
+                if (!preg_match('/^[0-9 :-]++$/', $term) && is_array($column, $this->getDates())) {
                     continue;
                 }
 
@@ -85,8 +82,8 @@ trait Searchable
                  * We need to form the query properly, starting with a
                  * "where" otherwise the generated select is wrong
                  */
-                if(!$firstConditionAdded) {
-                    $query->where($table . '.' . $column, 'LIKE', '%' . $term. '%');
+                if (!$firstConditionAdded) {
+                    $query->where($table . '.' . $column, 'LIKE', '%' . $term . '%');
                     $firstConditionAdded = true;
                     continue;
                 }
@@ -105,8 +102,7 @@ trait Searchable
      */
     private function searchRelations(Builder $query, array $terms)
     {
-        foreach ($this->getSearchableRelations() as $relation => $columns )
-        {
+        foreach ($this->getSearchableRelations() as $relation => $columns) {
             $query->orWhereHas($relation, function ($query) use ($relation, $columns, $terms) {
                 $table = $this->getRelationTable($relation);
 
@@ -119,7 +115,7 @@ trait Searchable
 
                 foreach ($columns as $column) {
                     foreach ($terms as $term) {
-                        if(!$firstConditionAdded) {
+                        if (!$firstConditionAdded) {
                             $query->where($table . '.' . $column, 'LIKE', '%' . $term . '%');
                             $firstConditionAdded = true;
                             continue;
@@ -150,7 +146,8 @@ trait Searchable
      *
      * @return array The relations to search in
      */
-    private function getSearchableRelations() {
+    private function getSearchableRelations()
+    {
         return isset($this->searchableRelations) ? $this->searchableRelations : [];
     }
 
@@ -168,10 +165,11 @@ trait Searchable
      * @param $relation
      * @return string   The table name
      */
-    private function getRelationTable($relation) {
+    private function getRelationTable($relation)
+    {
         $related = $this;
 
-        foreach(explode('.', $relation) as $relationName) {
+        foreach (explode('.', $relation) as $relationName) {
             $related = $related->{$relationName}()->getRelated();
         }
 
@@ -182,7 +180,7 @@ trait Searchable
          * correct one in this type of
          * parent-child self-json
          */
-        if($this instanceof $related) {
+        if ($this instanceof $related) {
             /**
              * Since Laravel increases counter on the hash on
              * retrieval, we have to count it down again.
@@ -197,10 +195,23 @@ trait Searchable
             $parts = collect(explode('_', $relationCountHash));
 
             $counter = $parts->pop();
-            $parts->push($counter-1);
+            $parts->push($counter - 1);
             return implode('_', $parts->toArray());
         }
 
         return $related->getTable();
+    }
+
+    /**
+     * Run additional, advanced searches that can't
+     * be done using the attributes or relations.
+     *
+     * @param Builder $query
+     * @param array $terms
+     * @return Builder
+     */
+    private function advancedTextSearch(Builder $query, array $terms)
+    {
+        return $query;
     }
 }
