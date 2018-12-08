@@ -34,12 +34,6 @@
     <link rel="stylesheet" href="{{ asset('plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css') }}">
 
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-
-    <script nonce="{{ csrf_token() }}">
-        window.Laravel = { csrfToken: '{{ csrf_token() }}' };
-
-    </script>
 
     <style nonce="{{ csrf_token() }}">
         @if (($milyPosSettings) && ($milyPosSettings->header_color!=''))
@@ -61,6 +55,7 @@
         @endif
     </style>
 
+
     @if (($milyPosSettings) && ($milyPosSettings->custom_css))
         <style>
             {!! $milyPosSettings->show_custom_css() !!}
@@ -68,12 +63,14 @@
     @endif
 
     <script nonce="{{ csrf_token() }}">
-        window.snipeit = {
+        window.milypos = {
             settings: {
                 "per_page": {{ $milyPosSettings->per_page }}
             }
         };
     </script>
+
+
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -82,17 +79,21 @@
     <![endif]-->
 
     <!-- Google Font -->
-    <link rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 </head>
-<body class="hold-transition skin-blue sidebar-mini {{ (session('menu_state')!='open') ? 'sidebar-mini sidebar-collapse' : ''  }}">
+<body class="hold-transition skin-blue sidebar-mini">
+<!-- Site wrapper -->
 <div class="wrapper">
 
-@include('layouts.partials.header')
-<!-- Left side column. contains the logo and sidebar -->
-@include('layouts.partials.left-sidebar')
+    @include('layouts.partials.header')
 
-<!-- Content Wrapper. Contains page content -->
+    <!-- =============================================== -->
+
+    @include('layouts.partials.left-sidebar')
+
+    <!-- =============================================== -->
+
+    <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
         <section class="content-header">
@@ -106,12 +107,13 @@
 
         <!-- Main content -->
         <section class="content">
+
             @yield('content')
+
         </section>
         <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->
-
 
     <footer class="main-footer">
         <div class="pull-right hidden-xs">
@@ -121,12 +123,9 @@
         reserved.
     </footer>
 
-    
     @include('layouts.partials.right-sidebar')
-
 </div>
 <!-- ./wrapper -->
-
 <!-- jQuery 3 -->
 <script src="{{ asset('bower_components/jquery/dist/jquery.min.js') }}"></script>
 <!-- jQuery UI 1.11.4 -->
@@ -160,8 +159,6 @@
 <script src="{{ asset('bower_components/fastclick/lib/fastclick.js') }}"></script>
 <!-- AdminLTE App -->
 <script src="{{ asset('js/adminlte.min.js') }}"></script>
-
-
 
 @yield('page_scripts')
 </body>
