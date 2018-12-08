@@ -126,7 +126,7 @@
                                 <a href="#" class="btn btn-default btn-flat">Profile</a>
                             </div>
                             <div class="pull-right">
-                                <form action="logout-form" action="{{ url('logout') }}" method="POST">
+                                <form id="logout-form" action="{{ url('logout') }}" method="POST">
                                     @csrf
                                     <button type="submit" class="btn btn-default btn-flat"> {{ __('general.sign_out') }}</button>
                                 </form>
