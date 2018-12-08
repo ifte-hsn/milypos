@@ -30,13 +30,12 @@
 
                 <table
                         data-click-to-select="true"
-                        data-columns="{{ \App\Presenters\UserPresenter::class }}"
+                        data-columns="{{ \App\Presenters\UserPresenter::dataTableLayout() }}"
                         data-cookie-id-table="usersTable"
                         data-pagination="true"
                         data-id-table="usersTable"
                         data-search="true"
                         data-side-pagination="server"
-                        data-show-columns="true"
                         data-show-columns="true"
                         data-show-export="true"
                         data-show-refresh="true"
