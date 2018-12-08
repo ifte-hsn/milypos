@@ -22,7 +22,7 @@ class UserPresenter
                 "searchable" => false,
                 "sortable" => true,
                 "switchable" => true,
-                "title" => trans('general.id'),
+                "title" => __('general.id'),
                 "visible" => false
             ],
             [
@@ -30,7 +30,7 @@ class UserPresenter
                 "searchable" => false,
                 "sortable" => false,
                 "switchable" => true,
-                "title" => 'Avatar',
+                "title" => __('general.avatar'),
                 "visible" => false,
                 "formatter" => "imageFormatter"
             ],
@@ -38,7 +38,7 @@ class UserPresenter
                 "field" => "name",
                 "searchable" => true,
                 "sortable" => true,
-                "title" => trans('admin/users/table.name'),
+                "title" => __('general.name'),
                 "visible" => true,
                 "formatter" => "usersLinkFormatter"
             ],
@@ -47,7 +47,7 @@ class UserPresenter
                 "searchable" => true,
                 "sortable" => true,
                 "switchable" => true,
-                "title" => trans('admin/users/table.email'),
+                "title" => __('general.email'),
                 "visible" => true,
                 "formatter" => "emailFormatter"
             ],
@@ -56,7 +56,7 @@ class UserPresenter
                 "searchable" => true,
                 "sortable" => true,
                 "switchable" => true,
-                "title" => trans('admin/users/table.phone'),
+                "title" => __('general.phone'),
                 "visible" => true,
                 "formatter"    => "phoneFormatter",
             ],
@@ -65,7 +65,7 @@ class UserPresenter
                 "searchable" => true,
                 "sortable" => true,
                 "switchable" => true,
-                "title" => trans('general.address'),
+                "title" => __('general.address'),
                 "visible" => false,
             ],
             [
