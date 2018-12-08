@@ -526,3 +526,8 @@
     </div>
     <!-- /.row (main row) -->
 @endsection
+
+@section('page_scripts')
+    <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+    <script src="{{ asset('js/pages/dashboard.js') }}"></script>
+@endsection
