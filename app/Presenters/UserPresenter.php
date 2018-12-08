@@ -35,28 +35,10 @@ class UserPresenter
                 "formatter" => "imageFormatter"
             ],
             [
-                "field" => "company",
-                "searchable" => true,
-                "sortable" => true,
-                "switchable" => true,
-                "title" => trans('admin/companies/table.title'),
-                "visible" => false,
-                "formatter" => "companiesLinkObjFormatter"
-            ],
-            [
                 "field" => "name",
                 "searchable" => true,
                 "sortable" => true,
                 "title" => trans('admin/users/table.name'),
-                "visible" => true,
-                "formatter" => "usersLinkFormatter"
-            ],
-            [
-                "field" => "jobtitle",
-                "searchable" => true,
-                "sortable" => true,
-                "switchable" => true,
-                "title" => trans('admin/users/table.title'),
                 "visible" => true,
                 "formatter" => "usersLinkFormatter"
             ],
@@ -117,31 +99,6 @@ class UserPresenter
                 "switchable" => true,
                 "title" => trans('general.zip'),
                 "visible" => false,
-            ],
-            [
-                "field" => "employee_num",
-                "searchable" => true,
-                "sortable" => true,
-                "switchable" => true,
-                "title" => trans('admin/users/table.employee_num'),
-                "visible" => false
-            ],
-            [
-                "field" => "location",
-                "searchable" => true,
-                "sortable" => true,
-                "switchable" => true,
-                "title" => trans('admin/users/table.location'),
-                "visible" => true,
-                "formatter" => "locationsLinkObjFormatter"
-            ],
-            [
-                "field" => "manager",
-                "searchable" => true,
-                "sortable" => true,
-                "title" => trans('admin/users/table.manager'),
-                "visible" => true,
-                "formatter" => "usersLinkObjFormatter"
             ],
             [
                 "field" => "activated",
