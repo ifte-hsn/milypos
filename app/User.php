@@ -85,6 +85,11 @@ class User extends Authenticatable
         'employee_num'
     ];
 
+    public function scopeGetDeleted($query)
+    {
+        return $query->withTrashed()->whereNotNull('deleted_at');
+    }
+
     public function getFullNameAttribute()
     {
         return $this->first_name . " " . $this->last_name;
