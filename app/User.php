@@ -32,18 +32,12 @@ class User extends Authenticatable
         'city',
         'company_id',
         'country',
-        'department_id',
-        'employee_num',
         'first_name',
-        'jobtitle',
         'last_name',
-        'ldap_import',
-        'locale',
-        'location_id',
-        'manager_id',
         'phone',
         'state',
         'zip',
+        'last_login'
     ];
 
     protected $casts = [
@@ -58,10 +52,8 @@ class User extends Authenticatable
 
     protected $rules = [
         'first_name'              => 'required|string|min:1',
-        'username'                => 'required|string|min:1|unique_undeleted',
-        'email'                   => 'email|nullable',
+        'email'                   => 'email|nullable|unique',
         'password'                => 'required|min:6',
-        'locale'                  => 'max:10|nullable',
     ];
 
     /**
@@ -111,4 +103,5 @@ class User extends Authenticatable
         }
         return query;
     }
+
 }
