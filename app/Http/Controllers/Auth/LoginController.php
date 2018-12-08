@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use Carbon\Carbon;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Log;
@@ -28,7 +29,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/';
 
     /**
      * Create a new controller instance.
@@ -70,7 +71,7 @@ class LoginController extends Controller
 
             if ($user = Auth::user())
             {
-                $user->last_login = \Carbon::now();
+                $user->last_login = Carbon::now();
                 \Log::debug('Last login:'.$user->last_login);
                 $user->save();
             }
