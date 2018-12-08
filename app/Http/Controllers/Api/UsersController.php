@@ -33,11 +33,11 @@ class UsersController extends Controller
             'users.updated_at'
         ]);
 
-        if($request->has('deleted') && $request->input('deleted') == true) {
+        if(($request->has('deleted')) && ($request->input('deleted') == 'true')) {
             $users = $users->GetDeleted();
         }
 
-        if($request->has('search')) {
+        if ($request->has('search') && $request->input('search') != '') {
             $users = $users->TextSearch($request->input('search'));
         }
 
