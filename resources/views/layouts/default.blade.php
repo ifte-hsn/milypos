@@ -81,7 +81,7 @@
     <!-- Google Font -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 </head>
-<body class="hold-transition skin-blue sidebar-mini">
+<body class="hold-transition skin-blue sidebar-mini {{ (session('menu_state')!='open') ? 'sidebar-mini sidebar-collapse' : ''  }}">
 <!-- Site wrapper -->
 <div class="wrapper">
 
@@ -159,6 +159,7 @@
 <script src="{{ asset('bower_components/fastclick/lib/fastclick.js') }}"></script>
 <!-- AdminLTE App -->
 <script src="{{ asset('js/adminlte.min.js') }}"></script>
+<script src="{{ asset('js/demo.js') }}"></script>
 
 @yield('page_scripts')
 </body>
