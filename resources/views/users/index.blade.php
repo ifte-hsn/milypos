@@ -17,7 +17,7 @@
 @section('content')
     <div class="box box-primary">
         <div class="box-body">
-            <form action="{{ url('users/bulkedit') }}" class="form-inline" method="POST" id="bulkFOrm">
+            <form action="{{ url('users/bulkedit') }}" class="form-inline" method="POST" id="bulkForm">
                 @if(Input::get('status') != 'deleted')
                     <div id="toolbar">
                         <select name="bulk_actions" class="form-control select2" width="200px;">
