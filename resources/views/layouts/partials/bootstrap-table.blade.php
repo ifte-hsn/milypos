@@ -66,4 +66,33 @@
             exportTypes: ['csv', 'excel', 'doc', 'txt', 'json', 'xml', 'pdf'],
         });
     });
+    
+    // Handle whether or not the edit button should be disabled
+    $('.milypos-table').on('check.bs.table', function () {
+        $('#bulkEdit').removeAttr('disabled');
+    });
+
+    $('.milypos-table').on('check-all.bs.table', function () {
+        $('#bulkEdit').removeAttr('disabled');
+    });
+
+    $('.milypos-table').on('uncheck.bs.table', function () {
+        if ($('.milypos-table').bootstrapTable('getSelections').length == 0) {
+            $('#bulkEdit').attr('disabled', 'disabled');
+        }
+    });
+
+    $('.milypos-table').on('uncheck-all.bs.table', function (e, row) {
+        $('#bulkEdit').attr('disabled', 'disabled');
+    });
+
+    // This only works for model index pages because it uses the row's model ID
+    function genericRowLinkFormatter(destination) {
+        return function (value, row) {
+            if(value) {
+                return '<a href="{{ url('/') }}/'+destination+'/' + row.id +'">'+value+'</a>';
+            }
+        }
+    }
+
 </script>
