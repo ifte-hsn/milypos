@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Transformers\UsersTransformer;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -59,7 +60,7 @@ class UsersController extends Controller
 
         $total = $users->count();
         $users = $users->skip($offset)->take($limit)->get();
-        return $users;
+        return (new UsersTransformer)->transformUsers($users, $total);
     }
 
     /**
