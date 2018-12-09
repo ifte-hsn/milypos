@@ -15,4 +15,6 @@ Route::get('/', function () {
     return view('dashboard');
 });
 
+Route::resource('users', 'UsersController');
+
 Auth::routes();
