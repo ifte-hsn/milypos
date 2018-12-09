@@ -7,6 +7,7 @@ return [
     'avatar'                  => 'Avatar',
     'bulk_checkin_and_delete' => 'Bulk Checkin & Delete',
     'bulk_edit'               => 'Bulk Edit',
+    'cancel'                  => 'Cancel',
     'check_form'              => 'Please check the form below for errors',
     'city'                    => 'city',
     'clone'                   => 'Clone',
@@ -14,6 +15,7 @@ return [
     'created_at'              => 'Created at',
     'current'                 => 'Current',
     'dashboard'               => 'Dashboard',
+    'delete'                  => 'Delete',
     'deleted'                 => 'Deleted',
     'deployable'              => 'Deployable',
     'deployed'                => 'Deployed',
@@ -42,6 +44,7 @@ return [
     'sure_to_delete'          => 'Are you sure you wish to delete',
     'users'                   => 'Users',
     'warning'                 => 'Warning',
+    'yes'                     => 'Yes',
     'zip'                     => 'Zip',
 
 ];

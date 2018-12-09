@@ -122,11 +122,33 @@
         </div>
         <strong>Copyright &copy; 2014-2016 <a href="https://adminlte.io">Almsaeed Studio</a>.</strong> All rights
         reserved.
+
     </footer>
 
     @include('layouts.partials.right-sidebar')
 </div>
 <!-- ./wrapper -->
+
+<div class="modal  modal-danger fade" id="dataConfirmModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel"></h4>
+            </div>
+            <div class="modal-body"></div>
+            <div class="modal-footer">
+                <form method="post" id="deleteForm" role="form">
+                    {{ csrf_field() }}
+                    {{ method_field('DELETE') }}
+
+                    <button type="button" class="btn btn-default  pull-left" data-dismiss="modal">{{ __('general.cancel') }}</button>
+                    <button type="submit" class="btn btn-outline" id="dataConfirmOK">{{ trans('general.yes') }}</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- jQuery 3 -->
 <script src="{{ asset('bower_components/jquery/dist/jquery.min.js') }}"></script>
 <!-- jQuery UI 1.11.4 -->
@@ -161,6 +183,8 @@
 <!-- AdminLTE App -->
 <script src="{{ asset('js/adminlte.min.js') }}"></script>
 <script src="{{ asset('js/demo.js') }}"></script>
+<script src="{{ asset('js/script.js') }}"></script>
+
 
 @yield('page_scripts')
 </body>

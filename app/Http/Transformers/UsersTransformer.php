@@ -23,6 +23,7 @@ class UsersTransformer
     {
         $array = [
             'id' => (int) $user->id,
+            'name'=> $user->fullName,
             'first_name' => e($user->first_name),
             'last_name' => e($user->last_name),
             'phone' => ($user->phone) ? e($user->phone) : null,

@@ -168,8 +168,6 @@
         return function (value, row) {
 
             var actions = '<span style="white-space: nowrap;">';
-            console.log(row);
-
             if((row.available_actions) && (row.available_actions.clone === true)) {
                 actions += '<a href="{{ url('/') }}/' + destination + '/' + row.id + '/clone" '
                                 + 'class="btn btn-sm btn-info" data-tooltip="true" '
@@ -320,4 +318,6 @@
             });
         });
     });
+
+
 </script>

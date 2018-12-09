@@ -20,6 +20,7 @@
             <form action="{{ url('users/bulkedit') }}" class="form-inline" method="POST" id="bulkForm">
                 @if(Input::get('status') != 'deleted')
                     <div id="toolbar">
+
                         <select name="bulk_actions" class="form-control select2" width="200px;">
                             <option value="delete">{{ __('general.bulk_checkin_and_delete') }}</option>
                             <option value="edit">{{ __('general.bulk_edit') }}</option>
