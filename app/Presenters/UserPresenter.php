@@ -132,7 +132,7 @@ class UserPresenter
                 "searchable" => false,
                 "sortable" => false,
                 "switchable" => false,
-                "title" => trans('table.actions'),
+                "title" => trans('general.actions'),
                 "visible" => true,
                 "formatter" => "usersActionsFormatter",
             ]
