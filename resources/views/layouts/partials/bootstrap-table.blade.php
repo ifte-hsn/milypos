@@ -66,7 +66,7 @@
             exportTypes: ['csv', 'excel', 'doc', 'txt', 'json', 'xml', 'pdf'],
         });
     });
-    
+
     // Handle whether or not the edit button should be disabled
     $('.milypos-table').on('check.bs.table', function () {
         $('#bulkEdit').removeAttr('disabled');
@@ -168,7 +168,7 @@
         return function (value, row) {
 
             var actions = '<span style="white-space: nowrap;">';
-
+            console.log(row);
 
             if((row.available_actions) && (row.available_actions.clone === true)) {
                 actions += '<a href="{{ url('/') }}/' + destination + '/' + row.id + '/clone" '
@@ -202,7 +202,7 @@
                 actions += '<a href="{{ url('/') }}/'
                                 + destination + '/' +row.id + '/restore" '
                                 + 'class="btn btn-sm btn-warning" '
-                                + 'data-tooltip="true" title="{{ __('general.restore') }}>'
+                                + 'data-tooltip="true" title="{{ __('general.restore') }}">'
                                 + '<i class="fa fa-retweet"></i></a>&nbsp';
             }
             actions += '</span>';
