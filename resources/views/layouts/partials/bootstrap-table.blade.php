@@ -92,7 +92,167 @@
             if(value) {
                 return '<a href="{{ url('/') }}/'+destination+'/' + row.id +'">'+value+'</a>';
             }
+        };
+    }
+
+    // Use this when we're introspecting into a column object and need to link
+    //TODO: Do we really need this???????
+    function genericColumnObjLinkFormatter(destination) {
+        return function (value, row) {
+            if((value) && (value.status_meta)) {
+                var text_color;
+                var icon_style;
+                var text_help;
+                var status_meta = {
+                    'deployed' : '{{ strtolower(__('general.deployed')) }}',
+                    'deployable': '{{ strtolower(__('general.deployable')) }}',
+                    'pending': '{{ strtolower(__('general.pending')) }}'
+                }
+
+                switch (value.status_meta) {
+                    case 'deployed':
+                        text_color = 'blue';
+                        icon_style = 'fa-circle';
+                        text_help = '<label class="label label-default">{{ __('general.deployed') }}</label>';
+                    break;
+
+                    case 'deployable':
+                        text_color = 'green';
+                        icon_style = 'fa-circle';
+                        text_help = '';
+                    break;
+
+                    case 'pending':
+                        text_color = 'orange';
+                        icon_style = 'fa-circle';
+                        text_help = '';
+                    break;
+
+                    default:
+                        text_color = 'red';
+                        icon_style = 'fa-circle';
+                        text_help = '';
+                    break;
+                }
+
+                return '<span style="white-space: nowrap">' +
+                    '<a href="{{ url('/') }}/'
+                        + destination + '/'
+                        + value.id
+                        + '" data-tooltip="true" title="'
+                        + status_meta[value.status_meta]
+                        + '"> '
+                        + '<i class="fa ' + icon_style
+                        + ' text-' + text_color
+                        + '"></i> '
+                        + value.name + ' '
+                        + text_help + ' </a>' +
+                    '</span>'
+            } else if((value) && (value.name)) {
+                // adds some overrides for any funny url we have!
+                var dest = destination;
+
+                if(destination == 'fieldsets') {
+                    var dest = 'fields/fieldsets';
+                }
+
+                return '<span style="white-space: nowrap">'
+                    + '<a href="{{ url('/') }}/' + dest + '/' + value.id +'">' + value.name + '</a>'
+                    +'</span>';
+            }
+        };
+    }
+
+    // Make the edit delete button
+    function genericActionsFormatter(destination) {
+        return function (value, row) {
+
+            var actions = '<span style="white-space: nowrap;">';
+
+
+            if((row.available_actions) && (row.available_actions.clone === true)) {
+                actions += '<a href="{{ url('/') }}/' + destination + '/' + row.id + '/clone" '
+                                + 'class="btn btn-sm btn-info" data-tooltip="true" '
+                                + 'title="{{ __('general.clone') }}">'
+                                +'<i class="fa fa-copy"></i></a>&nbsp';
+            }
+
+            if((row.available_actions) && (row.available_actions.update === true)) {
+                actions += '<a href="{{ url('/') }}/' + destination + '/' + row.id + '/edit" '
+                    + 'class="btn btn-sm btn-warning" data-tooltip="true" '
+                    + 'title="{{ __('general.edit') }}">'
+                    +'<i class="fa fa-pencil"></i></a>&nbsp';
+            }
+
+
+            if((row.available_actions) && (row.available_actions.delete === true)) {
+                actions += '<a href="{{ url('/') }}/' + destination + '/' + row.id + '" '
+                    + 'class="btn btn-sm btn-danger" data-tooltip="true" '
+                    + 'data-toggle="modal"'
+                    + 'data-content="{{ __('general.sure_to_delete') }} '+ row.name +'?" '
+                    + 'data-title="{{ __('general.delete') }}" onClick="return false;"'
+                    + 'title="{{ __('general.edit') }}">'
+                    +'<i class="fa fa-trash"></i></a>&nbsp';
+            } else {
+                actions += '<a href="#" class="btn btn-sm btn-danger disabled" onClick="return false;">'
+                    +'<i class="fa fa-trash"></i></a>&nbsp';
+            }
+
+            if((row.available_actions) && (row.available_actions.restore === true)) {
+                actions += '<a href="{{ url('/') }}/'
+                                + destination + '/' +row.id + '/restore" '
+                                + 'class="btn btn-sm btn-warning" '
+                                + 'data-tooltip="true" title="{{ __('general.restore') }}>'
+                                + '<i class="fa fa-retweet"></i></a>&nbsp';
+            }
+            actions += '</span>';
+            return actions;
+        };
+
+    }
+
+    // This handles the icons and display of polymorphic entries
+    function polymorphicItemFormatter(value) {
+        var item_destination = '';
+        var item_icon = '';
+
+        if((value) && (value.type)) {
+            if(value.type == 'user') {
+                item_destination = 'users';
+                item_icon = 'fa-user';
+            }
+
+            return '<span style="white-space: nowrap;">'
+                + '<a href="{{ url('/') }}/'+ item_destination + '/' + value.id +'" '
+                + 'data-tooltip="true" title="title">'
+                + '<i class="fa fa-users text-blue"></i>' + value.name + '</a>'
+                +'</span>';
+        } else {
+            return '';
         }
     }
 
+    // this just prints out the items type in activity report
+    function itemTypeFormatter(value, row) {
+        if((row) && (row.item) && (row.item.type)) {
+            return row.item.type;
+        }
+    }
+
+    // Convert line break to <br>
+    function notesFormatter(value) {
+        if(value) {
+            return value.replace(/(?:\r\n|\r|\n)/g, '<br />');;
+        }
+    }
+
+    var formatters = [
+        'users',
+    ];
+
+    for(var i in formatters) {
+        window[formatters[i] + 'LinkFormatter'] = genericRowLinkFormatter(formatters[i]);
+        window[formatters[i] + 'LinkObjFormatter'] = genericColumnObjLinkFormatter(formatters[i]);
+        window[formatters[i] + 'ActionsFormatter'] = genericActionsFormatter(formatters[i]);
+    }
 </script>
