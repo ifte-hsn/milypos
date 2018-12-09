@@ -37,6 +37,17 @@ class UsersTransformer
             'updated_at' => Helper::getFormattedDateObject($user->updated_at, 'datetime'),
             'last_login' => Helper::getFormattedDateObject($user->last_login, 'datetime')
         ];
+
+        // TODO: Implement parmissinon wise actions
+        $permissions_array['available_actions'] = [
+            'update' => true,
+            'delete' =>true,
+            'clone' => true,
+            'restore' => true,
+        ];
+
+        $array += $permissions_array;
+
         return $array;
     }
 
