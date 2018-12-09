@@ -187,12 +187,11 @@
 
             if((row.available_actions) && (row.available_actions.delete === true)) {
                 actions += '<a href="{{ url('/') }}/' + destination + '/' + row.id + '" '
-                    + 'class="btn btn-sm btn-danger" data-tooltip="true" '
-                    + 'data-toggle="modal"'
-                    + 'data-content="{{ __('general.sure_to_delete') }} '+ row.name +'?" '
-                    + 'data-title="{{ __('general.delete') }}" onClick="return false;"'
-                    + 'title="{{ __('general.edit') }}">'
-                    +'<i class="fa fa-trash"></i></a>&nbsp';
+                    + ' class="btn btn-danger btn-sm delete-asset"  data-tooltip="true"  '
+                    + ' data-toggle="modal" '
+                    + ' data-content="{{ trans('general.sure_to_delete') }} ' + row.name + '?" '
+                    + ' data-title="{{  trans('general.delete') }}" onClick="return false;">'
+                    + '<i class="fa fa-trash"></i></a>&nbsp;';
             } else {
                 actions += '<a href="#" class="btn btn-sm btn-danger disabled" onClick="return false;">'
                     +'<i class="fa fa-trash"></i></a>&nbsp';
@@ -255,4 +254,70 @@
         window[formatters[i] + 'LinkObjFormatter'] = genericColumnObjLinkFormatter(formatters[i]);
         window[formatters[i] + 'ActionsFormatter'] = genericActionsFormatter(formatters[i]);
     }
+
+
+    function createdAtFormatter(value) {
+        if((value) && (value.date)) {
+            return value.date;
+        }
+    }
+
+    // Create a linked phone number in the table list
+    function phoneFormatter(value) {
+        if(value) {
+            return '<a href="tel:' + value + '"> + value + </a>';
+        }
+    }
+
+    function trueFalseFormatter(value) {
+        if((value) && ((value == 'true') || (value == 1))) {
+            return '<i class="fa fa-check text-success"></i>';
+        } else {
+            return '<i class="fa fa-times text-danger"></i>';
+        }
+    }
+
+    function dateDisplayFormatter(value) {
+        if(value) {
+            return  value.formatted;
+        }
+    }
+
+    function iconFormatter(value) {
+        if(value) {
+            return '<i class="' + value +' icon-med"></i>';
+        }
+    }
+
+    function emailFormatter(value) {
+        if(value) {
+            return '<a href="mailto:' + value + '">' + value + '</a>'
+        }
+    }
+
+    function imageFormatter() {
+        if (value) {
+            return '<a href="' + value + '" data-toggle="lightbox" data-type="image"><img src="' + value + '" style="max-height: {{ $milyPosSettings->thumbnail_max_h }}px; width: auto;" class="img-responsive"></a>';
+        }
+    }
+
+    $(function () {
+        $('#bulkEdit').on('click', function () {
+            var selectedIds = $('.milypos-table').bootstrapTable('getSelections');
+            $.each(selectedIds, function (key, value) {
+                $('#bulkForm').append($('<input type="hidden" name="ids[' + value.id +']" value="' + value.id + '">'));
+            });
+        });
+    });
+
+
+    // This is necessary to make the bootstrap tooltip work inside the
+    // wenzhixin/bootstrap-table formatters
+    $(function () {
+        $('#table').on('post-body.bs.table', function () {
+            $('[data-tooltip="true"]').tooltip({
+                container: 'body'
+            });
+        });
+    });
 </script>
