@@ -16,6 +16,13 @@
                     <span>{{ __('menu.users') }}</span>
                 </a>
             </li>
+
+            <li>
+                <a href="{{ url('/settings') }}">
+                    <i class="fa fa-cogs"></i>
+                    <span>{{ __('menu.settings') }}</span>
+                </a>
+            </li>
         </ul>
     </section>
     <!-- /.sidebar -->
