@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Presenters;
-Use App\MilyPosModel;
+Use App\Models\MilyPosModel;
 
 abstract class Presenter
 {

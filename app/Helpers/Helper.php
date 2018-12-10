@@ -4,7 +4,7 @@
 namespace App\Helpers;
 
 
-use App\Setting;
+use App\Models\Setting;
 use Carbon\Carbon;
 
 class Helper

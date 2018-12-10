@@ -3,7 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-
+use App\Models\Setting;
 
 /**
  * This service provider handles sharing the milyPosSettings variable,
@@ -22,7 +22,7 @@ class SettingsServiceProvider extends ServiceProvider
     {
         // Share common settings variable with all views
         view()->composer('*', function ($view) {
-            $view->with('milyPosSettings', \App\Setting::getSettings());
+            $view->with('milyPosSettings', Setting::getSettings());
         });
 
         /**
