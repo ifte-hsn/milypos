@@ -111,6 +111,7 @@
 
         <!-- Main content -->
         <section class="content">
+            @include('layouts.partials.notifications')
 
             @yield('content')
 

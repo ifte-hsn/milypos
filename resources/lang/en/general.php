@@ -46,5 +46,4 @@ return [
     'warning'                 => 'Warning',
     'yes'                     => 'Yes',
     'zip'                     => 'Zip',
-
 ];

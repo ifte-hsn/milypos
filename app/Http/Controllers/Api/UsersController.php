@@ -6,6 +6,7 @@ use App\Http\Transformers\UsersTransformer;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Helpers\Helper;
 
 class UsersController extends Controller
 {
@@ -126,6 +127,12 @@ class UsersController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user = User::findOrFail($id);
+
+        if ($user->delete()) {
+            return response()->json(Helper::formatStandardApiResponse('success', null,  __('users/message.success.delete')));
+        }
+
+        return response()->json(Helper::formatStandardApiResponse('error', null,  __('users/message.error.delete')));
     }
 }
