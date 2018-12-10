@@ -41,7 +41,7 @@ class Helper
      * @param null $messages
      * @return mixed
      */
-    function formatStandardApiResponse($status, $payload = null, $messages = null)
+    public static function formatStandardApiResponse($status, $payload = null, $messages = null)
     {
         $array['status'] = $status;
         $array['messages'] = $messages;
