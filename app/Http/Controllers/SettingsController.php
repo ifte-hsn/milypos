@@ -11,8 +11,9 @@ class SettingsController extends Controller
         $settings = Setting::all();
         return view('settings.index', compact('settings'));
     }
-    public function getSettings()
+    public function getBranding()
     {
-
+        $setting = Setting::first();
+        return view('settings.branding', compact('setting'));
     }
 }
