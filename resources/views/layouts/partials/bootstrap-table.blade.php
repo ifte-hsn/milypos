@@ -7,7 +7,6 @@
 <script src="{{ asset('js/jspdf.min.js') }}"></script>
 <script src="{{ asset('js/jspdf.plugin.autotable.js') }}"></script>
 <script src="{{ asset('js/extensions/export/tableExport.min.js') }}"></script>
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
 @if (!isset($simple_view))
     <script src="{{ asset('js/extensions/toolbar/bootstrap-table-toolbar.js') }}"></script>

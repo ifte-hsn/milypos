@@ -17,49 +17,9 @@
                 $('#myModalLabel').text(title);
                 $dataConfirmModal.find('.modal-body').text(message);
                 $('#deleteForm').attr('action', href);
-                // $dataConfirmModal.modal({
-                //     show: true
-                // });
-
-
-                swal({
-                    title: title,
-                    text: message,
-                    icon: "warning",
-                    buttons: true,
-                    dangerMode: true,
-                }).then((willDelete) => {
-                    if (willDelete) {
-
-                        $.ajax({
-                            method: 'delete',
-                            url: href,
-                            data : { '_token' : token },
-                            success: function (data) {
-                                if(data.status === 'success') {
-                                    swal(data.messages, {
-                                        icon: "success",
-                                    }).then((reload) => {
-                                        location.reload();
-                                    });
-
-                                } else {
-                                    swal("there are an error while deleting user", {
-                                        icon: "success",
-                                    });
-                                }
-                            }
-                        });
-
-
-                    } else {
-                        swal("Your imaginary file is safe!");
-                    }
+                $dataConfirmModal.modal({
+                    show: true
                 });
-
-
-
-
 
                 return false;
             }
