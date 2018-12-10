@@ -21,5 +21,15 @@ Route::middleware(['auth'])->group(function () {
 
     // Users Resource
     Route::resource('users', 'UsersController');
+
+
+    /**
+     * Settings routes
+     */
+    Route::group(['prefix'=>'settings'], function () {
+        Route::get('/', [ 'as'=> 'settings.index', 'uses' => 'SettingsController@index']);
+        Route::get('general_settings', [ 'as'=> 'settings.general.index', 'uses' => 'SettingsController@getSettings']);
+    });
+
 });
 Auth::routes();

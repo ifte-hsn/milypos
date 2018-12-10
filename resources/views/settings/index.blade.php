@@ -1,0 +1,28 @@
+@extends('layouts.default')
+@section('title')
+    {{ __('general.settings') }}
+@endsection
+
+@section('breadcrumb')
+    <li><a href="{{ url('/') }}"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li class="active">{{ __('general.settings') }}</li>
+@endsection
+
+@section('content')
+    <div class="row">
+        <div class="col-md-3 col-sm-6 col-xs-12">
+            <a href="{{ url('settings/general_settings') }}" class="black-text">
+                <div class="info-box">
+                    <span class="info-box-icon bg-aqua"><i class="fa fa-wrench"></i></span>
+                    <div class="info-box-content">
+                        <h4><string>{{ __('settings/general.general_settings') }}</string></h4>
+                        <small>{{ __('settings/general.logo') }}, {{ __('settings/general.site_name') }}, {{ __('settings/general.etc') }}</small>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+            </a>
+            <!-- /.info-box -->
+        </div>
+    </div><!-- .row -->
+@endsection
+

@@ -38,6 +38,7 @@ return [
     'previous'                => 'Previous',
     'remember'                => 'Remember me',
     'restore'                 => 'Restore',
+    'settings'                => 'Settings',
     'sign_out'                => 'Sign out',
     'state'                   => 'State',
     'success'                 => 'Success',
