@@ -22,7 +22,6 @@ return array(
         'create' => 'There was an issue creating the user. Please try again.',
         'update' => 'There was an issue updating the user. Please try again.',
         'delete' => 'There was an issue deleting the user. Please try again.',
-        'delete_own' => 'You are not allowed to delete yourself!!!',
         'activate' => 'There was an issue activating the user. Please try again.',
         'import'    => 'There was an issue importing users. Please try again.',
     ),

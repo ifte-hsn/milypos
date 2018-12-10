@@ -16,6 +16,17 @@
 
 @section('content')
     <div class="box box-primary">
+        <div class="box-header with-border clearfix">
+            <div class="pull-right">
+                <a href="#" class="btn btn-default">Export</a>
+                @if (Input::get('status')=='deleted')
+                    <a href="{{ route('users.index') }}" class="btn btn-default">Show Current Users</a>
+                @else
+                    <a href="{{ route('users.index', ['status' => 'deleted']) }}" class="btn btn-default">Show Deleted Users</a>
+                @endif
+                <a href="#" class="btn btn-info">Create New</a>
+            </div><!-- pull-right -->
+        </div>
         <div class="box-body">
             <form action="{{ url('users/bulkedit') }}" class="form-inline" method="POST" id="bulkForm">
                 @if(Input::get('status') != 'deleted')

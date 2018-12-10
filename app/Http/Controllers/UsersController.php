@@ -88,7 +88,7 @@ class UsersController extends Controller
             // Check if we are not trying to delete ourselves
             if ($user->id === Auth::user()->id) {
                 // Redirect to the user management page.
-                return redirect()->route('users.index')->with('error', __('users/message.error.delete_own'));
+                return redirect()->route('users.index')->with('error', __('users/message.error.delete'));
             }
 
             // Delete the user
