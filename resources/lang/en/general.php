@@ -9,7 +9,7 @@ return [
     'bulk_edit'               => 'Bulk Edit',
     'cancel'                  => 'Cancel',
     'check_form'              => 'Please check the form below for errors',
-    'city'                    => 'city',
+    'city'                    => 'City',
     'clone'                   => 'Clone',
     'country'                 => 'Country',
     'created_at'              => 'Created at',
