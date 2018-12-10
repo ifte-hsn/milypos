@@ -9,12 +9,15 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Watson\Validating\ValidatingTrait;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Traits\Searchable;
+use Spatie\Permission\Traits\HasRoles;
+
 
 class User extends Authenticatable
 {
     use Notifiable;
     use SoftDeletes, ValidatingTrait;
     use Searchable;
+    use HasRoles;
 
     protected $presenter = 'App\Presenters\UserPresenter';
 

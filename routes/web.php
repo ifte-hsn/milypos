@@ -11,10 +11,15 @@
 |
 */
 
-Route::get('/', function () {
-    return view('dashboard');
+
+
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/', function () {
+        return view('dashboard');
+    });
+
+    // Users Resource
+    Route::resource('users', 'UsersController');
 });
-
-Route::resource('users', 'UsersController');
-
 Auth::routes();
