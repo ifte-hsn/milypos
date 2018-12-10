@@ -12,6 +12,7 @@
         "fideloper/proxy": "^4.0",
         "laravel/framework": "5.7.*",
         "laravel/tinker": "^1.0",
+        "spatie/laravel-permission": "^2.28",
         "watson/validating": "^3.1"
     },
     "require-dev": {
