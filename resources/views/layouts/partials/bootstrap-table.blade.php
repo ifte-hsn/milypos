@@ -312,12 +312,10 @@
     // This is necessary to make the bootstrap tooltip work inside the
     // wenzhixin/bootstrap-table formatters
     $(function () {
-        $('#table').on('post-body.bs.table', function () {
+        $('.milypos-table').on('post-body.bs.table', function () {
             $('[data-tooltip="true"]').tooltip({
                 container: 'body'
             });
         });
     });
-
-
 </script>
