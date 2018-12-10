@@ -183,7 +183,7 @@
 
 
             if((row.available_actions) && (row.available_actions.delete === true)) {
-                actions += '<a href="{{ url('/') }}/api/' + destination + '/' + row.id + '" '
+                actions += '<a href="{{ url('/') }}/' + destination + '/' + row.id + '" '
                     + ' class="btn btn-danger btn-sm delete-asset"  data-tooltip="true"  '
                     + ' data-toggle="modal" '
                     + ' data-content="{{ trans('general.sure_to_delete') }} ' + row.name + '?" '
