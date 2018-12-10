@@ -22,6 +22,7 @@ return [
     'edit'                    => 'Edit',
     'email'                   => 'Email',
     'error'                   => 'Error',
+    'favicon'                 => 'Favicon',
     'first'                   => 'First',
     'go'                      => 'Go',
     'home'                    => 'Home',

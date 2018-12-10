@@ -28,7 +28,7 @@ Route::middleware(['auth'])->group(function () {
      */
     Route::group(['prefix'=>'settings'], function () {
         Route::get('/', [ 'as'=> 'settings.index', 'uses' => 'SettingsController@index']);
-        Route::get('general_settings', [ 'as'=> 'settings.general.index', 'uses' => 'SettingsController@getSettings']);
+        Route::get('brand_settings', [ 'as'=> 'settings.general.index', 'uses' => 'SettingsController@getBranding']);
     });
 
 });

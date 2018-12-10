@@ -11,11 +11,11 @@
 @section('content')
     <div class="row">
         <div class="col-md-3 col-sm-6 col-xs-12">
-            <a href="{{ url('settings/general_settings') }}" class="black-text">
+            <a href="{{ url('settings/brand_settings') }}" class="black-text">
                 <div class="info-box">
-                    <span class="info-box-icon bg-aqua"><i class="fa fa-wrench"></i></span>
+                    <span class="info-box-icon bg-aqua"><i class="fa fa-copyright"></i></span>
                     <div class="info-box-content">
-                        <h4><string>{{ __('settings/general.general_settings') }}</string></h4>
+                        <h4><string>{{ __('settings/general.branding') }}</string></h4>
                         <small>{{ __('settings/general.logo') }}, {{ __('settings/general.site_name') }}, {{ __('settings/general.etc') }}</small>
                     </div>
                     <!-- /.info-box-content -->
