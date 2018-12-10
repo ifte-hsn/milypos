@@ -263,7 +263,7 @@
     // Create a linked phone number in the table list
     function phoneFormatter(value) {
         if(value) {
-            return '<a href="tel:' + value + '"> + value + </a>';
+            return '<a href="tel:' + value + '">' + value + '</a>';
         }
     }
 
