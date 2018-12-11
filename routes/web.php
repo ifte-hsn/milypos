@@ -21,7 +21,7 @@ Route::middleware(['auth'])->group(function () {
 
     // Users Resource
     Route::resource('users', 'UsersController');
-
+    Route::get('export', ['as' => 'users.export', 'uses' => 'UsersController@getExportUserCsv']);
 
     /**
      * Settings routes

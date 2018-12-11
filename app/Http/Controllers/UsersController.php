@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Auth;
 use App\Models\User;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class UsersController extends Controller
 {
@@ -105,5 +106,45 @@ class UsersController extends Controller
             return redirect()->route('users.index')->with('error', $error);
         }
 
+    }
+
+    public function getExportUserCsv () {
+        $response = new StreamedResponse(function() {
+            // Open output steam
+            $handle = fopen('php://output', 'w');
+            User::orderBy('created_at', 'desc')->chunk(500, function ($users) use ($handle) {
+                $headers = [
+                  // strtolower to prevent Excel from trying to open it as a SYSLK file
+                    strtolower(__('general.id')),
+                    __('users/table.name'),
+                    __('general.email'),
+                    __('general.activated'),
+                    __('general.created_at'),
+                ];
+
+                fputcsv($handle, $headers);
+
+                foreach ($users as $user) {
+
+                    
+                    $values = [
+                        $user->id,
+                        $user->fullName,
+                        $user->email,
+                        $user->activated,
+                        $user->created_at,
+                    ];
+
+                    fputcsv($handle, $values);
+                }
+            });
+
+            // Close the output stream
+            fclose($handle);
+        }, 200, [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => 'attachment; filename="users-'.date('Y-m-d-his').'.csv"',
+        ]);
+        return $response;
     }
 }

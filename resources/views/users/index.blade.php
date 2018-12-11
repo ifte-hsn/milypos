@@ -19,7 +19,7 @@
         <div class="box-header with-border clearfix">
             <div class="pull-right">
                 @can('Export Users List')
-                    <a href="#" class="btn btn-success"><i class="fa fa-download"></i> Export</a>
+                    <a href="{{ route('users.export') }}" class="btn btn-success"><i class="fa fa-download"></i> Export</a>
                 @endcan
 
                 @can('See Deleted Users')
