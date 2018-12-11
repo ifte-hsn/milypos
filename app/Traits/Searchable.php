@@ -22,7 +22,7 @@ trait Searchable
      */
     public function scopeTextSearch($query, $search)
     {
-        $terms = $this->prepareSearchTerms($search);
+        $terms = $this->prepeareSearchTerms($search);
 
         /**
          * Search the attributes of the models
@@ -49,7 +49,7 @@ trait Searchable
      * @param $search string $search The search term
      * @return array    An array of search terms
      */
-    private function prepareSearchTerms($search)
+    private function prepeareSearchTerms($search)
     {
         return explode("OR", $search);
     }
@@ -74,7 +74,7 @@ trait Searchable
                  * Making sure if only search in date column if search term
                  * consists of characters that can makeup MySQL timestamp!
                  */
-                if (!preg_match('/^[0-9 :-]++$/', $term) && is_array($column, $this->getDates())) {
+                if (!preg_match('/^[0-9 :-]++$/', $term) && in_array($column, $this->getDates())) {
                     continue;
                 }
 

@@ -10,7 +10,7 @@ use Watson\Validating\ValidatingTrait;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Traits\Searchable;
 use Spatie\Permission\Traits\HasRoles;
-
+use DB;
 
 class User extends Authenticatable
 {
@@ -80,10 +80,7 @@ class User extends Authenticatable
         'first_name',
         'last_name',
         'email',
-        'username',
-        'notes',
         'phone',
-        'jobtitle',
         'employee_num'
     ];
 
@@ -108,7 +105,7 @@ class User extends Authenticatable
         foreach ($terms as $term) {
             $query = $query->orWhereRaw('CONCAT('.DB::getTablePrefix().'users.first_name," ",'.DB::getTablePrefix().'users.last_name) LIKE ?', ["%$term%", "%$term%"]);
         }
-        return query;
+        return $query;
     }
 
 }
