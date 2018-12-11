@@ -42,10 +42,14 @@ return [
     'settings'                => 'Settings',
     'sign_out'                => 'Sign out',
     'state'                   => 'State',
+    'submit'                  => 'Submit',
     'success'                 => 'Success',
     'sure_to_delete'          => 'Are you sure you wish to delete',
     'users'                   => 'Users',
     'warning'                 => 'Warning',
     'yes'                     => 'Yes',
     'zip'                     => 'Zip',
+
+    'bulk_delete_warning' => 'You are about to delete the  :count user(s) listed below. Super admin names are highlighted in red.',
+    'cannot_delete_yourself' => 'Cannot delete yourself',
 ];

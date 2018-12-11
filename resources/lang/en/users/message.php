@@ -1,5 +1,6 @@
 <?php
 return array(
+    'no_user_selected' => 'No users selected',
     'user_exists' => 'User already exists.',
     'user_not_found' => 'User [:id] does not exists.',
     'user_email_required' => 'User email address required.',
@@ -16,6 +17,7 @@ return array(
         'activated'     => 'User was successfully activated.',
         'restored'  => 'User was successfully restored.',
         'import'    => 'Users imported successfully.',
+        'selected_user_deleted' => 'Your selected users have been deleted.'
     ),
 
     'error' => array(
@@ -24,6 +26,7 @@ return array(
         'delete' => 'There was an issue deleting the user. Please try again.',
         'activate' => 'There was an issue activating the user. Please try again.',
         'import'    => 'There was an issue importing users. Please try again.',
+        'could_not_restore'  => 'User could not be restored.',
     ),
 
     'deletefile' => array(

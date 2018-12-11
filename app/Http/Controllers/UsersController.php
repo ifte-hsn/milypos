@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Auth;
 use App\Models\User;
 use Symfony\Component\HttpFoundation\StreamedResponse;
+use Input;
 
 class UsersController extends Controller
 {
@@ -108,6 +109,10 @@ class UsersController extends Controller
 
     }
 
+    /**
+     * Export users to csv format
+     * @return StreamedResponse
+     */
     public function getExportUserCsv () {
         $response = new StreamedResponse(function() {
             // Open output steam
@@ -146,5 +151,69 @@ class UsersController extends Controller
             'Content-Disposition' => 'attachment; filename="users-'.date('Y-m-d-his').'.csv"',
         ]);
         return $response;
+    }
+
+    /**
+     * Restore Deleted User
+     * @param int $id ID of the user
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function getRestore($id = null) {
+        if(!$user = User::onlyTrashed()->find($id)) {
+            return redirect()->route('users.index')->with('error', __('users/message.user_not_found', ['id'=>$id]));
+        }
+
+        // Restore the user
+        if ($user->withTrashed()->where('id', $id)->restore()) {
+            return redirect()->route('users.index')->with('success', __('users/message.success.restored'));
+        }
+
+        return redirect()->route('users.index')->with('error', __('users/message.error.could_not_restore'));
+    }
+
+    /**
+     * Process bulk edit button submission
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     */
+    public function postBulkEdit(Request $request)
+    {
+        if ($request->has('ids') && (count($request->input('ids')) > 0)) {
+            $user_raw_array = array_keys(Input::get('ids'));
+
+            $users = User::whereIn('id', $user_raw_array)->get();
+
+            if($request->input('bulk_actions') == 'edit') {
+                return view('users.bulk-edit', compact('users'));
+            }
+            return view('users.confirm-bulk-delete',compact('users'));
+        }
+
+        return redirect()->back()->with('error', 'users/message.no_user_selected');
+    }
+
+
+    public function postBulkSave(Request $request)
+    {
+
+        if (!$request->has('ids') || count($request->input('ids')) == 0 ) {
+            return redirect()->back()->with('error', 'users/message.no_user_selected');
+        } else {
+            $user_raw_array = Input::get('ids');
+
+
+            if (($key = array_search(Auth::user()->id, $user_raw_array)) !== false) {
+                unset($user_raw_array[$key]);
+            }
+
+            $users = User::whereIn('id', $user_raw_array)->get();
+
+            foreach ($users as $user) {
+                $user->delete();
+            }
+
+            return redirect()->route('users.index')->with('success', __('users/message.success/selected_user_deleted'));
+        }
     }
 }

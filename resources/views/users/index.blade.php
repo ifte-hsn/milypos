@@ -1,17 +1,17 @@
 @extends('layouts.default')
 @section('title')
     @if (Input::get('status')=='deleted')
-        {{ trans('general.deleted') }}
+        {{ __('general.deleted') }}
     @else
-        {{ trans('general.current') }}
+        {{ __('general.current') }}
     @endif
-    {{ trans('general.users') }}
+    {{ __('general.users') }}
     @parent
 @endsection
 
 @section('breadcrumb')
-    <li><a href="{{ url('/') }}"><i class="fa fa-dashboard"></i> Home</a></li>
-    <li class="active">Dashboard</li>
+    <li><a href="{{ url('/') }}"><i class="fa fa-dashboard"></i> {{ __('general.home') }}</a></li>
+    <li class="active">{{ __('general.users') }}</li>
 @endsection
 
 @section('content')
@@ -19,7 +19,7 @@
         <div class="box-header with-border clearfix">
             <div class="pull-right">
                 @can('Export Users List')
-                    <a href="{{ route('users.export') }}" class="btn btn-success"><i class="fa fa-download"></i> Export</a>
+                    <a href="{{ url('users/export') }}" class="btn btn-success"><i class="fa fa-download"></i> Export</a>
                 @endcan
 
                 @can('See Deleted Users')
@@ -37,7 +37,8 @@
             </div><!-- pull-right -->
         </div>
         <div class="box-body">
-            <form action="{{ url('users/bulkedit') }}" class="form-inline" method="POST" id="bulkForm">
+            <form action="{{ route('users.bulkedit') }}" class="form-inline" method="POST" id="bulkForm">
+                @csrf
                 @if(Input::get('status') != 'deleted')
                     @if(auth()->user()->can('Delete User') || auth()->user()->can('Update User'))
                         <div id="toolbar">
