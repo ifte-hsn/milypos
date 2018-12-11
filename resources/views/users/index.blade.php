@@ -18,28 +18,45 @@
     <div class="box box-primary">
         <div class="box-header with-border clearfix">
             <div class="pull-right">
-                <a href="#" class="btn btn-success"><i class="fa fa-download"></i> Export</a>
-                @if (Input::get('status')=='deleted')
-                    <a href="{{ route('users.index') }}" class="btn btn-danger"><i class="fa fa-user-circle"></i> Show Current Users</a>
-                @else
-                    <a href="{{ route('users.index', ['status' => 'deleted']) }}" class="btn btn-danger"><i class="fa fa-trash"></i> Show Deleted Users</a>
-                @endif
-                <a href="#" class="btn btn-info"><i class="fa fa-plus"></i> Create New</a>
+                @can('Export Users List')
+                    <a href="#" class="btn btn-success"><i class="fa fa-download"></i> Export</a>
+                @endcan
+
+                @can('See Deleted Users')
+                    @if (Input::get('status')=='deleted')
+                        <a href="{{ route('users.index') }}" class="btn btn-danger"><i class="fa fa-user-circle"></i> Show Current Users</a>
+                    @else
+                        <a href="{{ route('users.index', ['status' => 'deleted']) }}" class="btn btn-danger"><i class="fa fa-trash"></i> Show Deleted Users</a>
+                    @endif
+                @endcan
+
+                @can('Create User')
+                    <a href="#" class="btn btn-info"><i class="fa fa-plus"></i> Create New</a>
+                @endcan
+
             </div><!-- pull-right -->
         </div>
         <div class="box-body">
             <form action="{{ url('users/bulkedit') }}" class="form-inline" method="POST" id="bulkForm">
                 @if(Input::get('status') != 'deleted')
-                    <div id="toolbar">
+                    @if(auth()->user()->can('Delete User') || auth()->user()->can('Update User'))
+                        <div id="toolbar">
+                            <select name="bulk_actions" class="form-control select2" width="200px;">
+                                @can('Delete User')
+                                    <option value="delete">{{ __('general.bulk_checkin_and_delete') }}</option>
+                                @endcan
 
-                        <select name="bulk_actions" class="form-control select2" width="200px;">
-                            <option value="delete">{{ __('general.bulk_checkin_and_delete') }}</option>
-                            <option value="edit">{{ __('general.bulk_edit') }}</option>
-                        </select>
-                        <button class="btn btn-default" id="bulkEdit" disabled>Go</button>
-                    </div> <!-- #toolbar -->
+                                @can('Update User')
+                                    <option value="edit">{{ __('general.bulk_edit') }}</option>
+                                @endcan
+                            </select>
+                            <button class="btn btn-default" id="bulkEdit" disabled>Go</button>
+
+                        </div> <!-- #toolbar -->
+                    @endif
                 @endif
 
+                @can('Read Users List')
                 <table
                         data-click-to-select="true"
                         data-columns="{{ \App\Presenters\UserPresenter::dataTableLayout() }}"
@@ -49,7 +66,9 @@
                         data-search="true"
                         data-side-pagination="server"
                         data-show-columns="true"
+                        @can('Export Users List')
                         data-show-export="true"
+                        @endcan
                         data-show-refresh="true"
                         data-sort-order="asc"
                         data-toolbar="#toolbar"
@@ -66,6 +85,7 @@
                             }'>
 
                 </table>
+                @endcan
             </form>
         </div><!-- box-body -->
     </div><!-- .box -->

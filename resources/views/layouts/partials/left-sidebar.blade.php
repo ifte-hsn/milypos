@@ -10,12 +10,14 @@
                     <i class="fa fa-dashboard"></i> <span>{{ __('menu.dashboard') }}</span>
                 </a>
             </li>
+            @can('Manage Users')
             <li>
                 <a href="{{ url('/users') }}">
                     <i class="fa fa-group"></i>
                     <span>{{ __('menu.users') }}</span>
                 </a>
             </li>
+            @endcan
 
             <li>
                 <a href="{{ url('/settings') }}">
