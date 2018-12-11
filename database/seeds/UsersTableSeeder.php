@@ -68,7 +68,7 @@ class UsersTableSeeder extends Seeder
 
 
         $this->adminUser = User::create([
-            'first_name' => 'Iftekhar',
+            'first_name' => 'Shishir',
             'last_name' => 'Hossain',
             'email' => 'ifte.hsn@gmail.com',
             'password' => bcrypt('freshmilk'),

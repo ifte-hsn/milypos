@@ -213,7 +213,7 @@ class UsersController extends Controller
                 $user->delete();
             }
 
-            return redirect()->route('users.index')->with('success', __('users/message.success/selected_user_deleted'));
+            return redirect()->route('users.index')->with('success', __('users/message.success.selected_user_deleted'));
         }
     }
 }
