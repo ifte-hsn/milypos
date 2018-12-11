@@ -18,13 +18,13 @@
     <div class="box box-primary">
         <div class="box-header with-border clearfix">
             <div class="pull-right">
-                <a href="#" class="btn btn-default">Export</a>
+                <a href="#" class="btn btn-success"><i class="fa fa-download"></i> Export</a>
                 @if (Input::get('status')=='deleted')
-                    <a href="{{ route('users.index') }}" class="btn btn-default">Show Current Users</a>
+                    <a href="{{ route('users.index') }}" class="btn btn-danger"><i class="fa fa-user-circle"></i> Show Current Users</a>
                 @else
-                    <a href="{{ route('users.index', ['status' => 'deleted']) }}" class="btn btn-default">Show Deleted Users</a>
+                    <a href="{{ route('users.index', ['status' => 'deleted']) }}" class="btn btn-danger"><i class="fa fa-trash"></i> Show Deleted Users</a>
                 @endif
-                <a href="#" class="btn btn-info">Create New</a>
+                <a href="#" class="btn btn-info"><i class="fa fa-plus"></i> Create New</a>
             </div><!-- pull-right -->
         </div>
         <div class="box-body">
