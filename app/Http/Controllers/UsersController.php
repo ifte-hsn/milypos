@@ -28,7 +28,9 @@ class UsersController extends Controller
      */
     public function create()
     {
-        //
+        $user = new User();
+        $user->activated = 1;
+        return view('users.edit', compact('user'));
     }
 
     /**

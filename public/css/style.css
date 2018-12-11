@@ -4,3 +4,7 @@
 .black-text h4, .black-text small{
     color: #333;
 }
+
+.margin-bottom {
+    margin-bottom: 50px;
+}

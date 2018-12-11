@@ -31,7 +31,7 @@
                 @endcan
 
                 @can('Create User')
-                    <a href="#" class="btn btn-info"><i class="fa fa-plus"></i> Create New</a>
+                    <a href="{{ route('users.create') }}" class="btn btn-info"><i class="fa fa-plus"></i> Create New</a>
                 @endcan
 
             </div><!-- pull-right -->

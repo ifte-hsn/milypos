@@ -52,4 +52,6 @@ return [
 
     'bulk_delete_warning' => 'You are about to delete the  :count user(s) listed below. Super admin names are highlighted in red.',
     'cannot_delete_yourself' => 'Cannot delete yourself',
+    'add_user' => 'Add New User',
+    'update_user' => 'Update User',
 ];

@@ -4,7 +4,7 @@
 @endsection
 
 @section('breadcrumb')
-    <li><a href="{{ url('/') }}"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li><a href="{{ route('home') }}"><i class="fa fa-dashboard"></i> {{ __('general.home') }}</a></li>
     <li class="active">{{ __('general.settings') }}</li>
 @endsection
 
