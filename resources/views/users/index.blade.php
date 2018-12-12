@@ -38,7 +38,7 @@
                 @csrf
                 @if(Input::get('status') != 'deleted')
 
-                    @if(Auth::user()->hasAnyPermission(['Update User', 'Delete User']))
+                    @if(Auth::user()->hasAnyPermission(['Update User', 'Delete User']) && Auth::user()->can('Read User'))
 
                         <div id="toolbar">
                             <select name="bulk_actions" class="form-control select2" width="200px;">
@@ -56,7 +56,7 @@
                     @endif {{-- Auth::user()->hasAnyPermission(['Update User', 'Delete User'])--}}
                 @endif
 
-                @can('Read Users List')
+                @can('Read User')
                 <table
                         data-click-to-select="true"
                         data-columns="{{ \App\Presenters\UserPresenter::dataTableLayout() }}"
@@ -83,6 +83,11 @@
                             }'>
 
                 </table>
+
+                @else
+                    <div class="alert alert-error">
+                        <h5> <i class="fa fa-warning"></i> {{ __('users/message.do_not_have_permission_to_see_user_list') }}</h5>
+                    </div>
                 @endcan
             </form>
         </div><!-- box-body -->

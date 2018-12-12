@@ -7,7 +7,7 @@ return array(
     'user_password_required' => 'The password is required.',
     'insufficient_permissions' => 'Insufficient Permissions.',
     'user_deleted_warning' => 'This user has been deleted. You will have to restore this user to edit them.',
-
+    'do_not_have_permission_to_see_user_list' => 'Sorry! You do not have permission to see user list!',
     'success' => array(
         'create' => 'User was successfully created.',
         'update' => 'User was successfully updated.',

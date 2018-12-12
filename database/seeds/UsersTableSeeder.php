@@ -79,7 +79,7 @@ class UsersTableSeeder extends Seeder
 
     private function createPermissions() {
         $this->createUser = Permission::create(['name'=>'Create User']);
-        $this->readUser = Permission::create(['name'=>'Read Users List']);
+        $this->readUser = Permission::create(['name'=>'Read User']);
         $this->updateUser = Permission::create(['name'=>'Update User']);
         $this->deleteUser = Permission::create(['name' => 'Delete User']);
     }
