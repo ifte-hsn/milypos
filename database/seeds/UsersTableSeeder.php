@@ -11,14 +11,10 @@ class UsersTableSeeder extends Seeder
     private $adminUser;
     private $adminRole;
     private $superAdminRole;
-    private $manageUser;
     private $readUser;
     private $createUser;
     private $updateUser;
     private $deleteUser;
-    private $seeDeletedUsers;
-    private $exportUsers;
-    private $restoretUsers;
 
 
     /**
@@ -46,13 +42,10 @@ class UsersTableSeeder extends Seeder
 
         // Create permission
         $this->adminRole->syncPermissions([
-            $this->manageUser,
-            $this->readUser,
             $this->createUser,
-            $this->seeDeletedUsers,
-            $this->exportUsers,
+            $this->readUser,
+            $this->updateUser,
             $this->deleteUser,
-            $this->updateUser
         ]);
         factory(App\Models\User::class, 200)->create();
     }
@@ -85,13 +78,9 @@ class UsersTableSeeder extends Seeder
     }
 
     private function createPermissions() {
-        $this->manageUser = Permission::create(['name'=>'Manage Users']);
-        $this->readUser = Permission::create(['name'=>'Read Users List']);
         $this->createUser = Permission::create(['name'=>'Create User']);
+        $this->readUser = Permission::create(['name'=>'Read Users List']);
         $this->updateUser = Permission::create(['name'=>'Update User']);
         $this->deleteUser = Permission::create(['name' => 'Delete User']);
-        $this->seeDeletedUsers = Permission::create(['name' => 'See Deleted Users']);
-        $this->exportUsers = Permission::create(['name' => 'Export Users List']);
-        $this->restoretUsers = Permission::create(['name' => 'Restore User']);
     }
 }

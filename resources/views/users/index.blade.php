@@ -18,11 +18,8 @@
     <div class="box box-primary">
         <div class="box-header with-border clearfix">
             <div class="pull-right">
-                @can('Export Users List')
+                @can('Read User')
                     <a href="{{ url('users/export') }}" class="btn btn-success"><i class="fa fa-download"></i> Export</a>
-                @endcan
-
-                @can('See Deleted Users')
                     @if (Input::get('status')=='deleted')
                         <a href="{{ route('users.index') }}" class="btn btn-danger"><i class="fa fa-user-circle"></i> Show Current Users</a>
                     @else
@@ -40,7 +37,9 @@
             <form action="{{ route('users.bulkedit') }}" class="form-inline" method="POST" id="bulkForm">
                 @csrf
                 @if(Input::get('status') != 'deleted')
-                    @if(auth()->user()->can('Delete User') || auth()->user()->can('Update User'))
+
+                    @if(Auth::user()->hasAnyPermission(['Update User', 'Delete User']))
+
                         <div id="toolbar">
                             <select name="bulk_actions" class="form-control select2" width="200px;">
                                 @can('Delete User')
@@ -54,7 +53,7 @@
                             <button class="btn btn-default" id="bulkEdit" disabled>Go</button>
 
                         </div> <!-- #toolbar -->
-                    @endif
+                    @endif {{-- Auth::user()->hasAnyPermission(['Update User', 'Delete User'])--}}
                 @endif
 
                 @can('Read Users List')
@@ -67,9 +66,7 @@
                         data-search="true"
                         data-side-pagination="server"
                         data-show-columns="true"
-                        @can('Export Users List')
                         data-show-export="true"
-                        @endcan
                         data-show-refresh="true"
                         data-sort-order="asc"
                         data-toolbar="#toolbar"

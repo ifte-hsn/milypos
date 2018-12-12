@@ -10,14 +10,24 @@
                     <i class="fa fa-dashboard"></i> <span>{{ __('menu.dashboard') }}</span>
                 </a>
             </li>
-            @can('Manage Users')
+
+            {{-- Display user menu if user have any of the following permission--}}
+            @if(Auth::user()->hasAnyPermission(
+                [
+                    'Create User',
+                    'Read User',
+                    'Update User',
+                    'Delete User'
+                ])
+            )
+
             <li>
                 <a href="{{ url('/users') }}">
                     <i class="fa fa-group"></i>
                     <span>{{ __('menu.users') }}</span>
                 </a>
             </li>
-            @endcan
+            @endif
 
             <li>
                 <a href="{{ url('/settings') }}">
