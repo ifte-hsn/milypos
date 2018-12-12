@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Auth;
-use App\Models\User;
-use Symfony\Component\HttpFoundation\StreamedResponse;
 use Input;
+use App\Models\User;
+use App\Helpers\Helper;
+use Illuminate\Http\Request;
+use App\Http\Transformers\UsersTransformer;
+use Symfony\Component\HttpFoundation\StreamedResponse;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+
 
 class UsersController extends Controller
 {
@@ -19,6 +22,54 @@ class UsersController extends Controller
     public function index()
     {
         return view('users.index');
+    }
+
+    public function getUserList(Request $request) {
+        $users = User::select([
+            'users.activated',
+            'users.address',
+            'users.avatar',
+            'users.city',
+            'users.country',
+            'users.created_at',
+            'users.deleted_at',
+            'users.email',
+            'users.first_name',
+            'users.last_name',
+            'users.id',
+            'users.last_login',
+            'users.phone',
+            'users.state',
+            'users.updated_at'
+        ]);
+
+        if(($request->has('deleted')) && ($request->input('deleted') == 'true')) {
+            $users = $users->GetDeleted();
+        }
+
+        if ($request->has('search') && $request->input('search') != '') {
+            $users = $users->TextSearch($request->input('search'));
+        }
+
+        $order = $request->input('order') === 'asc' ? 'asc' : 'desc';
+        $offset = request('offset', 0);
+        $limit = request('limit',  20);
+
+        switch ($request->input('sort')) {
+            default:
+                $allowed_columns = [
+                    'last_name', 'first_name', 'email', 'activated',
+                    'created_at', 'last_login', 'phone', 'address', 'city', 'state', 'country', 'zip', 'id'
+                ];
+
+                $sort = in_array($request->get('sort'), $allowed_columns) ? $request->get('sort') : 'first_name';
+                $users = $users->orderBy($sort, $order);
+                break;
+        }
+
+        $total = $users->count();
+        $users = $users->skip($offset)->take($limit)->get();
+        return (new UsersTransformer)->transformUsers($users, $total);
     }
 
     /**

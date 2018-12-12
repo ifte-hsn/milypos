@@ -18,7 +18,7 @@
                     'Read User',
                     'Update User',
                     'Delete User'
-                ])
+                ]) || Auth::user()->hasRole('Super Admin')
             )
 
             <li>

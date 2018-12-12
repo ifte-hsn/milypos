@@ -16,19 +16,3 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
-
-Route::group(['namespace' => 'Api'], function () {
-    Route::resource('users', 'UsersController',
-        [
-            'names' =>
-                [
-                    'index' => 'api.users.index',
-                    'show' => 'api.users.show',
-                    'store' => 'api.users.store',
-                    'update' => 'api.users.update',
-                    'destroy' => 'api.users.destroy'
-                ],
-            'except' => ['create', 'edit'],
-            'parameters' => ['user' => 'user_id']
-        ]);
-});

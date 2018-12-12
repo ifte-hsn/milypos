@@ -1,5 +1,4 @@
 <?php
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -19,45 +18,21 @@ Route::middleware(['auth'])->group(function () {
         return view('dashboard');
     })->name('home');
 
-
-    Route::get('test', function (){ return '';})->name('users.bulkDelete');
-    Route::resource('users', 'UsersController');
-
+    // Users route
     Route::prefix('users')->group(function () {
-
-        Route::post(
-            'bulkedit',
-            [
-                'as'   => 'users.bulkedit',
-                'uses' => 'UsersController@postBulkEdit',
-            ]
-        );
-
-        Route::post('bulkSave',
-            [
-                'as' => 'users.bulkSave',
-                'uses' => 'UsersController@postBulkSave'
-            ]
-        );
-
-        Route::get(
-            'export',
-            [
-                'as'=> 'users.export',
-                'uses' => 'UsersController@getExportUserCsv'
-            ]
-        );
-
-        Route::get(
-            '{id}/restore',
-            [
-                'as'=> 'users.restore',
-                'uses' => 'UsersController@getRestore'
-            ]
-        );
+        Route::get('/', 'UsersController@index')->name('users.index');
+        Route::post('/','UsersController@store')->name('users.store');
+        Route::post('bulkSave', 'UsersController@postBulkSave')->name('users.bulkSave');
+        Route::post('bulkedit', 'UsersController@postBulkEdit')->name('users.bulkedit');
+        Route::get('create', 'UsersController@create')->name('users.create');
+        Route::get('export', 'UsersController@getExportUserCsv')->name('users.export');
+        Route::get('getUsersList', 'UsersController@getUserList')->name('users.list');
+        Route::get('{id}/restore', 'UsersController@getRestore')->name('users.restore');
+        Route::delete('{user}', 'UsersController@destroy')->name('users.destroy');
+        Route::match(['put', 'patch'], '{user}','UsersController@update')->name('users.update');
+        Route::get('{user}','UsersController@show')->name('users.show');
+        Route::get('{user}/edit','UsersController@edit')->name('users.edit');
     });
-
-
 
 
     /**

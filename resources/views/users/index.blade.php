@@ -73,7 +73,7 @@
                         id="usersTable"
                         class="table table-striped milypos-table"
                         data-url="{{
-                            route('api.users.index',
+                            route('users.list',
                                 array(
                                     'deleted' => (Input::get('status')=='deleted'?'true':'false')))
                                 }}"
@@ -83,7 +83,6 @@
                             }'>
 
                 </table>
-
                 @else
                     <div class="alert alert-error">
                         <h5> <i class="fa fa-warning"></i> {{ __('users/message.do_not_have_permission_to_see_user_list') }}</h5>
