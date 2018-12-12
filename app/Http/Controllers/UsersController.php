@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 use App\Http\Transformers\UsersTransformer;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-
+use DB;
 
 class UsersController extends Controller
 {
@@ -81,7 +81,9 @@ class UsersController extends Controller
     {
         $user = new User();
         $user->activated = 1;
-        return view('users.edit', compact('user'));
+
+        $roles = DB::table('roles')->get();
+        return view('users.edit', compact('user', 'roles'));
     }
 
     /**
