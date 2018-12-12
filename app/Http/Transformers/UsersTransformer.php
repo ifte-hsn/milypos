@@ -5,6 +5,7 @@ namespace App\Http\Transformers;
 use App\Helpers\Helper;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
+use Auth;
 
 class UsersTransformer
 {
@@ -41,10 +42,10 @@ class UsersTransformer
 
         // TODO: Implement parmissinon wise actions
         $permissions_array['available_actions'] = [
-            'update' => true,
-            'delete' =>true,
-            'clone' => true,
-            'restore' => true,
+            'update' => (Auth::user()->can('Update User') && ($user->deleted_at==''))  ? true : false,
+            'delete' =>(Auth::user()->can('Delete User') && ($user->deleted_at=='')) ? true : false,
+            'clone' => (Auth::user()->can('Create User') && ($user->deleted_at=='')) ,
+            'restore' => (Auth::user()->can('Create User') && ($user->deleted_at!='')) ? true : false,
         ];
 
         $array += $permissions_array;
