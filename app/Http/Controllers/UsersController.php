@@ -94,7 +94,38 @@ class UsersController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'first_name'              => 'required|string|min:1',
+            'email'                   => 'required|email|nullable|unique',
+            'password'                => 'required|min:6',
+        ]);
+
+
+        $role = $request->role;
+
+        $user = new User();
+
+        $user->email = $request->email;
+        $user->password = bcrypt($request->password);
+        $user->activated = $request->activated;
+        $user->first_name = $request->first_name;
+        $user->last_name = $request->last_name;
+        $user->website = $request->website;
+        $user->employee_num = $request->employee_num;
+        $user->phone = $request->phone;
+        $user->fax = $request->fax;
+        $user->address = $request->address;
+        $user->city = $request->city;
+        $user->state = $request->state;
+        $user->zip = $request->zip;
+        $user->country = $request->country;
+
+        if ($user->save()) {
+            $user->assignRole($role);
+            return redirect()->route('users.index')->with('success', __('users/message.success.create'));
+        } else {
+            return redirect()->back()->withInput()->withErrors($user->getErrors());
+        }
     }
 
     /**

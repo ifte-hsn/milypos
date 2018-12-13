@@ -23,7 +23,6 @@
         <div class="box-body">
             <form method="post" autocomplete="off" action="{{ ($user) ? route('users.update', ['user'=> $user->id]) : route('users.store') }}" class="form-horizontal form-label-left" id="user-form">
                 @csrf
-
                 @if($user->id)
                     @method('PUT')
                 @endif
@@ -42,10 +41,11 @@
                             </div><!-- form-group -->
                             <div class="form-group">
                                 <label for="avatar" class="control-label col-md-3 col-sm-3 col-xs-12">
-                                    Avatar
+                                    {{ __('general.avatar') }} {!! (\App\Helpers\Helper::checkIfRequired($user, 'avatar')) ? '<span class="text-danger">*</span>':'' !!}
                                 </label><!-- control-label col-md-3 col-sm-3 col-xs-12 -->
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input id="avatar" name="avatar" type="file" class="form-control col-md-7 col-xs-12">
+                                    <input id="avatar" name="avatar" type="file" class="form-control col-md-7 col-xs-12" value="{{ Input::old('avatar', $user->first_name) }}">
+                                    {!! $errors->first('avatar', '<span class="alert-msg">:message</span>') !!}
                                 </div><!-- .col-md-6 col-sm-6 col-xs-12 -->
                             </div><!-- form-group -->
 
@@ -63,10 +63,11 @@
                                 <div class="col-md-12 col-sm-12 col-xs-12">
                                     <div class="form-group {{ $errors->has('first_name') ? 'has-error' : '' }}">
                                         <label for="first-name" class="control-label col-md-3 col-sm-3 col-xs-12">
-                                            {{ __('general.first_name') }}
+                                            {{ __('general.first_name') }} {!! (\App\Helpers\Helper::checkIfRequired($user, 'first_name')) ? '<span class="text-danger">*</span>':'' !!}
                                         </label><!-- control-label col-md-3 col-sm-3 col-xs-12 -->
                                         <div class="col-md-6 col-sm-6 col-xs-12">
-                                            <input type="text" id="first-name" name="first_name" class="form-control col-md-7 col-xs-12" placeholder="{{ __('general.first_name') }}">
+                                            <input type="text" id="first-name" name="first_name" class="form-control col-md-7 col-xs-12" placeholder="{{ __('general.first_name') }}" value="{{ Input::old('first_name', $user->first_name) }}">
+                                            {!! $errors->first('first_name', '<span class="alert-msg">:message</span>') !!}
                                         </div><!-- .col-md-6 col-sm-6 col-xs-12 -->
                                     </div><!-- form-group -->
                                 </div><!-- col-md-12 col-sm-12 col-xs-12 -->
@@ -79,10 +80,11 @@
                                 <div class="col-md-12 col-sm-12 col-xs-12">
                                     <div class="form-group {{ $errors->has('last_name') ? 'has-error' : '' }}">
                                         <label for="last-name" class="control-label col-md-3 col-sm-3 col-xs-12">
-                                            {{ __('general.last_name') }}
+                                            {{ __('general.last_name') }} {!! (\App\Helpers\Helper::checkIfRequired($user, 'last_name')) ? '<span class="text-danger">*</span>':'' !!}
                                         </label><!-- control-label col-md-3 col-sm-3 col-xs-12 -->
                                         <div class="col-md-6 col-sm-6 col-xs-12">
-                                            <input type="text" id="last-name" name="last_name" class="form-control col-md-7 col-xs-12" placeholder="{{ __('general.last_name') }}">
+                                            <input type="text" id="last-name" name="last_name" class="form-control col-md-7 col-xs-12" placeholder="{{ __('general.last_name') }}" value="{{ Input::old('last_name', $user->last_name) }}">
+                                            {!! $errors->first('last_name', '<span class="alert-msg">:message</span>') !!}
                                         </div><!-- .col-md-6 col-sm-6 col-xs-12 -->
                                     </div><!-- form-group -->
                                 </div><!-- col-md-12 col-sm-12 col-xs-12 -->
@@ -92,12 +94,13 @@
                                 ==================================-->
 
                                 <div class="col-md-12 col-sm-12 col-xs-12">
-                                    <div class="form-group {{ $errors->has('email_address') ? 'has-error' : '' }}">
+                                    <div class="form-group {{ $errors->has('email') ? 'has-error' : '' }}">
                                         <label for="email" class="control-label col-md-3 col-sm-3 col-xs-12">
-                                            {{ __('general.email_address') }}
+                                            {{ __('general.email_address') }} {!! (\App\Helpers\Helper::checkIfRequired($user, 'email')) ? '<span class="text-danger">*</span>':'' !!}
                                         </label><!-- control-label col-md-3 col-sm-3 col-xs-12 -->
                                         <div class="col-md-6 col-sm-6 col-xs-12">
-                                            <input type="text" id="email" name="email" class="form-control col-md-7 col-xs-12" placeholder="{{ __('general.email_address') }}">
+                                            <input type="text" id="email" name="email" class="form-control col-md-7 col-xs-12" placeholder="{{ __('general.email_address') }}" value="{{ Input::old('email', $user->email) }}">
+                                            {!! $errors->first('email', '<span class="alert-msg">:message</span>') !!}
                                         </div><!-- .col-md-6 col-sm-6 col-xs-12 -->
                                     </div><!-- form-group -->
                                 </div><!-- col-md-12 col-sm-12 col-xs-12 -->
@@ -110,26 +113,28 @@
                                 <div class="col-md-12 col-sm-12 col-xs-12">
                                     <div class="form-group {{ $errors->has('password') ? 'has-error' : '' }}">
                                         <label for="password" class="control-label col-md-3 col-sm-3 col-xs-12">
-                                            {{ __('general.password') }}
+                                            {{ __('general.password') }} {!! (\App\Helpers\Helper::checkIfRequired($user, 'password')) ? '<span class="text-danger">*</span>':'' !!}
                                         </label><!-- control-label col-md-3 col-sm-3 col-xs-12 -->
                                         <div class="col-md-6 col-sm-6 col-xs-12">
-                                            <input type="password" id="password" name="password" class="form-control col-md-7 col-xs-12" placeholder="{{ __('general.password') }}">
+                                            <input type="password" id="password" name="password" class="form-control col-md-7 col-xs-12" placeholder="{{ __('general.password') }}" value="{{ Input::old('password', $user->password) }}">
+                                            {!! $errors->first('password', '<span class="alert-msg">:message</span>') !!}
                                         </div><!-- .col-md-6 col-sm-6 col-xs-12 -->
                                     </div><!-- form-group -->
                                 </div><!-- col-md-12 col-sm-12 col-xs-12 -->
 
 
                                 <!--============================
-                                =            Password         =
+                                =            Repeat Password         =
                                 ============================-->
 
                                 <div class="col-md-12 col-sm-12 col-xs-12">
                                     <div class="form-group {{ $errors->has('confirm_password') ? 'has-error' : '' }}">
                                         <label for="confirm-password" class="control-label col-md-3 col-sm-3 col-xs-12">
-                                            {{ __('general.confirm_password') }}
+                                            {{ __('general.confirm_password') }} {!! (\App\Helpers\Helper::checkIfRequired($user, 'confirm_password')) ? '<span class="text-danger">*</span>':'' !!}
                                         </label><!-- control-label col-md-3 col-sm-3 col-xs-12 -->
                                         <div class="col-md-6 col-sm-6 col-xs-12">
-                                            <input type="password" id="confirm-password" name="confirm_password" class="form-control col-md-7 col-xs-12" placeholder="{{ __('general.confirm_password') }}">
+                                            <input type="password" id="confirm-password" name="confirm_password" class="form-control col-md-7 col-xs-12" placeholder="{{ __('general.confirm_password') }}" value="{{ Input::old('password', $user->password) }}">
+                                            {!! $errors->first('confirm_password', '<span class="alert-msg">:message</span>') !!}
                                         </div><!-- .col-md-6 col-sm-6 col-xs-12 -->
                                     </div><!-- form-group -->
                                 </div><!-- col-md-12 col-sm-12 col-xs-12 -->
@@ -140,7 +145,7 @@
                                 <div class="col-md-12 col-sm-12 col-xs-12">
                                     <div class="form-group {{ $errors->has('role') ? 'has-error' : '' }}">
                                         <label for="role" class="control-label col-md-3 col-sm-3 col-xs-12">
-                                            {{ __('general.role') }}
+                                            {{ __('general.role') }} {!! (\App\Helpers\Helper::checkIfRequired($user, 'role')) ? '<span class="text-danger">*</span>':'' !!}
                                         </label><!-- control-label col-md-3 col-sm-3 col-xs-12 -->
                                         <div class="col-md-6 col-sm-6 col-xs-12">
                                             <select name="role" id="role" class="form-control select2">
@@ -148,6 +153,7 @@
                                                     <option value="{{ $role->name }}">{{ $role->name }}</option>
                                                 @endforeach
                                             </select>
+                                            {!! $errors->first('role', '<span class="alert-msg">:message</span>') !!}
                                         </div><!-- .col-md-6 col-sm-6 col-xs-12 -->
                                     </div><!-- form-group -->
                                 </div><!-- col-md-12 col-sm-12 col-xs-12 -->
@@ -160,10 +166,11 @@
                                 <div class="col-md-12 col-sm-12 col-xs-12">
                                     <div class="form-group {{ $errors->has('employee_num') ? 'has-error' : '' }}">
                                         <label for="employee-num" class="control-label col-md-3 col-sm-3 col-xs-12">
-                                            {{ __('general.employee_num') }}
+                                            {{ __('general.employee_num') }} {!! (\App\Helpers\Helper::checkIfRequired($user, 'employee_num')) ? '<span class="text-danger">*</span>':'' !!}
                                         </label><!-- control-label col-md-3 col-sm-3 col-xs-12 -->
                                         <div class="col-md-6 col-sm-6 col-xs-12">
-                                            <input type="text" id="employee-num" name="employee_num" class="form-control col-md-7 col-xs-12" placeholder="{{ __('general.employee_num') }}">
+                                            <input type="text" id="employee-num" name="employee_num" class="form-control col-md-7 col-xs-12" placeholder="{{ __('general.employee_num') }}" value="{{ Input::old('employee_num', $user->employee_num) }}">
+                                            {!! $errors->first('employee_num', '<span class="alert-msg">:message</span>') !!}
                                         </div><!-- .col-md-6 col-sm-6 col-xs-12 -->
                                     </div><!-- form-group -->
                                 </div><!-- col-md-12 col-sm-12 col-xs-12 -->
@@ -175,10 +182,11 @@
                                 <div class="col-md-12 col-sm-12 col-xs-12">
                                     <div class="form-group {{ $errors->has('website') ? 'has-error' : '' }}">
                                         <label for="website" class="control-label col-md-3 col-sm-3 col-xs-12">
-                                            {{ __('general.website') }}
+                                            {{ __('general.website') }} {!! (\App\Helpers\Helper::checkIfRequired($user, 'website')) ? '<span class="text-danger">*</span>':'' !!}
                                         </label><!-- control-label col-md-3 col-sm-3 col-xs-12 -->
                                         <div class="col-md-6 col-sm-6 col-xs-12">
-                                            <input type="text" id="website" name="website" class="form-control col-md-7 col-xs-12" placeholder="{{ __('general.website') }}">
+                                            <input type="text" id="website" name="website" class="form-control col-md-7 col-xs-12" placeholder="{{ __('general.website') }}" value="{{ Input::old('website', $user->website) }}">
+                                            {!! $errors->first('website', '<span class="alert-msg">:message</span>') !!}
                                         </div><!-- .col-md-6 col-sm-6 col-xs-12 -->
                                     </div><!-- form-group -->
                                 </div><!-- col-md-12 col-sm-12 col-xs-12 -->
@@ -191,10 +199,11 @@
                                 <div class="col-md-12 col-sm-12 col-xs-12">
                                     <div class="form-group {{ $errors->has('phone') ? 'has-error' : '' }}">
                                         <label for="phone" class="control-label col-md-3 col-sm-3 col-xs-12">
-                                            {{ __('general.phone') }}
+                                            {{ __('general.phone') }} {!! (\App\Helpers\Helper::checkIfRequired($user, 'phone')) ? '<span class="text-danger">*</span>':'' !!}
                                         </label><!-- control-label col-md-3 col-sm-3 col-xs-12 -->
                                         <div class="col-md-6 col-sm-6 col-xs-12">
-                                            <input type="text" id="phone" name="phone" class="form-control col-md-7 col-xs-12" placeholder="{{ __('general.phone') }}">
+                                            <input type="text" id="phone" name="phone" class="form-control col-md-7 col-xs-12" placeholder="{{ __('general.phone') }}" value="{{ Input::old('phone', $user->phone) }}">
+                                            {!! $errors->first('phone', '<span class="alert-msg">:message</span>') !!}
                                         </div><!-- .col-md-6 col-sm-6 col-xs-12 -->
                                     </div><!-- form-group -->
                                 </div><!-- col-md-12 col-sm-12 col-xs-12 -->
@@ -207,10 +216,11 @@
                                 <div class="col-md-12 col-sm-12 col-xs-12">
                                     <div class="form-group {{ $errors->has('fax') ? 'has-error' : '' }}">
                                         <label for="fax" class="control-label col-md-3 col-sm-3 col-xs-12">
-                                            {{ __('general.fax') }}
+                                            {{ __('general.fax') }} {!! (\App\Helpers\Helper::checkIfRequired($user, 'fax')) ? '<span class="text-danger">*</span>':'' !!}
                                         </label><!-- control-label col-md-3 col-sm-3 col-xs-12 -->
                                         <div class="col-md-6 col-sm-6 col-xs-12">
-                                            <input type="text" id="fax" name="fax" class="form-control col-md-7 col-xs-12" placeholder="{{ __('general.fax') }}">
+                                            <input type="text" id="fax" name="fax" class="form-control col-md-7 col-xs-12" placeholder="{{ __('general.fax') }}" value="{{ Input::old('fax', $user->fax) }}">
+                                            {!! $errors->first('fax', '<span class="alert-msg">:message</span>') !!}
                                         </div><!-- .col-md-6 col-sm-6 col-xs-12 -->
                                     </div><!-- form-group -->
                                 </div><!-- col-md-12 col-sm-12 col-xs-12 -->
@@ -222,10 +232,11 @@
                                 <div class="col-md-12 col-sm-12 col-xs-12">
                                     <div class="form-group {{ $errors->has('address') ? 'has-error' : '' }}">
                                         <label for="address" class="control-label col-md-3 col-sm-3 col-xs-12">
-                                            {{ __('general.address') }}
+                                            {{ __('general.address') }} {!! (\App\Helpers\Helper::checkIfRequired($user, 'address')) ? '<span class="text-danger">*</span>':'' !!}
                                         </label><!-- control-label col-md-3 col-sm-3 col-xs-12 -->
                                         <div class="col-md-6 col-sm-6 col-xs-12">
-                                            <textarea name="address" id="address" cols="30" rows="10" class="form-control col-md-7 col-xs-12"></textarea>
+                                            <textarea name="address" id="address" cols="30" rows="10" class="form-control col-md-7 col-xs-12">{{ Input::old('address', $user->address) }}</textarea>
+                                            {!! $errors->first('address', '<span class="alert-msg">:message</span>') !!}
                                         </div><!-- .col-md-6 col-sm-6 col-xs-12 -->
                                     </div><!-- form-group -->
                                 </div><!-- col-md-12 col-sm-12 col-xs-12 -->
@@ -238,10 +249,11 @@
                                 <div class="col-md-12 col-sm-12 col-xs-12">
                                     <div class="form-group {{ $errors->has('city') ? 'has-error' : '' }}">
                                         <label for="city" class="control-label col-md-3 col-sm-3 col-xs-12">
-                                            {{ __('general.city') }}
+                                            {{ __('general.city') }} {!! (\App\Helpers\Helper::checkIfRequired($user, 'city')) ? '<span class="text-danger">*</span>':'' !!}
                                         </label><!-- control-label col-md-3 col-sm-3 col-xs-12 -->
                                         <div class="col-md-6 col-sm-6 col-xs-12">
-                                            <input type="text" id="city" name="city" class="form-control col-md-7 col-xs-12" placeholder="{{ __('general.city') }}">
+                                            <input type="text" id="city" name="city" class="form-control col-md-7 col-xs-12" placeholder="{{ __('general.city') }}" value="{{ Input::old('city', $user->city) }}">
+                                            {!! $errors->first('city', '<span class="alert-msg">:message</span>') !!}
                                         </div><!-- .col-md-6 col-sm-6 col-xs-12 -->
                                     </div><!-- form-group -->
                                 </div><!-- col-md-12 col-sm-12 col-xs-12 -->
@@ -254,10 +266,11 @@
                                 <div class="col-md-12 col-sm-12 col-xs-12">
                                     <div class="form-group {{ $errors->has('state') ? 'has-error' : '' }}">
                                         <label for="state" class="control-label col-md-3 col-sm-3 col-xs-12">
-                                            {{ __('general.state') }}
+                                            {{ __('general.state') }} {!! (\App\Helpers\Helper::checkIfRequired($user, 'state')) ? '<span class="text-danger">*</span>':'' !!}
                                         </label><!-- control-label col-md-3 col-sm-3 col-xs-12 -->
                                         <div class="col-md-6 col-sm-6 col-xs-12">
-                                            <input type="text" id="state" name="state" class="form-control col-md-7 col-xs-12" placeholder="{{ __('general.state') }}">
+                                            <input type="text" id="state" name="state" class="form-control col-md-7 col-xs-12" placeholder="{{ __('general.state') }}" value="{{ Input::old('state', $user->state) }}">
+                                            {!! $errors->first('state', '<span class="alert-msg">:message</span>') !!}
                                         </div><!-- .col-md-6 col-sm-6 col-xs-12 -->
                                     </div><!-- form-group -->
                                 </div><!-- col-md-12 col-sm-12 col-xs-12 -->
@@ -270,10 +283,11 @@
                                 <div class="col-md-12 col-sm-12 col-xs-12">
                                     <div class="form-group {{ $errors->has('zip') ? 'has-error' : '' }}">
                                         <label for="zip" class="control-label col-md-3 col-sm-3 col-xs-12">
-                                            {{ __('general.zip') }}
+                                            {{ __('general.zip') }} {!! (\App\Helpers\Helper::checkIfRequired($user, 'zip')) ? '<span class="text-danger">*</span>':'' !!}
                                         </label><!-- control-label col-md-3 col-sm-3 col-xs-12 -->
                                         <div class="col-md-6 col-sm-6 col-xs-12">
-                                            <input type="text" id="zip" name="zip" class="form-control col-md-7 col-xs-12" placeholder="{{ __('general.zip') }}">
+                                            <input type="text" id="zip" name="zip" class="form-control col-md-7 col-xs-12" placeholder="{{ __('general.zip') }}" value="{{ Input::old('zip', $user->zip) }}">
+                                            {!! $errors->first('zip', '<span class="alert-msg">:message</span>') !!}
                                         </div><!-- .col-md-6 col-sm-6 col-xs-12 -->
                                     </div><!-- form-group -->
                                 </div><!-- col-md-12 col-sm-12 col-xs-12 -->
@@ -286,10 +300,11 @@
                                 <div class="col-md-12 col-sm-12 col-xs-12">
                                     <div class="form-group {{ $errors->has('country') ? 'has-error' : '' }}">
                                         <label for="country" class="control-label col-md-3 col-sm-3 col-xs-12">
-                                            {{ __('general.country') }}
+                                            {{ __('general.country') }} {!! (\App\Helpers\Helper::checkIfRequired($user, 'country')) ? '<span class="text-danger">*</span>':'' !!}
                                         </label><!-- control-label col-md-3 col-sm-3 col-xs-12 -->
                                         <div class="col-md-6 col-sm-6 col-xs-12">
-                                            <input type="text" id="country" name="country" class="form-control col-md-7 col-xs-12" placeholder="{{ __('general.country') }}">
+                                            <input type="text" id="country" name="country" class="form-control col-md-7 col-xs-12" placeholder="{{ __('general.country') }}" value="{{ Input::old('country', $user->country) }}">
+                                            {!! $errors->first('country', '<span class="alert-msg">:message</span>') !!}
                                         </div><!-- .col-md-6 col-sm-6 col-xs-12 -->
                                     </div><!-- form-group -->
                                 </div><!-- col-md-12 col-sm-12 col-xs-12 -->
@@ -298,18 +313,19 @@
                                 <!--          Active       -->
                                 <!-- ********************* -->
                                 <div class="form-group row {{ $errors->has('status') ? 'has-error' : '' }}">
-                                    <label for="role" class="control-label col-md-3 col-sm-3 col-xs-12">
-                                        {{ __('general.status') }}
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">
+                                        {{ __('general.status') }} {!! (\App\Helpers\Helper::checkIfRequired($user, 'activated')) ? '<span class="text-danger">*</span>':'' !!}
                                     </label><!-- control-label col-md-3 col-sm-3 col-xs-12 -->
 
                                     <div class="col-sm-9">
-                                        <label class="radio-inline">
-                                            <input type="radio" name="activated" value="1" checked="checked" id="status">
-                                            Active
+                                        <label class="radio-inline" for="active">
+                                            <input type="radio" name="activated" value="1" checked="checked" id="active">
+                                            {{ __('general.active') }}
                                         </label>
-                                        <label class="radio-inline">
-                                            <input type="radio" name="activated" value="0" id="status">
-                                            Inactive
+                                        <label for="inactive" class="radio-inline">
+                                            <input type="radio" name="activated" value="0" id="inactive">
+                                            {{ __('general.inactive') }}
+                                            {!! $errors->first('status', '<span class="alert-msg">:message</span>') !!}
                                         </label>
                                     </div>
                                 </div>

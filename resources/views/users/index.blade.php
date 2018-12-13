@@ -38,7 +38,7 @@
                 @csrf
                 @if(Input::get('status') != 'deleted')
 
-                    @if(Auth::user()->hasAnyPermission(['Update User', 'Delete User']) && Auth::user()->can('Read User'))
+                    @if(((Auth::user()->can('Delete User') || Auth::user()->can('Update User')) && Auth::user()->can('Read User')))
 
                         <div id="toolbar">
                             <select name="bulk_actions" class="form-control select2" width="200px;">

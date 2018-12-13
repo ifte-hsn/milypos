@@ -2,6 +2,8 @@
 
 return [
     'actions'                 => 'Actions',
+    'active' => 'Active',
+    'inactive' => 'Inactive',
     'activated'               => 'Activated',
     'address'                 => 'Address',
     'avatar'                  => 'Avatar',

@@ -32,7 +32,6 @@ class User extends Authenticatable
         'activated',
         'address',
         'city',
-        'company_id',
         'country',
         'first_name',
         'last_name',
@@ -54,7 +53,7 @@ class User extends Authenticatable
 
     protected $rules = [
         'first_name'              => 'required|string|min:1',
-        'email'                   => 'email|nullable|unique',
+        'email'                   => 'required|email|nullable|unique',
         'password'                => 'required|min:6',
     ];
 

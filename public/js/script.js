@@ -43,5 +43,9 @@
         new Components.modals.confirmDelete().render();
     });
 
-
+    $('select.select2:not(".select2-hidden-accessible")').each(function (i,obj) {
+        {
+            $(obj).select2();
+        }
+    });
 }(jQuery));

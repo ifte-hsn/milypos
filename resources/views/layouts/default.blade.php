@@ -19,7 +19,10 @@
     <link rel="stylesheet" href="{{ asset('bower_components/Ionicons/css/ionicons.min.css') }}">
 
     <!-- bootstrap tables CSS -->
-    <link rel="stylesheet" href="{{ url(asset('css/bootstrap-table.css')) }}">
+    <link rel="stylesheet" href="{{ asset('css/bootstrap-table.css') }}">
+
+    <!-- Select2 -->
+    <link rel="stylesheet" href="{{ asset('bower_components/select2/dist/css/select2.min.css') }}">
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('css/AdminLTE.css') }}">
     <!-- AdminLTE Skins. Choose a skin from the css/skins
@@ -184,6 +187,8 @@
 <script src="{{ asset('bower_components/jquery-slimscroll/jquery.slimscroll.min.js') }}"></script>
 <!-- FastClick -->
 <script src="{{ asset('bower_components/fastclick/lib/fastclick.js') }}"></script>
+<!-- Select2 -->
+<script src="{{ asset('bower_components/select2/dist/js/select2.full.min.js') }}"></script>
 <!-- AdminLTE App -->
 <script src="{{ asset('js/adminlte.js') }}"></script>
 <script src="{{ asset('js/demo.js') }}"></script>
