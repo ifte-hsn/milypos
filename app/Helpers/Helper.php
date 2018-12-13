@@ -9,6 +9,15 @@ use Carbon\Carbon;
 
 class Helper
 {
+
+    /**
+     * Format the date and time
+     *
+     * @param $date
+     * @param string $type
+     * @param bool $array
+     * @return string|null
+     */
     public static function getFormattedDateObject($date, $type="datetime", $array = true)
     {
         if($date == '') {
@@ -57,5 +66,33 @@ class Helper
         }
 
         return $array;
+    }
+
+
+    /**
+     * Introspect into the model validation to see if the field passed is required.
+     * This is used by the blade and add a required class into the html element.
+     *
+     * This is useful to keep form fields in sync with the actual model level
+     * validation
+     *
+     * @author [A. Gianotto] [<snipe@snipe.net>]
+     *
+     * @param $class
+     * @param $field
+     * @return bool
+     */
+    public static function checkIfRequired($class, $field) {
+        $rules = $class::rules();
+
+        foreach ($rules as $rule_name => $rule) {
+            if ($rule_name == $field) {
+                if (strpos($rule, 'required') === false) {
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+        }
     }
 }

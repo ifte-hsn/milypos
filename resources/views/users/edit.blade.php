@@ -116,28 +116,12 @@
                                             {{ __('general.password') }} {!! (\App\Helpers\Helper::checkIfRequired($user, 'password')) ? '<span class="text-danger">*</span>':'' !!}
                                         </label><!-- control-label col-md-3 col-sm-3 col-xs-12 -->
                                         <div class="col-md-6 col-sm-6 col-xs-12">
-                                            <input type="password" id="password" name="password" class="form-control col-md-7 col-xs-12" placeholder="{{ __('general.password') }}" value="{{ Input::old('password', $user->password) }}">
+                                            <input type="password" id="password" name="password" class="form-control col-md-7 col-xs-12" placeholder="{{ __('general.password') }}" value="" readonly onfocus="this.removeAttribute('readonly');">
                                             {!! $errors->first('password', '<span class="alert-msg">:message</span>') !!}
                                         </div><!-- .col-md-6 col-sm-6 col-xs-12 -->
                                     </div><!-- form-group -->
                                 </div><!-- col-md-12 col-sm-12 col-xs-12 -->
 
-
-                                <!--============================
-                                =            Repeat Password         =
-                                ============================-->
-
-                                <div class="col-md-12 col-sm-12 col-xs-12">
-                                    <div class="form-group {{ $errors->has('confirm_password') ? 'has-error' : '' }}">
-                                        <label for="confirm-password" class="control-label col-md-3 col-sm-3 col-xs-12">
-                                            {{ __('general.confirm_password') }} {!! (\App\Helpers\Helper::checkIfRequired($user, 'confirm_password')) ? '<span class="text-danger">*</span>':'' !!}
-                                        </label><!-- control-label col-md-3 col-sm-3 col-xs-12 -->
-                                        <div class="col-md-6 col-sm-6 col-xs-12">
-                                            <input type="password" id="confirm-password" name="confirm_password" class="form-control col-md-7 col-xs-12" placeholder="{{ __('general.confirm_password') }}" value="{{ Input::old('password', $user->password) }}">
-                                            {!! $errors->first('confirm_password', '<span class="alert-msg">:message</span>') !!}
-                                        </div><!-- .col-md-6 col-sm-6 col-xs-12 -->
-                                    </div><!-- form-group -->
-                                </div><!-- col-md-12 col-sm-12 col-xs-12 -->
 
                                 <!--=======================
                                 =            Role         =
@@ -150,7 +134,7 @@
                                         <div class="col-md-6 col-sm-6 col-xs-12">
                                             <select name="role" id="role" class="form-control select2">
                                                 @foreach($roles as $role)
-                                                    <option value="{{ $role->name }}">{{ $role->name }}</option>
+                                                    <option value="{{ $role->name }}" {{ $user->hasRole($role->name) ? 'selected="selected"' : '""' }}>{{ $role->name }}</option>
                                                 @endforeach
                                             </select>
                                             {!! $errors->first('role', '<span class="alert-msg">:message</span>') !!}

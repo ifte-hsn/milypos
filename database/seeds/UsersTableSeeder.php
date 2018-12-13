@@ -47,7 +47,7 @@ class UsersTableSeeder extends Seeder
             $this->updateUser,
             $this->deleteUser,
         ]);
-        factory(App\Models\User::class, 200)->create();
+//        factory(App\Models\User::class, 200)->create();
     }
 
     private function createUsers() {

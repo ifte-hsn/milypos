@@ -65,4 +65,5 @@ return [
     'fax' => 'Fax',
     'status' => 'Status',
     'save' => 'Save',
+    'select_role' => 'Select Role',
 ];

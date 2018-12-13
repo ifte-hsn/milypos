@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use DB;
 use Auth;
 use Input;
 use App\Models\User;
@@ -10,7 +11,6 @@ use Illuminate\Http\Request;
 use App\Http\Transformers\UsersTransformer;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use DB;
 
 class UsersController extends Controller
 {
@@ -147,7 +147,12 @@ class UsersController extends Controller
      */
     public function edit($id)
     {
-        //
+        if($user =  User::findOrFail($id)) {
+            $roles = DB::table('roles')->get();
+            return view('users.edit', compact('user', 'roles'));
+        }
+        $error = __('users/message.user_not_found', compact('id'));
+        return redirect()->route('users.index')->with('error', $error);
     }
 
     /**
@@ -159,7 +164,40 @@ class UsersController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        try {
+            $user = User::findOrFail($id);
+        } catch (ModelNotFoundException $e) {
+            return redirect()->route('users.index')
+                ->with('error', trans('users/message.user_not_found', compact('id')));
+        }
+
+        $user->email = $request->email;
+        $user->activated = $request->activated;
+        $user->first_name = $request->first_name;
+        $user->last_name = $request->last_name;
+        $user->website = $request->website;
+        $user->employee_num = $request->employee_num;
+        $user->phone = $request->phone;
+        $user->fax = $request->fax;
+        $user->address = $request->address;
+        $user->city = $request->city;
+        $user->state = $request->state;
+        $user->zip = $request->zip;
+        $user->country = $request->country;
+
+        if ($request->has('password') && $request->password != null) {
+            $user->password = bcrypt($request->password);
+        }
+
+        // Was the user updated?
+        if ($user->save()) {
+            // Prepare the success message
+            $success = trans('users/message.success.update');
+            // Redirect to the user page
+            return redirect()->route('users.index')->with('success', $success);
+        }
+
+        return redirect()->back()->withInput()->withErrors($user->getErrors());
     }
 
     /**
