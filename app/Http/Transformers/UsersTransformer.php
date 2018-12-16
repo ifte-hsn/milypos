@@ -35,6 +35,7 @@ class UsersTransformer
             'zip' => ($user->zip) ? e($user->zip) : null,
             'email' => ($user->email) ? e($user->email) : null,
             'activated' => ($user->activated) ? e($user->activated) : null,
+            'website' => ($user->website) ? $user->website : null,
             'created_at' => Helper::getFormattedDateObject($user->created_at, 'datetime'),
             'updated_at' => Helper::getFormattedDateObject($user->updated_at, 'datetime'),
             'last_login' => Helper::getFormattedDateObject($user->last_login, 'datetime')

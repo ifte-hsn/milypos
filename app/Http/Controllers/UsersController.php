@@ -31,6 +31,7 @@ class UsersController extends Controller
             'users.avatar',
             'users.city',
             'users.country',
+            'users.website',
             'users.created_at',
             'users.deleted_at',
             'users.email',
@@ -54,6 +55,7 @@ class UsersController extends Controller
         $order = $request->input('order') === 'asc' ? 'asc' : 'desc';
         $offset = request('offset', 0);
         $limit = request('limit',  20);
+
 
         switch ($request->input('sort')) {
             default:

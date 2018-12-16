@@ -292,6 +292,24 @@
         }
     }
 
+    function websiteLinkFormatter(value) {
+
+        console.log(value);
+        // if (value && !value.match(/^http([s]?):\/\/.*/)) {
+        //     return '<a href="http:"' + value +'></a>';
+        //     // input.val('http://' + val);
+        // }
+
+        if(value) {
+            if(!value.match(/^http([s]?):\/\/.*/)) {
+                return '<a href="https://' + value + '" target="_blank">' + value + '</a>';
+            } else {
+                return '<a href="' + value + '" target="_blank">' + value + '</a>';
+            }
+        }
+
+    }
+
     function imageFormatter() {
         if (value) {
             return '<a href="' + value + '" data-toggle="lightbox" data-type="image"><img src="' + value + '" style="max-height: {{ $milyPosSettings->thumbnail_max_h }}px; width: auto;" class="img-responsive"></a>';
