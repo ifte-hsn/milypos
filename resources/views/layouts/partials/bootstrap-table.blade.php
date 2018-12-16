@@ -293,13 +293,6 @@
     }
 
     function websiteLinkFormatter(value) {
-
-        console.log(value);
-        // if (value && !value.match(/^http([s]?):\/\/.*/)) {
-        //     return '<a href="http:"' + value +'></a>';
-        //     // input.val('http://' + val);
-        // }
-
         if(value) {
             if(!value.match(/^http([s]?):\/\/.*/)) {
                 return '<a href="https://' + value + '" target="_blank">' + value + '</a>';
