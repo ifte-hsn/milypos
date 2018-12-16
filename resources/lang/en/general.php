@@ -66,4 +66,5 @@ return [
     'status' => 'Status',
     'save' => 'Save',
     'select_role' => 'Select Role',
+    'view' => 'View',
 ];

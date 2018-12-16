@@ -167,6 +167,14 @@
         return function (value, row) {
 
             var actions = '<span style="white-space: nowrap;">';
+
+            if((row.available_actions) && (row.available_actions.view === true)) {
+                actions += '<a href="{{ url('/') }}/' + destination + '/' + row.id + '" '
+                    + 'class="btn btn-sm btn-primary" data-tooltip="true" '
+                    + 'title="{{ __('general.view') }}">'
+                    +'<i class="fa fa-eye"></i></a>&nbsp';
+            }
+
             if((row.available_actions) && (row.available_actions.clone === true)) {
                 actions += '<a href="{{ url('/') }}/' + destination + '/' + row.id + '/clone" '
                                 + 'class="btn btn-sm btn-info" data-tooltip="true" '
