@@ -37,20 +37,20 @@
                             <div class="form-group">
                                 <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
                                     @if ($user->avatar)
-                                        <img src="{{ url('/') }}/uploads/avatars/{{ $user->avatar }}" alt="..." class="img-thumbnail">
+                                        <img src="{{ url('/') }}/uploads/avatars/{{ $user->avatar }}" alt="..." class="img-thumbnail" id="imagePreview">
                                     @else
-                                        <img src="{{ url('/') }}/img/avatar-placeholder.png" alt="..." class="img-thumbnail">
+                                        <img src="{{ url('/') }}/img/avatar-placeholder.png" alt="..." class="img-thumbnail" id="imagePreview">
                                     @endif
 
 
                                 </div><!-- col-md-9 col-sm-9 col-xs-12 -->
                             </div><!-- form-group -->
                             <div class="form-group">
-                                <label for="avatar" class="control-label col-md-3 col-sm-3 col-xs-12">
+                                <label for="uploadFile" class="control-label col-md-3 col-sm-3 col-xs-12">
                                     {{ __('general.avatar') }} {!! (\App\Helpers\Helper::checkIfRequired($user, 'avatar')) ? '<span class="text-danger">*</span>':'' !!}
                                 </label><!-- control-label col-md-3 col-sm-3 col-xs-12 -->
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input id="avatar" name="avatar" type="file" class="form-control col-md-7 col-xs-12">
+                                    <input id="uploadFile" name="avatar" type="file" class="form-control col-md-7 col-xs-12">
                                     {!! $errors->first('avatar', '<span class="alert-msg">:message</span>') !!}
                                 </div><!-- .col-md-6 col-sm-6 col-xs-12 -->
                             </div><!-- form-group -->

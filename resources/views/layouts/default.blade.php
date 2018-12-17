@@ -23,6 +23,7 @@
 
     <!-- Select2 -->
     <link rel="stylesheet" href="{{ asset('bower_components/select2/dist/css/select2.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/ekko-lightbox.css') }}">
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('css/AdminLTE.css') }}">
     <!-- AdminLTE Skins. Choose a skin from the css/skins
@@ -39,6 +40,7 @@
     <link rel="stylesheet" href="{{ asset('bower_components/bootstrap-daterangepicker/daterangepicker.css') }}">
     <!-- bootstrap wysihtml5 - text editor -->
     <link rel="stylesheet" href="{{ asset('plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css') }}">
+
 
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 
@@ -189,6 +191,7 @@
 <script src="{{ asset('bower_components/fastclick/lib/fastclick.js') }}"></script>
 <!-- Select2 -->
 <script src="{{ asset('bower_components/select2/dist/js/select2.full.min.js') }}"></script>
+<script src="{{ asset('js/ekko-lightbox.min.js') }}"></script>
 <!-- AdminLTE App -->
 <script src="{{ asset('js/adminlte.js') }}"></script>
 <script src="{{ asset('js/demo.js') }}"></script>
