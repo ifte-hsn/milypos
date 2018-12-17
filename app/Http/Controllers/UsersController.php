@@ -21,14 +21,31 @@ class UsersController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function index()
     {
+        // Authorize user
+        // check if logged in user has the permission to see users data
+
+        $this->authorize('Read User', User::class);
         return view('users.index');
     }
 
+    /**
+     * Return list of users to show in bootstrap table
+     *
+     * @param Request $request
+     * @return mixed
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function getUserList(Request $request) {
+        // Authorize user
+        // check if logged in user has the permission to see users data
+        $this->authorize('Read User', User::class);
+
+
         $users = User::select([
             'users.activated',
             'users.address',
@@ -79,13 +96,20 @@ class UsersController extends Controller
         return (new UsersTransformer)->transformUsers($users, $total);
     }
 
+
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function create()
     {
+
+        // Authorize user
+        // check if logged in user has the permission to create new user data
+        $this->authorize('Create User', User::class);
+
         $user = new User();
         $user->activated = 1;
 
@@ -98,9 +122,15 @@ class UsersController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function store(Request $request)
     {
+
+        // Authorize user
+        // check if logged in user has the permission to create new users data
+        $this->authorize('Create User', User::class);
+
         $request->validate([
             'first_name'              => 'required|string|min:1',
             'email'                   => 'required|email|unique:users',
@@ -151,9 +181,16 @@ class UsersController extends Controller
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function edit($id)
     {
+
+        // Authorize user
+        // check if logged in user has the permission to update user information data
+        $this->authorize('Update User', User::class);
+
+
         if($user =  User::findOrFail($id)) {
             $roles = DB::table('roles')->get();
             return view('users.edit', compact('user', 'roles'));
@@ -168,9 +205,16 @@ class UsersController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function update(Request $request, $id)
     {
+
+        // Authorize user
+        // check if logged in user has the permission to update user information data
+        $this->authorize('Update User', User::class);
+
+
         try {
             $user = User::findOrFail($id);
         } catch (ModelNotFoundException $e) {
@@ -233,9 +277,15 @@ class UsersController extends Controller
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function destroy($id = null)
     {
+        // Authorize user
+        // check if logged in user has the permission to delete user data
+        $this->authorize('Delete User', User::class);
+
+
         try {
             $user = User::findOrFail($id);
 
@@ -264,8 +314,15 @@ class UsersController extends Controller
     /**
      * Export users to csv format
      * @return StreamedResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function getExportUserCsv () {
+
+        // Authorize user
+        // check if logged in user has the permission to see users data
+        $this->authorize('Read User', User::class);
+
+
         $response = new StreamedResponse(function() {
             // Open output steam
             $handle = fopen('php://output', 'w');
@@ -309,8 +366,14 @@ class UsersController extends Controller
      * Restore Deleted User
      * @param int $id ID of the user
      * @return \Illuminate\Http\RedirectResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function getRestore($id = null) {
+        // Authorize user
+        // check if logged in user has the permission to restore user
+        // Any user with permission "Create User" can restore data.
+        $this->authorize('Create User', User::class);
+
         if(!$user = User::onlyTrashed()->find($id)) {
             return redirect()->route('users.index')->with('error', __('users/message.user_not_found', ['id'=>$id]));
         }
@@ -328,9 +391,15 @@ class UsersController extends Controller
      *
      * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function postBulkEdit(Request $request)
     {
+        // Authorize user
+        // check if logged in user has the permission to update user
+        $this->authorize('Update User', User::class);
+
+
         if ($request->has('ids') && (count($request->input('ids')) > 0)) {
             $user_raw_array = array_keys(Input::get('ids'));
 
@@ -346,8 +415,18 @@ class UsersController extends Controller
     }
 
 
+    /**
+     * Save posted data by bulkEdit form
+     * 
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function postBulkSave(Request $request)
     {
+        // Authorize user
+        // check if logged in user has the permission to update user
+        $this->authorize('Update User', User::class);
 
         if (!$request->has('ids') || count($request->input('ids')) == 0 ) {
             return redirect()->back()->with('error', 'users/message.no_user_selected');
