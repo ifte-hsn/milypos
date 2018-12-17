@@ -27,6 +27,8 @@ return array(
         'activate' => 'There was an issue activating the user. Please try again.',
         'import'    => 'There was an issue importing users. Please try again.',
         'could_not_restore'  => 'User could not be restored.',
+        'delete_own_account' => 'Sorry!! You can not delete your own account.',
+        'delete_super_admin' => 'You are not allowed to delete Super Admin user',
     ),
 
     'deletefile' => array(

@@ -292,7 +292,11 @@ class UsersController extends Controller
             // Check if we are not trying to delete ourselves
             if ($user->id === Auth::user()->id) {
                 // Redirect to the user management page.
-                return redirect()->route('users.index')->with('error', __('users/message.error.delete'));
+                return redirect()->route('users.index')->with('error', __('users/message.error.delete_own_account'));
+            }
+
+            if (!Auth::user()->hasRole('Super Admin') && $user->hasRole('Super Admin')) {
+                return redirect()->route('users.index')->with('error', __('users/message.error.delete_super_admin'));
             }
 
             // Delete the user
@@ -417,7 +421,7 @@ class UsersController extends Controller
 
     /**
      * Save posted data by bulkEdit form
-     * 
+     *
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      * @throws \Illuminate\Auth\Access\AuthorizationException
