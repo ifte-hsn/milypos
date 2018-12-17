@@ -67,4 +67,7 @@ return [
     'save' => 'Save',
     'select_role' => 'Select Role',
     'view' => 'View',
+    'sex' => 'Sex',
+    'male' => 'Male',
+    'female' => 'Female'
 ];

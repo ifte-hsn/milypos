@@ -38,6 +38,7 @@ class User extends Authenticatable
         'phone',
         'state',
         'zip',
+        'sex',
         'last_login'
     ];
 

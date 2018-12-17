@@ -22,6 +22,13 @@ class UsersTransformer
 
     public function transformUser(User $user)
     {
+        $avatar = '';
+        if($user->avatar) {
+            $avatar = url('/').'/uploads/avatars/'.$user->avatar;
+        }
+
+
+
         $array = [
             'id' => (int) $user->id,
             'name'=> $user->fullName,
@@ -40,6 +47,8 @@ class UsersTransformer
             'updated_at' => Helper::getFormattedDateObject($user->updated_at, 'datetime'),
             'last_login' => Helper::getFormattedDateObject($user->last_login, 'datetime'),
             'role' => isset($user->getRoleNames()[0])?$user->getRoleNames()[0]:'',
+            'avatar' => $avatar,
+            'sex' => ($user->sex) ? $user->sex : ''
         ];
 
         // TODO: Implement parmissinon wise actions

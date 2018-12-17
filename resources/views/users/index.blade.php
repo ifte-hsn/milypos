@@ -71,7 +71,7 @@
                         data-sort-order="asc"
                         data-toolbar="#toolbar"
                         id="usersTable"
-                        class="table table-striped milypos-table"
+                        class="table table-striped milypos-table users-table"
                         data-url="{{
                             route('users.list',
                                 array(

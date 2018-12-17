@@ -311,9 +311,15 @@
 
     }
 
-    function imageFormatter() {
+    function imageFormatter(value) {
         if (value) {
             return '<a href="' + value + '" data-toggle="lightbox" data-type="image"><img src="' + value + '" style="max-height: {{ $milyPosSettings->thumbnail_max_h }}px; width: auto;" class="img-responsive"></a>';
+        }
+    }
+
+    function sexFormatter(value) {
+        if(value) {
+            return value;
         }
     }
 

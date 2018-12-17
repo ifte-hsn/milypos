@@ -8,3 +8,7 @@
 .margin-bottom {
     margin-bottom: 50px;
 }
+
+.users-table td {
+    vertical-align: middle !important;
+}

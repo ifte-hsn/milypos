@@ -39,7 +39,7 @@
                                     @if ($user->avatar)
                                         <img src="{{ url('/') }}/uploads/avatars/{{ $user->avatar }}" alt="..." class="img-thumbnail">
                                     @else
-                                        <img src="{{ url('/') }}/uploads/avatars/{{ $user->avatar }}" alt="..." class="img-thumbnail">
+                                        <img src="{{ url('/') }}/img/avatar-placeholder.png" alt="..." class="img-thumbnail">
                                     @endif
 
 
@@ -131,6 +131,24 @@
                                     </div><!-- form-group -->
                                 </div><!-- col-md-12 col-sm-12 col-xs-12 -->
 
+
+                                <!--=======================
+                                =            Sex          =
+                                ========================-->
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <div class="form-group {{ $errors->has('sex') ? 'has-error' : '' }}">
+                                        <label for="role" class="control-label col-md-3 col-sm-3 col-xs-12">
+                                            {{ __('general.sex') }} {!! (\App\Helpers\Helper::checkIfRequired($user, 'sex')) ? '<span class="text-danger">*</span>':'' !!}
+                                        </label><!-- control-label col-md-3 col-sm-3 col-xs-12 -->
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <select name="sex" id="sex" class="form-control select2">
+                                                <option value="Male" {{ (isset($user->sex) && $user->sex === 'Male') ? 'selected="selected"':''  }}>{{ __('general.male') }}</option>
+                                                <option value="Female" {{ (isset($user->sex) && $user->sex === 'Female') ? 'selected="selected"':''  }}>{{ __('general.female') }}</option>
+                                            </select>
+                                            {!! $errors->first('role', '<span class="alert-msg">:message</span>') !!}
+                                        </div><!-- .col-md-6 col-sm-6 col-xs-12 -->
+                                    </div><!-- form-group -->
+                                </div><!-- col-md-12 col-sm-12 col-xs-12 -->
 
                                 <!--=======================
                                 =            Role         =

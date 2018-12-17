@@ -45,6 +45,7 @@ class UsersController extends Controller
             'users.last_login',
             'users.phone',
             'users.state',
+            'users.sex',
             'users.updated_at'
         ]);
 
@@ -123,7 +124,7 @@ class UsersController extends Controller
         $user->state = $request->state;
         $user->zip = $request->zip;
         $user->country = $request->country;
-
+        $user->sex = $request->sex;
 
         if ($request->file('avatar')) {
             $image = $request->file('avatar');
@@ -177,6 +178,7 @@ class UsersController extends Controller
                 ->with('error', trans('users/message.user_not_found', compact('id')));
         }
 
+
         $user->email = $request->email;
         $user->activated = $request->activated;
         $user->first_name = $request->first_name;
@@ -190,15 +192,13 @@ class UsersController extends Controller
         $user->state = $request->state;
         $user->zip = $request->zip;
         $user->country = $request->country;
+        $user->sex = $request->sex;
 
         if ($request->has('password') && $request->password != null) {
             $user->password = bcrypt($request->password);
         }
 
         if ($request->file('avatar')) {
-
-
-
 
             // First we will delete the file
             $path = public_path('uploads/avatars/'.$user->avatar);

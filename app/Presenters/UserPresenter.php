@@ -31,7 +31,7 @@ class UserPresenter
                 'sortable' => false,
                 'switchable' => true,
                 'title' => __('general.avatar'),
-                'visible' => false,
+                'visible' => true,
                 'formatter' => 'imageFormatter'
             ],
             [
@@ -50,6 +50,15 @@ class UserPresenter
                 'title' => __('general.email'),
                 'visible' => true,
                 'formatter' => 'emailFormatter'
+            ],
+            [
+                'field' => 'sex',
+                'searchable' => false,
+                'sortable' => false,
+                'switchable' => true,
+                'title' => __('general.sex'),
+                'visible' => true,
+                'formatter' => 'sexFormatter'
             ],
             [
                 'field' => 'phone',
