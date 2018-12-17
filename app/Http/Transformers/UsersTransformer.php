@@ -43,7 +43,6 @@ class UsersTransformer
 
         // TODO: Implement parmissinon wise actions
         $permissions_array['available_actions'] = [
-            'view' => (Auth::user()->can('Read User')) ? true : false,
             'update' => (Auth::user()->can('Update User') && ($user->deleted_at==''))  ? true : false,
             'delete' =>(Auth::user()->can('Delete User') && ($user->deleted_at=='')) ? true : false,
             'clone' => (Auth::user()->can('Create User') && ($user->deleted_at=='')) ,

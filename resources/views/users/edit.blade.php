@@ -116,7 +116,10 @@
                                             {{ __('general.password') }} {!! (\App\Helpers\Helper::checkIfRequired($user, 'password')) ? '<span class="text-danger">*</span>':'' !!}
                                         </label><!-- control-label col-md-3 col-sm-3 col-xs-12 -->
                                         <div class="col-md-6 col-sm-6 col-xs-12">
-                                            <input type="password" id="password" name="password" class="form-control col-md-7 col-xs-12" placeholder="{{ __('general.password') }}" value="" readonly onfocus="this.removeAttribute('readonly');">
+                                            @if($user->id)
+                                                <button class="btn btn-link" onclick="$('#password').removeClass('hidden'); $(this).addClass('hidden')" type="button">Change Password</button>
+                                            @endif
+                                            <input type="password" id="password" name="password" class="form-control col-md-7 col-xs-12 {{ ($user->id) ? 'hidden' : '' }}" placeholder="{{ __('general.password') }}" value="">
                                             {!! $errors->first('password', '<span class="alert-msg">:message</span>') !!}
                                         </div><!-- .col-md-6 col-sm-6 col-xs-12 -->
                                     </div><!-- form-group -->

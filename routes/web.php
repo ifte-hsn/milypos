@@ -27,10 +27,11 @@ Route::middleware(['auth'])->group(function () {
         Route::get('create', 'UsersController@create')->name('users.create');
         Route::get('export', 'UsersController@getExportUserCsv')->name('users.export');
         Route::get('getUsersList', 'UsersController@getUserList')->name('users.list');
+        Route::get('{id}/clone', 'UsersController@getClone')->name('users.clone');
+        Route::post('{id}/clone', 'UsersController@store');
         Route::get('{id}/restore', 'UsersController@getRestore')->name('users.restore');
         Route::delete('{user}', 'UsersController@destroy')->name('users.destroy');
         Route::match(['put', 'patch'], '{user}','UsersController@update')->name('users.update');
-        Route::get('{user}','UsersController@show')->name('users.show');
         Route::get('{user}/edit','UsersController@edit')->name('users.edit');
     });
 

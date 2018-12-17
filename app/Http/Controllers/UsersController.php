@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Helpers\Helper;
 use Illuminate\Http\Request;
 use App\Http\Transformers\UsersTransformer;
+use Mockery\Exception;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
@@ -131,14 +132,44 @@ class UsersController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Return a view containing a pre-populated new user form,
+     * populated with some fields from an existing user.
      *
+     * @author [A. Gianotto] [<snipe@snipe.net>]
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\View\View
      */
-    public function show($id)
+    public function getClone($id = null)
     {
-        //
+        // we need to reverse the UI specific logic for our
+        // permissions here before we update the user
+        $permissions = Input::get('permissions', array());
+        app('request')->request->set('permissions', $permissions);
+
+        try {
+            // get the user information
+            $user_to_clone = User::withTrashed()->findOrFail($id);
+            $user = clone $user_to_clone;
+            $user->first_name = "";
+            $user->last_name = "";
+            $user->email = substr($user->email, ($pos = strpos($user->email, '@')) !== false ? $pos : 0);
+
+
+
+            $roles = DB::table('roles')->get();
+
+
+            dd($user);
+
+            // Show the page
+            return view('users/edit', compact('user', 'roles'))
+                ->with('clone_user', $user_to_clone);
+        } catch (ModelNotFoundException $e) {
+            // Prepare the error message
+            $error = trans('users/message.user_not_found', compact('id'));
+            // Redirect to the user management page
+            return redirect()->route('users.index')->with('error', $error);
+        }
     }
 
     /**
