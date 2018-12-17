@@ -38,7 +38,8 @@ class UsersTransformer
             'website' => ($user->website) ? $user->website : null,
             'created_at' => Helper::getFormattedDateObject($user->created_at, 'datetime'),
             'updated_at' => Helper::getFormattedDateObject($user->updated_at, 'datetime'),
-            'last_login' => Helper::getFormattedDateObject($user->last_login, 'datetime')
+            'last_login' => Helper::getFormattedDateObject($user->last_login, 'datetime'),
+            'role' => isset($user->getRoleNames()[0])?$user->getRoleNames()[0]:'',
         ];
 
         // TODO: Implement parmissinon wise actions

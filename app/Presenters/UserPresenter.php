@@ -101,6 +101,14 @@ class UserPresenter
                 'visible' => false,
             ],
             [
+                'field' => 'role',
+                'searchable' => false,
+                'sortable' => false,
+                'switchable' => true,
+                'title' => __('general.role'),
+                'visible' => true
+            ],
+            [
                 'field' => 'website',
                 'searchable' => true,
                 'sortable' => true,

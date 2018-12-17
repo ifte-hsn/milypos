@@ -38,7 +38,7 @@ class UsersTableSeeder extends Seeder
 
         // Assign Roles
         $this->superAdminUser->assignRole($this->superAdminRole);
-        $this->adminUser->assignRole($this->adminRole);
+//        $this->adminUser->assignRole($this->adminRole);
 
         // Create permission
         $this->adminRole->syncPermissions([
