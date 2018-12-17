@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use DB;
 use Auth;
 use Input;
@@ -12,6 +13,8 @@ use App\Http\Transformers\UsersTransformer;
 use Mockery\Exception;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Image;
+use File;
 
 class UsersController extends Controller
 {
@@ -99,7 +102,7 @@ class UsersController extends Controller
     {
         $request->validate([
             'first_name'              => 'required|string|min:1',
-            'email'                   => 'required|email|nullable|unique',
+            'email'                   => 'required|email|unique:users',
             'password'                => 'required|min:6',
         ]);
 
@@ -120,6 +123,19 @@ class UsersController extends Controller
         $user->state = $request->state;
         $user->zip = $request->zip;
         $user->country = $request->country;
+
+
+        if ($request->file('avatar')) {
+            $image = $request->file('avatar');
+            $file_name = str_slug($user->first_name."-".Carbon::now()).".".$image->getClientOriginalExtension();
+            $path = public_path('uploads/avatars/'.$file_name);
+
+            Image::make($image->getRealPath())->resize(200, 200, function ($constraint) {
+                $constraint->aspectRatio();
+            })->save($path);
+
+            $user->avatar = $file_name;
+        }
 
         if ($user->save()) {
             $user->assignRole($request->role);
@@ -177,6 +193,27 @@ class UsersController extends Controller
 
         if ($request->has('password') && $request->password != null) {
             $user->password = bcrypt($request->password);
+        }
+
+        if ($request->file('avatar')) {
+
+
+
+
+            // First we will delete the file
+            $path = public_path('uploads/avatars/'.$user->avatar);
+            File::delete($path);
+
+            // Now its time to save new image
+            $image = $request->file('avatar');
+            $file_name = str_slug($user->first_name."-".Carbon::now()).".".$image->getClientOriginalExtension();
+            $path = public_path('uploads/avatars/'.$file_name);
+
+            Image::make($image->getRealPath())->resize(200, 200, function ($constraint) {
+                $constraint->aspectRatio();
+            })->save($path);
+
+            $user->avatar = $file_name;
         }
 
         // Was the user updated?
