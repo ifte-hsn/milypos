@@ -15,8 +15,8 @@
                 <div class="info-box">
                     <span class="info-box-icon bg-aqua"><i class="fa fa-copyright"></i></span>
                     <div class="info-box-content">
-                        <h4><string>{{ __('settings/general.branding') }}</string></h4>
-                        <small>{{ __('settings/general.logo') }}, {{ __('settings/general.site_name') }}, {{ __('settings/general.etc') }}</small>
+                        <h4><string>{{ __('general.branding') }}</string></h4>
+                        <small>{{ __('general.logo') }}, {{ __('general.site_name') }}, {{ __('general.etc') }}</small>
                     </div>
                     <!-- /.info-box-content -->
                 </div>
