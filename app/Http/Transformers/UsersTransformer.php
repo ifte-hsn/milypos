@@ -39,7 +39,7 @@ class UsersTransformer
             'address' => ($user->address) ? e($user->address) : null,
             'city' => ($user->city) ? e($user->city) : null,
             'state' => ($user->state) ? e($user->state) : null,
-            'country' => ($user->country) ? e($user->country) : null,
+            'country' => ($user->country) ? e($user->country->name) : null,
             'zip' => ($user->zip) ? e($user->zip) : null,
             'email' => ($user->email) ? e($user->email) : null,
             'activated' => ($user->activated) ? e($user->activated) : null,

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Country;
 use Carbon\Carbon;
 use DB;
 use Auth;
@@ -51,7 +52,7 @@ class UsersController extends Controller
             'users.address',
             'users.avatar',
             'users.city',
-            'users.country',
+            'users.country_id',
             'users.website',
             'users.created_at',
             'users.deleted_at',
@@ -83,7 +84,7 @@ class UsersController extends Controller
             default:
                 $allowed_columns = [
                     'last_name', 'first_name', 'email', 'activated',
-                    'created_at', 'last_login', 'phone', 'address', 'city', 'state', 'country', 'zip', 'id'
+                    'created_at', 'last_login', 'phone', 'address', 'city', 'state', 'country_id', 'zip', 'id'
                 ];
 
                 $sort = in_array($request->get('sort'), $allowed_columns) ? $request->get('sort') : 'first_name';
@@ -114,7 +115,8 @@ class UsersController extends Controller
         $user->activated = 1;
 
         $roles = DB::table('roles')->get();
-        return view('users.edit', compact('user', 'roles'));
+        $countries = Country::all();
+        return view('users.edit', compact('user', 'roles', 'countries'));
     }
 
     /**
@@ -153,8 +155,8 @@ class UsersController extends Controller
         $user->city = $request->city;
         $user->state = $request->state;
         $user->zip = $request->zip;
-        $user->country = $request->country;
         $user->sex = $request->sex;
+        $user->country_id = $request->country;
 
         if ($request->file('avatar')) {
             $image = $request->file('avatar');
@@ -193,7 +195,8 @@ class UsersController extends Controller
 
         if($user =  User::findOrFail($id)) {
             $roles = DB::table('roles')->get();
-            return view('users.edit', compact('user', 'roles'));
+            $countries = Country::all();
+            return view('users.edit', compact('user', 'roles', 'countries'));
         }
         $error = __('users/message.user_not_found', compact('id'));
         return redirect()->route('users.index')->with('error', $error);
@@ -235,8 +238,9 @@ class UsersController extends Controller
         $user->city = $request->city;
         $user->state = $request->state;
         $user->zip = $request->zip;
-        $user->country = $request->country;
         $user->sex = $request->sex;
+        $user->country_id = $request->country;
+
 
         if ($request->has('password') && $request->password != null) {
             $user->password = bcrypt($request->password);

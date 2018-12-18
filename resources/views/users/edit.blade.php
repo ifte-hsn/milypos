@@ -314,7 +314,11 @@
                                             {{ __('general.country') }} {!! (\App\Helpers\Helper::checkIfRequired($user, 'country')) ? '<span class="text-danger">*</span>':'' !!}
                                         </label><!-- control-label col-md-3 col-sm-3 col-xs-12 -->
                                         <div class="col-md-6 col-sm-6 col-xs-12">
-                                            <input type="text" id="country" name="country" class="form-control col-md-7 col-xs-12" placeholder="{{ __('general.country') }}" value="{{ Input::old('country', $user->country) }}">
+                                            <select name="country" id="country" class="form-control select2">
+                                                @foreach($countries as $country)
+                                                    <option value="{{ $country->id }}" {!!  ($user->country_id == $country->id) ? 'selected="selected"':'' !!}>{{ $country->name }}</option>
+                                                @endforeach
+                                            </select>
                                             {!! $errors->first('country', '<span class="alert-msg">:message</span>') !!}
                                         </div><!-- .col-md-6 col-sm-6 col-xs-12 -->
                                     </div><!-- form-group -->

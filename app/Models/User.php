@@ -108,4 +108,8 @@ class User extends Authenticatable
         return $query;
     }
 
+    public function country() {
+        return $this->belongsTo('App\Models\Country');
+    }
+
 }
