@@ -19,7 +19,7 @@
                 <div class="callout callout-danger">
                     <i class="fa fa-exclamation-circle"></i>
                     <strong>{{ __('general.warning') }}: </strong>
-                    {{ __('general.bulk_delete_warning', ['count' => count($users) ]) }}
+                    {{ __('users/message.bulk_delete_warning', ['count' => count($users) ]) }}
                 </div>
 
                 <div class="row">

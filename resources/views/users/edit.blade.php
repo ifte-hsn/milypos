@@ -1,9 +1,9 @@
 @extends('layouts.default')
 @section('title')
     @if($user->id)
-        {{ __('general.update_user') }}
+        {{ __('users/message.update_user') }}
     @else
-        {{ __('general.add_user') }}
+        {{ __('users/message.add_user') }}
     @endif
 @endsection
 
