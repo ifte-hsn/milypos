@@ -13,7 +13,7 @@ class SettingsController extends Controller
     }
     public function getBranding()
     {
-        $setting = Setting::first();
-        return view('settings.branding', compact('setting'));
+        $settings = Setting::first();
+        return view('settings.branding', compact('settings'));
     }
 }
