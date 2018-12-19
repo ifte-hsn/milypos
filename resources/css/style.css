@@ -1,0 +1,14 @@
+.alert-msg {
+    color: #dd4b39;
+}
+.black-text h4, .black-text small{
+    color: #333;
+}
+
+.margin-bottom {
+    margin-bottom: 50px;
+}
+
+.users-table td {
+    vertical-align: middle !important;
+}
