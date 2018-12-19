@@ -6,7 +6,21 @@
 @import 'variables';
 
 // Bootstrap
-@import '~bootstrap/scss/bootstrap';
+@import "~bootstrap/dist/css/bootstrap.css";
+@import "../css/font-awesome.min.css";
+@import "~ionicons/dist/scss/ionicons";
+@import "../css/bootstrap-table.min.css";
+@import "../css/select2.min.css";
+@import "../css/AdminLTE.css";
+@import "../css/ekko-lightbox.css";
+@import "../css/skins/_all-skins.min.css";
+@import "../css/morris.css";
+@import "../css/jquery-jvectormap.css";
+@import "../css/bootstrap-datepicker.min.css";
+@import "../css/daterangepicker.css";
+@import "../css/bootstrap3-wysihtml5.min.css";
+@import "../css/style.css";
+
 
 .navbar-laravel {
   background-color: #fff;
