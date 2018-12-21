@@ -13,3 +13,10 @@ npm-debug.log
 yarn-error.log
 .env
 .phpunit.result.cache
+public/fonts/vendor/bootstrap/dist/glyphicons-halflings-regular.ttf
+public/fonts/
+package-lock.json
+composer.lock
+public/mix-manifest.json
+public/css/all.css
+public/js/all.js
