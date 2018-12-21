@@ -1,3 +1,6 @@
+/**
+ * Custom Scripts
+ */
 (function($) {
     var Components = {};
     Components.modals = {};
