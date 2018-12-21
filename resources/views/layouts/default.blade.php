@@ -128,13 +128,11 @@
         </div>
     </div>
 </div>
-<!-- jQuery 3 -->
 <script src="{{ asset('js/all.js') }}"></script>
-
-<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
 <script>
     $.widget.bridge('uibutton', $.ui.button);
 </script>
+
 
 @yield('page_scripts')
 </body>

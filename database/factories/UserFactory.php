@@ -28,7 +28,6 @@ $factory->define(App\Models\User::class, function (Faker $faker) {
         'website' => $faker->domainName(),
         'address' => $faker->address,
         'city' => $faker->city,
-        'country' => $faker->country,
         'activated' => $faker->biasedNumberBetween($min = 0, $max = 1),
     ];
 });

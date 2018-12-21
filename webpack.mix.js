@@ -14,7 +14,7 @@ const mix = require('laravel-mix');
 mix.scripts([
     'node_modules/jquery/dist/jquery.min.js',
     'resources/js/jquery-ui.min.js',
-    'resources/js/bootstrap.min.js',
+    'node_modules/bootstrap/dist/js/bootstrap.min.js',
     'resources/js/select2.full.min.js',
     'resources/js/ekko-lightbox.min.js',
     'resources/js/adminlte.js',
