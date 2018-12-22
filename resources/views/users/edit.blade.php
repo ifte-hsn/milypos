@@ -315,6 +315,7 @@
                                         </label><!-- control-label col-md-3 col-sm-3 col-xs-12 -->
                                         <div class="col-md-6 col-sm-6 col-xs-12">
                                             <select name="country" id="country" class="form-control select2">
+                                                <option value="">{{ __('general.select_country') }}</option>
                                                 @foreach($countries as $country)
                                                     <option value="{{ $country->id }}" {!!  ($user->country_id == $country->id) ? 'selected="selected"':'' !!}>{{ $country->name }}</option>
                                                 @endforeach

@@ -56,6 +56,7 @@ class User extends Authenticatable
         'first_name'              => 'required|string|min:1',
         'email'                   => 'required|email|nullable|unique',
         'password'                => 'required|min:6',
+        'website'                => 'url'
     ];
 
     /**
