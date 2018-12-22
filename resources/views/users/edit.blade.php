@@ -37,12 +37,10 @@
                             <div class="form-group">
                                 <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
                                     @if ($user->avatar)
-                                        <img src="{{ url('/') }}/uploads/avatars/{{ $user->avatar }}" alt="..." class="img-thumbnail" id="imagePreview">
+                                        <img src="{{ url('/') }}/uploads/avatars/{{ $user->avatar }}" class="img-thumbnail">
                                     @else
-                                        <img src="{{ url('/') }}/img/avatar-placeholder.png" alt="..." class="img-thumbnail" id="imagePreview">
+                                        <img src="{{ url('/') }}/img/avatar-placeholder.png" class="img-thumbnail">
                                     @endif
-
-
                                 </div><!-- col-md-9 col-sm-9 col-xs-12 -->
                             </div><!-- form-group -->
                             <div class="form-group">

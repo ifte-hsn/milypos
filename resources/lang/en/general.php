@@ -70,6 +70,8 @@ return [
     'submit'                  => 'Submit',
     'success'                 => 'Success',
     'sure_to_delete'          => 'Are you sure you wish to delete',
+    'text'                    => 'Text',
+    'text_plus_logo'          => 'Text + Logo',
     'update_branding_settings' => 'Update Branding Settings',
     'users'                   => 'Users',
     'vat_no'                  => 'VAT No',

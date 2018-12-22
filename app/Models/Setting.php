@@ -16,12 +16,9 @@ class Setting extends Model
 
     protected $rules = [
         'qr_text'             => 'max:31|nullable',
-        'logo'                => 'mimes:jpeg,bmp,png,gif',
-        'mini_logo'           => 'mimes:jpeg,bmp,png,gif',
-        'alert_email'         => 'email_array|nullable',
-        'default_currency'    => 'required',
         'thumbnail_max_h'     => 'numeric|max:500|min:25',
-        'privacy_policy_link' => 'nullable|url'
+        'website'             => 'nullable|url',
+        'email'               => 'nullable|email'
     ];
 
     protected $fillable = ['site_name'];

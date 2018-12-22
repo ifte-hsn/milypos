@@ -11,7 +11,7 @@
 @section('content')
     <div class="row">
         <div class="col-md-3 col-sm-6 col-xs-12">
-            <a href="{{ url('settings/brand_settings') }}" class="black-text">
+            <a href="{{ route('settings.branding') }}" class="black-text">
                 <div class="info-box">
                     <span class="info-box-icon bg-aqua"><i class="fa fa-copyright"></i></span>
                     <div class="info-box-content">

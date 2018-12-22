@@ -165,6 +165,7 @@ class UsersController extends Controller
 
             Image::make($image->getRealPath())->resize(200, 200, function ($constraint) {
                 $constraint->aspectRatio();
+                $constraint->upsize();
             })->save($path);
 
             $user->avatar = $file_name;
