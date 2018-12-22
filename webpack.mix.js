@@ -18,8 +18,8 @@ mix.scripts([
     'resources/js/select2.full.min.js',
     'resources/js/ekko-lightbox.min.js',
     'resources/js/adminlte.js',
-    'resources/js/demo.js',
-    'resources/js/script.js',
+    'resources/js/icheck.min.js',
     'node_modules/jquery-slimscroll/jquery.slimscroll.js',
+    'resources/js/script.js',
 ], 'public/js/all.js')
    .sass('resources/sass/app.scss', 'public/css/all.css');
