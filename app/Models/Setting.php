@@ -21,7 +21,34 @@ class Setting extends Model
         'email'               => 'nullable|email'
     ];
 
-    protected $fillable = ['site_name'];
+    protected $fillable = [
+        'logo',
+        'favicon',
+        'site_name',
+        'company_name',
+        'email',
+        'phone',
+        'fax',
+        'website',
+        'vat_no',
+        'bank_account_no',
+        'address',
+        'additional_footer_text',
+        'brand',
+        'header_color',
+        'per_page',
+        'qr_code',
+        'qr_text',
+        'thumbnail_max_h',
+        'barcode_type',
+        'alt_barcode',
+        'alt_barcode_enabled',
+        'default_currency',
+        'custom_css',
+        'locale',
+        'date_display_format',
+        'time_display_format',
+    ];
 
 
     public static function getSettings()
