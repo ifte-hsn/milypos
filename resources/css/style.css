@@ -15,3 +15,7 @@
 .users-table td {
     vertical-align: middle !important;
 }
+.navbar-brand-img {
+    padding: 5px 5px 5px 0px;
+    max-height: 50px;
+}
