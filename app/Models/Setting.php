@@ -25,7 +25,6 @@ class Setting extends Model
         'logo',
         'favicon',
         'site_name',
-        'company_name',
         'email',
         'phone',
         'fax',

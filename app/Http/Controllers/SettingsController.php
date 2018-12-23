@@ -31,7 +31,6 @@ class SettingsController extends Controller
 
         $setting = Setting::first();
 
-        $setting->company_name = $request->input('company_name');
         $setting->site_name = $request->input('site_name');
         $setting->email = $request->input('email');
         $setting->phone = $request->input('phone');
