@@ -27,27 +27,6 @@
                 <div class="row">
 
                     <!-- *********************** -->
-                    <!--       Company name      -->
-                    <!-- ************************ -->
-
-
-                    <div class="col-md-12 col-sm-12 col-xs-12">
-                        <div class="form-group {{ $errors->has('company_name') ? 'has-error' : '' }}">
-                            <label for="company_name" class="control-label col-md-3 col-sm-3 col-xs-12">
-                                {{ __('general.company_name') }} {!! (\App\Helpers\Helper::checkIfRequired($settings, 'company_name')) ? '<span class="text-danger">*</span>':'' !!}
-                            </label><!-- control-label col-md-3 col-sm-3 col-xs-12 -->
-                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input id="company_name" name="company_name" type="text"
-                                       class="form-control col-md-7 col-xs-12"
-                                       placeholder="{{ __('general.company_name') }}"
-                                       value="{{ Input::old('company_name', $settings->company_name) }}">
-                                {!! $errors->first('company_name', '<span class="alert-msg">:message</span>') !!}
-                            </div><!-- .col-md-6 col-sm-6 col-xs-12 -->
-                        </div><!-- form-group -->
-                    </div><!-- col-md-12 col-sm-12 col-xs-12 -->
-
-
-                    <!-- *********************** -->
                     <!--       Site name          -->
                     <!-- ************************ -->
 
@@ -134,9 +113,9 @@
                             </label><!-- control-label col-md-3 col-sm-3 col-xs-12 -->
                             <div class="col-md-6 col-sm-6 col-xs-12">
                                 <select name="brand" id="brand" class="form-control col-md-7 col-xs-12 select2">
-                                    <option value="text_only" {{ (isset($setting->brand) && $setting->brand === 'text_only') ? 'selected="selected"':''  }}>{{ __('general.text') }}</option>
-                                    <option value="logo_only" {{ (isset($setting->brand) && $setting->brand === 'logo_only') ? 'selected="selected"':''  }}>{{ __('general.logo') }}</option>
-                                    <option value="text_logo" {{ (isset($setting->brand) && $setting->brand === 'text_logo') ? 'selected="selected"':''  }}>{{ __('general.text_plus_logo') }}</option>
+                                    <option value="text_only" {{ (isset($settings->brand) && $settings->brand === 'text_only') ? 'selected="selected"':''  }}>{{ __('general.text') }}</option>
+                                    <option value="logo_only" {{ (isset($settings->brand) && $settings->brand === 'logo_only') ? 'selected="selected"':''  }}>{{ __('general.logo') }}</option>
+                                    <option value="text_logo" {{ (isset($settings->brand) && $settings->brand === 'text_logo') ? 'selected="selected"':''  }}>{{ __('general.text_plus_logo') }}</option>
                                 </select>
                                 {!! $errors->first('brand', '<span class="alert-msg">:message</span>') !!}
                             </div><!-- .col-md-6 col-sm-6 col-xs-12 -->
@@ -292,7 +271,7 @@
                             <div class="col-md-6 col-sm-6 col-xs-12">
                                         <textarea name="additional_footer_text" name="footer_text"
                                                   id="additional_footer_text" cols="30" rows="10"
-                                                  class="form-control col-md-7 col-xs-12">{{ Input::old('additional_footer_text', $settings->bank_account_no) }}</textarea>
+                                                  class="form-control col-md-7 col-xs-12">{{ Input::old('additional_footer_text', $settings->additional_footer_text) }}</textarea>
                                 {!! $errors->first('additional_footer_text', '<span class="alert-msg">:message</span>') !!}
                             </div><!-- .col-md-6 col-sm-6 col-xs-12 -->
                         </div><!-- form-group -->
