@@ -28,9 +28,9 @@ Route::middleware(['auth'])->group(function () {
         Route::get('export', 'UsersController@getExportUserCsv')->name('users.export');
         Route::get('getUsersList', 'UsersController@getUserList')->name('users.list');
         Route::get('{id}/restore', 'UsersController@getRestore')->name('users.restore');
-        Route::delete('{user}', 'UsersController@destroy')->name('users.destroy');
+        Route::delete('{id}', 'UsersController@destroy')->name('users.destroy');
         Route::match(['put', 'patch'], '{user}','UsersController@update')->name('users.update');
-        Route::get('{user}/edit','UsersController@edit')->name('users.edit');
+        Route::get('{id}/edit','UsersController@edit')->name('users.edit');
     });
 
 
