@@ -55,6 +55,14 @@ class UsersTableSeeder extends Seeder
         $updateUser = Permission::create(['name'=>'Update User']);
         $deleteUser = Permission::create(['name' => 'Delete User']);
 
+        // Categories
+        $createCategory = Permission::create(['name'=>'Create Category']);
+        $readCategory = Permission::create(['name'=>'Read Category']);
+        $updateCategory = Permission::create(['name'=>'Update Category']);
+        $deleteCategory = Permission::create(['name' => 'Delete Category']);
+
+
+
         // Settings
         $updateSettings = Permission::create(['name'=>'Update Settings']);
 
@@ -68,6 +76,10 @@ class UsersTableSeeder extends Seeder
             $readUser,
             $updateUser,
             $deleteUser,
+            $createCategory,
+            $readCategory,
+            $updateCategory,
+            $deleteCategory,
             $updateSettings,
         ]);
         factory(App\Models\User::class, 200)->create();
