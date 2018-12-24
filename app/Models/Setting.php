@@ -23,6 +23,7 @@ class Setting extends Model
 
     protected $fillable = [
         'logo',
+        'login_logo',
         'favicon',
         'site_name',
         'email',

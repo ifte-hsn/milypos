@@ -77,6 +77,24 @@ class SettingsController extends Controller
             $setting->favicon = $file_name;
         }
 
+
+        if ($request->hasFile('login_logo')) {
+            $image = $request->file('login_logo');
+            $file_name = "login_logo.".$image->getClientOriginalExtension();
+            $path = public_path('uploads');
+
+            if ($image->getClientOriginalExtension()!='svg') {
+                Image::make($image->getRealPath())->resize(200, 50, function ($constraint) {
+                    $constraint->aspectRatio();
+                    $constraint->upsize();
+                })->save($path.'/'.$file_name);
+            } else {
+                $image->move($path, $file_name);
+            }
+
+            $setting->login_logo = $file_name;
+        }
+
         if ($setting->save()) {
            return redirect()->route('settings.index')->with('success', __('settings/message.update.success'));
         }

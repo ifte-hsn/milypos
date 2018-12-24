@@ -3,12 +3,16 @@
 @section('content')
     <div class="login-box">
 
-        @if (($milyPosSettings) && ($milyPosSettings->logo!=''))
+
             <div class="login-logo">
-                <img src="{{ url('/') }}/uploads/{{ $milyPosSettings->logo }}">
+                @if (($milyPosSettings) && ($milyPosSettings->login_logo!=''))
+                <img src="{{ url('/') }}/uploads/{{ $milyPosSettings->login_logo }}" alt="{{ $milyPosSettings->site_name }}">
+                @else
+                    <img src="{{ asset("/img/login_logo_placeholder.png") }}" alt="{{ $milyPosSettings->site_name }}">
+                @endif
             </div>
             <!-- /.login-logo -->
-        @endif
+
         <div class="login-box-body">
 
             <p class="login-box-msg">{{ __('general.login_prompt') }}</p>

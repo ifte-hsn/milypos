@@ -74,6 +74,36 @@
                         </div><!-- form-group -->
                     </div>
 
+
+                    <!-- *********************** -->
+                    <!--       Login LOGO        -->
+                    <!-- *********************** -->
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group {{ $errors->has('login_logo') ? 'has-error' : '' }}">
+                            <div class="row">
+                                <label for="login_logo"
+                                       class="control-label col-md-3 col-sm-3 col-xs-12">{{ __('general.login_page_logo') }} {!! (\App\Helpers\Helper::checkIfRequired($settings, 'login_logo')) ? '<span class="text-danger">*</span>':'' !!}</label>
+                                <div class="col-md-9 col-sm-9 col-xs-12">
+                                    @if ($settings->login_logo)
+                                        <img src="{{ url('/') }}/uploads/{{ $settings->login_logo }}" class="img-thumbnail"
+                                             id="imagePreview" style="width: 200px; height: 50px">
+                                    @else
+                                        <img src="{{ url('/') }}/img/login_logo_placeholder.png" class="img-thumbnail"
+                                             id="imagePreview" style="width: 200px; height: 50px">
+                                    @endif
+                                </div><!-- col-md-9 col-sm-9 col-xs-12 -->
+                            </div><!-- .row -->
+
+                            <div class="row">
+                                <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                                    <input id="logo" name="login_logo" type="file" class="form-control">
+                                    <span class="help-block">Logo dimension should be 200px x 50px</span>
+                                    {!! $errors->first('logo', '<span class="alert-msg">:message</span>') !!}
+                                </div>
+                            </div><!-- .row -->
+                        </div><!-- form-group -->
+                    </div>
+
                     <!-- FAVICON -->
                     <div class="col-md-12 col-sm-12 col-xs-12">
                         <div class="form-group {{ $errors->has('favicon') ? 'has-error' : '' }}">

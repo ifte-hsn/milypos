@@ -18,6 +18,7 @@ class CreateSettingsTable extends Migration
 
             // Branding
             $table->string('logo')->nullable()->default(NULL);
+            $table->string('login_logo')->nullable()->default(NULL);
             $table->string('favicon')->nullable()->default(NULL);
             $table->string('site_name', 100)->default('Mily POS');
             $table->string('email')->nullable();

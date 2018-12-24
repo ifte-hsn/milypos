@@ -51,6 +51,7 @@ return [
     'login'                   => 'Login',
     'login_prompt'            => 'Sign in to start your session',
     'logo'                    => 'Logo',
+    'login_page_logo'         => 'Login page logo',
     'male'                    => 'Male',
     'name'                    => 'Name',
     'next'                    => 'Next',
