@@ -39,7 +39,7 @@
                                     @if ($user->avatar)
                                         <img src="{{ url('/') }}/uploads/avatars/{{ $user->avatar }}" class="img-thumbnail">
                                     @else
-                                        <img src="{{ url('/') }}/img/avatar-placeholder.png" class="img-thumbnail">
+                                        <img src="{{ url('/') }}/images/avatar-placeholder.png" class="img-thumbnail">
                                     @endif
                                 </div><!-- col-md-9 col-sm-9 col-xs-12 -->
                             </div><!-- form-group -->

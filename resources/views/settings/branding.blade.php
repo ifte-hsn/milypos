@@ -58,7 +58,7 @@
                                         <img src="{{ url('/') }}/uploads/{{ $settings->logo }}" class="img-thumbnail"
                                              id="imagePreview" style="width: 200px; height: 50px">
                                     @else
-                                        <img src="{{ url('/') }}/img/logo_placeholder.png" class="img-thumbnail"
+                                        <img src="{{ url('/') }}/images/logo_placeholder.png" class="img-thumbnail"
                                              id="imagePreview" style="width: 200px; height: 50px">
                                     @endif
                                 </div><!-- col-md-9 col-sm-9 col-xs-12 -->
@@ -88,7 +88,7 @@
                                         <img src="{{ url('/') }}/uploads/{{ $settings->login_logo }}" class="img-thumbnail"
                                              id="imagePreview" style="width: 200px; height: 50px">
                                     @else
-                                        <img src="{{ url('/') }}/img/login_logo_placeholder.png" class="img-thumbnail"
+                                        <img src="{{ url('/') }}/images/login_logo_placeholder.png" class="img-thumbnail"
                                              id="imagePreview" style="width: 200px; height: 50px">
                                     @endif
                                 </div><!-- col-md-9 col-sm-9 col-xs-12 -->
@@ -117,7 +117,7 @@
                                         <img src="{{ url('/') }}/uploads/{{ $settings->favicon }}" class="img-thumbnail"
                                              id="imagePreview" width="28px" height="28px">
                                     @else
-                                        <img src="{{ url('/') }}/img/favicon_placeholder.png" class="img-thumbnail"
+                                        <img src="{{ url('/') }}/images/favicon_placeholder.png" class="img-thumbnail"
                                              id="imagePreview" width="28px" height="28px">
                                     @endif
 

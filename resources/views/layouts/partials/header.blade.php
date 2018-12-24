@@ -44,7 +44,7 @@
                         @if(Auth::user()->avatar != null)
                             <img src="{{ url('/') }}/uploads/avatars/{{ $user->avatar }}" class="user-image" alt="User Image">
                         @else
-                            <img src="{{ asset('img/avatar-placeholder.png') }}" class="user-image" alt="{{ Auth::user()->fullName }}">
+                            <img src="{{ asset('images/avatar-placeholder.png') }}" class="user-image" alt="{{ Auth::user()->fullName }}">
                         @endif
                         <span class="hidden-xs">{{ Auth::user()->first_name }}</span>
                     </a>
@@ -55,7 +55,7 @@
                             @if(Auth::user()->avatar != null)
                                 <img src="{{ url('/') }}/uploads/avatars/{{ $user->avatar }}" class="img-circle" alt="{{ Auth::user()->fullName }}">
                             @else
-                                <img src="{{ asset('img/avatar-placeholder.png') }}" class="img-circle" alt="{{ Auth::user()->fullName }}">
+                                <img src="{{ asset('images/avatar-placeholder.png') }}" class="img-circle" alt="{{ Auth::user()->fullName }}">
                             @endif
 
                             <p>

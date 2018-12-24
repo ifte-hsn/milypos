@@ -8,7 +8,7 @@
                 @if (($milyPosSettings) && ($milyPosSettings->login_logo!=''))
                 <img src="{{ url('/') }}/uploads/{{ $milyPosSettings->login_logo }}" alt="{{ $milyPosSettings->site_name }}">
                 @else
-                    <img src="{{ asset("/img/login_logo_placeholder.png") }}" alt="{{ $milyPosSettings->site_name }}">
+                    <img src="{{ asset("/images/login_logo_placeholder.png") }}" alt="{{ $milyPosSettings->site_name }}">
                 @endif
             </div>
             <!-- /.login-logo -->

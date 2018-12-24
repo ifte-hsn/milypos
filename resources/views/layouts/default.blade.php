@@ -12,7 +12,7 @@
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 
-    <link rel="shortcut icon" type="image/png" href="{{ (isset($milyPosSettings->favicon) && $milyPosSettings->favicon != '') ? asset('uploads/'.$milyPosSettings->favicon) : asset('img/favicon_placeholder.png') }}"/>
+    <link rel="shortcut icon" type="image/png" href="{{ (isset($milyPosSettings->favicon) && $milyPosSettings->favicon != '') ? asset('uploads/'.$milyPosSettings->favicon) : asset('images/favicon_placeholder.png') }}"/>
 
     <link rel="stylesheet" href="{{ asset('css/all.css') }}">
 
