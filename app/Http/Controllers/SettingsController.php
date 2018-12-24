@@ -5,15 +5,19 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Setting;
 use Image;
+use Auth;
 
 class SettingsController extends Controller
 {
     public function index() {
+        $this->authorize('Update Settings', Setting::class);
+
         $settings = Setting::all();
         return view('settings.index', compact('settings'));
     }
     public function getBranding()
     {
+        $this->authorize('Update Settings', Setting::class);
         $settings = Setting::first();
         return view('settings.branding', compact('settings'));
     }
@@ -21,6 +25,7 @@ class SettingsController extends Controller
 
     public function postBranding(Request $request) {
 
+        $this->authorize('Update Settings', Setting::class);
         $request->validate([
             'email' => 'nullable|email',
             'website' => 'nullable|url',

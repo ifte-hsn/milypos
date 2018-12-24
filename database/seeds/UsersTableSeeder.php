@@ -7,15 +7,6 @@ use Spatie\Permission\Models\Permission;
 
 class UsersTableSeeder extends Seeder
 {
-    private $superAdminUser;
-    private $adminUser;
-    private $adminRole;
-    private $superAdminRole;
-    private $readUser;
-    private $createUser;
-    private $updateUser;
-    private $deleteUser;
-
 
     /**
      * Run the database seeds.
@@ -32,26 +23,7 @@ class UsersTableSeeder extends Seeder
         DB::table('role_has_permissions')->delete();
 
 
-        $this->createUsers();
-        $this->createRoles();
-        $this->createPermissions();
-
-        // Assign Roles
-        $this->superAdminUser->assignRole($this->superAdminRole);
-        $this->adminUser->assignRole($this->adminRole);
-
-        // Create permission
-        $this->adminRole->syncPermissions([
-            $this->createUser,
-            $this->readUser,
-            $this->updateUser,
-            $this->deleteUser,
-        ]);
-        factory(App\Models\User::class, 200)->create();
-    }
-
-    private function createUsers() {
-        $this->superAdminUser = User::create([
+        $superAdminUser = User::create([
             'first_name' => 'Iftekhar',
             'last_name' => 'Hossain',
             'email' => 'ifte510@gmail.com',
@@ -60,27 +32,56 @@ class UsersTableSeeder extends Seeder
         ]);
 
 
-        $this->adminUser = User::create([
+        $adminUser = User::create([
             'first_name' => 'Shishir',
             'last_name' => 'Hossain',
             'email' => 'ifte.hsn@gmail.com',
             'password' => bcrypt('freshmilk'),
             'activated' => '1',
         ]);
+
+        // Create Role
+        $superAdminRole = Role::create(['name' => 'Super Admin']);
+        $adminRole = Role::create(['name' => 'Admin']);
+
+
+        /**
+         * Create Permission
+         */
+
+        // User
+        $createUser = Permission::create(['name'=>'Create User']);
+        $readUser = Permission::create(['name'=>'Read User']);
+        $updateUser = Permission::create(['name'=>'Update User']);
+        $deleteUser = Permission::create(['name' => 'Delete User']);
+
+        // Settings
+        $updateSettings = Permission::create(['name'=>'Update Settings']);
+
+        // Assign Roles
+        $superAdminUser->assignRole($superAdminRole);
+        $adminUser->assignRole($adminRole);
+
+        // Create permission
+        $adminRole->syncPermissions([
+            $createUser,
+            $readUser,
+            $updateUser,
+            $deleteUser,
+            $updateSettings,
+        ]);
+        factory(App\Models\User::class, 200)->create();
     }
+
 
     /**
      * Create Roles
      */
     private function createRoles() {
-        $this->superAdminRole = Role::create(['name' => 'Super Admin']);
-        $this->adminRole = Role::create(['name' => 'Admin']);
+
     }
 
     private function createPermissions() {
-        $this->createUser = Permission::create(['name'=>'Create User']);
-        $this->readUser = Permission::create(['name'=>'Read User']);
-        $this->updateUser = Permission::create(['name'=>'Update User']);
-        $this->deleteUser = Permission::create(['name' => 'Delete User']);
+
     }
 }

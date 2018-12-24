@@ -29,12 +29,14 @@
             </li>
             @endif
 
+            @if(Auth::user()->can('Update Settings'))
             <li>
                 <a href="{{ url('/settings') }}">
                     <i class="fa fa-cogs"></i>
                     <span>{{ __('menu.settings') }}</span>
                 </a>
             </li>
+            @endif
         </ul>
     </section>
     <!-- /.sidebar -->
