@@ -18,24 +18,41 @@ Route::middleware(['auth'])->group(function () {
         return view('dashboard');
     })->name('home');
 
-    // Users route
+    /**
+     * Users Routes
+     */
     Route::prefix('users')->group(function () {
         Route::get('/', 'UsersController@index')->name('users.index');
         Route::post('/','UsersController@store')->name('users.store');
         Route::post('bulkSave', 'UsersController@postBulkSave')->name('users.bulkSave');
-        Route::post('bulkedit', 'UsersController@postBulkEdit')->name('users.bulkedit');
+        Route::post('bulkedit', 'UsersController@postBulkEdit')->name('users.bulkedit'); // need to check if we really need this
         Route::get('create', 'UsersController@create')->name('users.create');
         Route::get('export', 'UsersController@getExportUserCsv')->name('users.export');
         Route::get('getUsersList', 'UsersController@getUserList')->name('users.list');
         Route::get('{id}/restore', 'UsersController@getRestore')->name('users.restore');
         Route::delete('{id}', 'UsersController@destroy')->name('users.destroy');
-        Route::match(['put', 'patch'], '{user}','UsersController@update')->name('users.update');
+        Route::match(['put', 'patch'], '{id}','UsersController@update')->name('users.update');
         Route::get('{id}/edit','UsersController@edit')->name('users.edit');
     });
 
+    /**
+     * Categories Routes
+     */
+
+    Route::prefix('categories')->group(function () {
+        Route::get('/', 'CategoriesController@index')->name('category.index');
+        Route::post('/', 'CategoriesController@store')->name('category.store');
+        Route::get('create', 'CategoriesController@create')->name('category.create');
+        Route::get('export', 'CategoriesController@export')->name('category.export');
+        Route::get('getCategoriesList', 'CategoriesController@getCategoriesList')->name('categories.list');
+        Route::get('{id}/restore', 'CategoriesController@restore')->name('category.restore');
+        Route::delete('{id}', 'CategoriesController@destroy')->name('category.destroy');
+        Route::match(['put', 'patch'], '{id}', 'CategoriesController@update')->name('category.update');
+        Route::match('{id}/edit', 'CategoriesController@edit')->name('category.edit');
+    });
 
     /**
-     * Settings routes
+     * Settings Routes
      */
     Route::group(['prefix'=>'settings'], function () {
         Route::get('/', 'SettingsController@index')->name('settings.index');

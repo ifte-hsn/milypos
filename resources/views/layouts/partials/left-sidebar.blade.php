@@ -6,13 +6,13 @@
         <ul class="sidebar-menu" data-widget="tree">
 
             <li>
-                <a href="{{ url('/') }}">
+                <a href="{{ route('home')  }}">
                     <i class="fa fa-dashboard"></i> <span>{{ __('menu.dashboard') }}</span>
                 </a>
             </li>
 
             {{-- Display user menu if user have any of the following permission--}}
-            @if(Auth::user()->hasAnyPermission(
+            @if (Auth::user()->hasAnyPermission(
                 [
                     'Create User',
                     'Read User',
@@ -22,11 +22,27 @@
             )
 
             <li>
-                <a href="{{ url('/users') }}">
+                <a href="{{ route('users.index') }}">
                     <i class="fa fa-group"></i>
                     <span>{{ __('menu.users') }}</span>
                 </a>
             </li>
+            @endif
+
+            @if (Auth::user()->hasAnyPermission(
+                [
+                    'Create Category',
+                    'Read Category',
+                    'Update Category',
+                    'Delete Category'
+                ]) || Auth::user()->hasRole('Super Admin')
+            )
+                <li>
+                    <a href="{{ route('category.index') }}">
+                        <i class="fa fa-th"></i>
+                        <span>{{ __('menu.categories') }}</span>
+                    </a>
+                </li>
             @endif
 
             @if(Auth::user()->can('Update Settings'))
