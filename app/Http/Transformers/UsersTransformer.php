@@ -22,7 +22,7 @@ class UsersTransformer
 
     public function transformUser(User $user)
     {
-        $avatar = url('/').'/img/avatar-placeholder.png';
+        $avatar = url('/').'/images/avatar-placeholder.png';
 
         if($user->avatar) {
             $avatar = url('/').'/uploads/avatars/'.$user->avatar;
