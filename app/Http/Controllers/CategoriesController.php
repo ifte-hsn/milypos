@@ -122,7 +122,7 @@ class CategoriesController extends Controller
 
         try {
             if ($category->save()) {
-                return redirect()->route('category.index')->with('success', trans('categories/message.create.success'));
+                return redirect()->route('category.index')->with('success', __('categories/message.create.success'));
             }
         } catch (\Exception $e) {
             return redirect()->back()->with('error', __('categories/message.error.create'));
@@ -140,7 +140,7 @@ class CategoriesController extends Controller
      */
     public function show($id)
     {
-        //
+        return redirect()->route('category.edit')->with('id', __('categories/message.create.success'));
     }
 
     /**
@@ -185,7 +185,7 @@ class CategoriesController extends Controller
             $category = Category::findOrFail($id);
         } catch(ModelNotFoundException $ex) {
             return redirect()->route('category.index')
-                ->with('error', trans('categories/message.category_not_found', compact('id')));
+                ->with('error', __('categories/message.category_not_found', compact('id')));
         }
 
 
@@ -217,7 +217,7 @@ class CategoriesController extends Controller
 
         try {
             if ($category->save()) {
-                return redirect()->route('category.index')->with('success', trans('categories/message.create.success'));
+                return redirect()->route('category.index')->with('success', __('categories/message.create.success'));
             }
         } catch (\Exception $e) {
             return redirect()->back()->with('error', __('categories/message.error.update'));

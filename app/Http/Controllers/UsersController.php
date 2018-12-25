@@ -220,7 +220,7 @@ class UsersController extends Controller
             $user = User::findOrFail($id);
         } catch (ModelNotFoundException $e) {
             return redirect()->route('users.index')
-                ->with('error', trans('users/message.user_not_found', compact('id')));
+                ->with('error', __('users/message.user_not_found', compact('id')));
         }
 
 
@@ -310,7 +310,7 @@ class UsersController extends Controller
             return redirect()->route('users.index')->with('success', $success);
         }catch (ModelNotFoundException $e) {
             // Prepare the error message
-            $error = trans('users/message.user_not_found', compact('id'));
+            $error = __('users/message.user_not_found', compact('id'));
             // Redirect to the user management page
             return redirect()->route('users.index')->with('error', $error);
         }
