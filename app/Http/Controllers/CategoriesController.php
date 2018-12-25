@@ -38,6 +38,7 @@ class CategoriesController extends Controller
             'categories.id',
             'categories.name',
             'categories.image',
+            'categories.deleted_at',
         ]);
 
 
@@ -117,9 +118,6 @@ class CategoriesController extends Controller
 
         }
 
-
-
-
         try {
             if ($category->save()) {
                 return redirect()->route('category.index')->with('success', __('categories/message.create.success'));
@@ -140,7 +138,6 @@ class CategoriesController extends Controller
      */
     public function show($id)
     {
-        return redirect()->route('category.edit')->with('id', __('categories/message.create.success'));
     }
 
     /**
@@ -231,9 +228,48 @@ class CategoriesController extends Controller
      *
      * @param  int $id
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function destroy($id)
     {
-        //
+        $this->authorize('Delete Category', User::class);
+
+        try {
+            $category = Category::findOrFail($id);
+            $category->delete();
+            // Prepare the success message
+            $success = __('categories/message.success.delete');
+
+            return redirect()->route('category.index')->with('success', $success);
+        } catch (ModelNotFoundException $e) {
+            // Prepare the error message
+            $error = __('categories/message.category_not_found', compact('id'));
+            // Redirect to the user management page
+            return redirect()->route('category.index')->with('error', $error);
+        }
+    }
+
+    /**
+     * Restore Deleted User
+     * @param int $id ID of the user
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
+    public function restore($id = null) {
+        // Authorize user
+        // check if logged in user has the permission to restore user
+        // Any user with permission "Create User" can restore data.
+        $this->authorize('Create Category', Category::class);
+
+        if(!$category = Category::onlyTrashed()->find($id)) {
+            return redirect()->route('category.index')->with('error', __('category/message.category_not_found', ['id'=>$id]));
+        }
+
+        // Restore the user
+        if ($category->withTrashed()->where('id', $id)->restore()) {
+            return redirect()->route('category.index')->with('success', __('category/message.success.restored'));
+        }
+
+        return redirect()->route('category.index')->with('error', __('category/message.error.could_not_restore'));
     }
 }
