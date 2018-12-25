@@ -18,18 +18,20 @@
     <div class="box box-primary">
         <div class="box-header with-border clearfix">
             <div class="pull-right">
-                @can('Read User')
-                    <a href="{{ route('users.csv.export') }}" class="btn btn-success"><i class="fa fa-download"></i> Export</a>
-                    @if (Input::get('status')=='deleted')
-                        <a href="{{ route('users.index') }}" class="btn btn-danger"><i class="fa fa-user-circle"></i> Show Current Users</a>
-                    @else
-                        <a href="{{ route('users.index', ['status' => 'deleted']) }}" class="btn btn-danger"><i class="fa fa-trash"></i> Show Deleted Users</a>
-                    @endif
-                @endcan
 
                 @can('Create User')
                     <a href="{{ route('users.create') }}" class="btn btn-info"><i class="fa fa-plus"></i> Create New</a>
                 @endcan
+
+                @can('Read User')
+                    @if (Input::get('status')=='deleted')
+                        <a href="{{ route('users.index') }}" class="btn btn-default"><i class="fa fa-user-circle"></i> {{ __('general.show_current_users') }}</a>
+                    @else
+                        <a href="{{ route('users.index', ['status' => 'deleted']) }}" class="btn btn-default"><i class="fa fa-trash"></i> Show Deleted Users</a>
+                    @endif
+                        <a href="{{ route('users.csv.export') }}" class="btn btn-default"><i class="fa fa-download"></i> {{ __('general.export') }}</a>
+                @endcan
+
 
             </div><!-- pull-right -->
         </div>

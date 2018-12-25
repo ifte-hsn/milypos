@@ -81,7 +81,7 @@ class UsersController extends Controller
             default:
                 $allowed_columns = [
                     'last_name', 'first_name', 'email', 'activated',
-                    'created_at', 'last_login', 'phone', 'address', 'city', 'state', 'country_id', 'zip', 'id'
+                    'created_at', 'last_login', 'phone', 'address', 'city', 'state', 'zip', 'id'
                 ];
 
                 $sort = in_array($request->get('sort'), $allowed_columns) ? $request->get('sort') : 'first_name';
