@@ -184,9 +184,10 @@
 
     var formatters = [
         'users',
+        'categories'
     ];
 
-    for(var i in formatters) {
+    for (var i in formatters) {
         window[formatters[i] + 'LinkFormatter'] = genericRowLinkFormatter(formatters[i]);
         window[formatters[i] + 'ActionsFormatter'] = genericActionsFormatter(formatters[i]);
     }

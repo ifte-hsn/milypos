@@ -3,10 +3,16 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Watson\Validating\ValidatingTrait;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Traits\Searchable;
 
 class Category extends Model
 {
-    use ValidatingTrait;
+    use SoftDeletes, ValidatingTrait;
+    use Searchable;
+
+    protected $presenter = 'App\Presenters\CategoryPresenter';
 
     protected $rules = [
       'name' => 'required'
@@ -14,6 +20,16 @@ class Category extends Model
 
     protected $fillable = ['name'];
     protected $dates = ['deleted_at'];
+    protected $injectUniqueIdentifier = true;
+
+    /**
+     * The attributes that should be included when searching the model.
+     *
+     * @var array
+     */
+    protected $searchableAttributes = [
+        'name',
+    ];
 
     public function scopeGetDeleted($query)
     {
