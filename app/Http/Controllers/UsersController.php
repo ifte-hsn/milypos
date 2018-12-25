@@ -322,7 +322,7 @@ class UsersController extends Controller
      * @return StreamedResponse
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function getExportUserCsv () {
+    public function exportAsCsv () {
 
         // Authorize user
         // check if logged in user has the permission to see users data

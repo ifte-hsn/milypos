@@ -10,7 +10,7 @@
 @endsection
 
 @section('breadcrumb')
-    <li><a href="{{ url('/') }}"><i class="fa fa-dashboard"></i> {{ __('general.home') }}</a></li>
+    <li><a href="{{ route('home') }}"><i class="fa fa-dashboard"></i> {{ __('general.home') }}</a></li>
     <li class="active">{{ __('general.users') }}</li>
 @endsection
 
@@ -19,7 +19,7 @@
         <div class="box-header with-border clearfix">
             <div class="pull-right">
                 @can('Read User')
-                    <a href="{{ url('users/export') }}" class="btn btn-success"><i class="fa fa-download"></i> Export</a>
+                    <a href="{{ route('users.csv.export') }}" class="btn btn-success"><i class="fa fa-download"></i> Export</a>
                     @if (Input::get('status')=='deleted')
                         <a href="{{ route('users.index') }}" class="btn btn-danger"><i class="fa fa-user-circle"></i> Show Current Users</a>
                     @else

@@ -27,7 +27,7 @@ Route::middleware(['auth'])->group(function () {
         Route::post('bulkSave', 'UsersController@postBulkSave')->name('users.bulkSave');
         Route::post('bulkedit', 'UsersController@postBulkEdit')->name('users.bulkedit'); // need to check if we really need this
         Route::get('create', 'UsersController@create')->name('users.create');
-        Route::get('export', 'UsersController@getExportUserCsv')->name('users.export');
+        Route::get('export', 'UsersController@exportAsCsv')->name('users.csv.export');
         Route::get('getUsersList', 'UsersController@getUserList')->name('users.list');
         Route::get('{id}/restore', 'UsersController@getRestore')->name('users.restore');
         Route::delete('{id}', 'UsersController@destroy')->name('users.destroy');
