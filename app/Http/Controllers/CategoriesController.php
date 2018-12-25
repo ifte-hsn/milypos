@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Transformers\CategoriesTransformer;
 use App\Models\Category;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Image;
+use File;
 
 class CategoriesController extends Controller
 {
@@ -74,8 +76,6 @@ class CategoriesController extends Controller
      */
     public function create()
     {
-        // Authorize user
-        // check if logged in user has the permission to create new data
         $this->authorize('Create Category', Category::class);
 
         $category = new Category();
@@ -92,8 +92,6 @@ class CategoriesController extends Controller
      */
     public function store(Request $request)
     {
-        // Authorize user
-        // check if logged in user has the permission to create new data
         $this->authorize('Create Category', Category::class);
 
         $request->validate([
@@ -150,10 +148,18 @@ class CategoriesController extends Controller
      *
      * @param  int $id
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function edit($id)
     {
-        //
+        $this->authorize('Update Category', Category::class);
+
+        if($category =  Category::findOrFail($id)) {
+            return view('categories.edit', compact('category'));
+        }
+
+        $error = __('categories/message.category_not_found', compact('id'));
+        return redirect()->route('users.index')->with('error', $error);
     }
 
     /**
@@ -162,10 +168,62 @@ class CategoriesController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @param  int $id
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function update(Request $request, $id)
     {
-        //
+        // Authorize user
+        // check if logged in user has the permission to create new data
+        $this->authorize('Update Category', Category::class);
+
+        $request->validate([
+            'name' => 'required|unique:categories',
+            'image' => 'image'
+        ]);
+
+        try{
+            $category = Category::findOrFail($id);
+        } catch(ModelNotFoundException $ex) {
+            return redirect()->route('category.index')
+                ->with('error', trans('categories/message.category_not_found', compact('id')));
+        }
+
+
+        $category->name = $request->input('name');
+
+
+        // process the image
+        if ($request->hasFile('image')) {
+
+            if($category->image != '') {
+                // Delete previous file
+                $path = public_path('uploads/categories/'.$category->image);
+                File::delete($path);
+            }
+
+
+
+            $image = $request->file('image');
+            $file_name = str_random(25) . "." . $image->getClientOriginalExtension();
+            $path = public_path('uploads/categories/' . $file_name);
+
+            Image::make($image->getRealPath())->resize(200, null, function ($constraint) {
+                $constraint->aspectRatio();
+                $constraint->upsize();
+            })->save($path);
+            $category->image = $file_name;
+
+        }
+
+        try {
+            if ($category->save()) {
+                return redirect()->route('category.index')->with('success', trans('categories/message.create.success'));
+            }
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', __('categories/message.error.update'));
+        }
+
+        return redirect()->back()->withInput()->withErrors($category->getErrors());
     }
 
     /**
