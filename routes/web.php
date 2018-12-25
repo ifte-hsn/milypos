@@ -50,7 +50,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('{id}/restore', 'CategoriesController@restore')->name('category.restore');
         Route::delete('{id}', 'CategoriesController@destroy')->name('category.destroy');
         Route::match(['put', 'patch'], '{id}', 'CategoriesController@update')->name('category.update');
-        Route::match('{id}/edit', 'CategoriesController@edit')->name('category.edit');
+        Route::get('{id}/edit', 'CategoriesController@edit')->name('category.edit');
     });
 
     /**
