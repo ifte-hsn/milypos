@@ -43,7 +43,7 @@
                                     @endif
                                 </div><!-- col-md-9 col-sm-9 col-xs-12 -->
                             </div><!-- form-group -->
-                            <div class="form-group">
+                            <div class="form-group {{ $errors->has('avatar') ? 'has-error' : '' }}">
                                 <label for="uploadFile" class="control-label col-md-3 col-sm-3 col-xs-12">
                                     {{ __('general.avatar') }} {!! (\App\Helpers\Helper::checkIfRequired($user, 'avatar')) ? '<span class="text-danger">*</span>':'' !!}
                                 </label><!-- control-label col-md-3 col-sm-3 col-xs-12 -->
