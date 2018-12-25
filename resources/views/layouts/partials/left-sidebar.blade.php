@@ -47,7 +47,7 @@
 
             @if(Auth::user()->can('Update Settings'))
             <li>
-                <a href="{{ url('/settings') }}">
+                <a href="{{ route('settings.index') }}">
                     <i class="fa fa-cogs"></i>
                     <span>{{ __('menu.settings') }}</span>
                 </a>
