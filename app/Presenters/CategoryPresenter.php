@@ -29,6 +29,15 @@ class CategoryPresenter
                 'formatter' => 'categoriesLinkFormatter'
             ],
             [
+                'field' => 'image',
+                'searchable' => false,
+                'sortable' => false,
+                'switchable' => true,
+                'title' => __('general.image'),
+                'visible' => true,
+                'formatter' => 'imageFormatter'
+            ],
+            [
                 'field' => 'actions',
                 'searchable' => false,
                 'sortable' => false,

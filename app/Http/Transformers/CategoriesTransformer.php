@@ -20,9 +20,17 @@ class CategoriesTransformer
 
     private static function transformCategory($category)
     {
+
+        $image = '';
+
+        if($category->image) {
+            $image = url('/').'/uploads/categories/'.$category->image;
+        }
+
         $array = [
             'id' => (int) $category->id,
             'name' => $category->name,
+            'image' => $image,
         ];
 
         // Permissions
