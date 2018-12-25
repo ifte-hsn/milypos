@@ -42,8 +42,10 @@ Route::middleware(['auth'])->group(function () {
     Route::prefix('categories')->group(function () {
         Route::get('/', 'CategoriesController@index')->name('category.index');
         Route::post('/', 'CategoriesController@store')->name('category.store');
+        Route::post('bulkSave', 'CategoriesController@postBulkSave')->name('category.bulkSave');
+        Route::post('bulkedit', 'CategoriesController@postBulkEdit')->name('category.bulkedit'); // need to check if we really need this
         Route::get('create', 'CategoriesController@create')->name('category.create');
-        Route::get('export', 'CategoriesController@export')->name('category.export');
+        Route::get('export', 'CategoriesController@exportAsCsv')->name('category.csv.export');
         Route::get('getCategoriesList', 'CategoriesController@getCategoriesList')->name('categories.list');
         Route::get('{id}/restore', 'CategoriesController@restore')->name('category.restore');
         Route::delete('{id}', 'CategoriesController@destroy')->name('category.destroy');
