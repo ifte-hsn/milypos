@@ -1,15 +1,15 @@
 <?php
 return array(
-    'no_categories_selected'                        => 'No categorys selected',
-    'category_exists'                             => 'User already exists.',
-    'category_not_found'                          => 'User [:id] does not exists.',
-    'category_email_required'                     => 'User email address required.',
+    'no_category_selected'                        => 'No Category selected',
+    'category_exists'                             => 'Category already exists.',
+    'category_not_found'                          => 'Category [:id] does not exists.',
+    'category_email_required'                     => 'Category email address required.',
     'category_password_required'                  => 'The password is required.',
     'insufficient_permissions'                => 'Insufficient Permissions.',
     'category_deleted_warning'                    => 'This category has been deleted. You will have to restore this category to edit them.',
     'do_not_have_permission_to_see_category_list' => 'Sorry! You do not have permission to see category list!',
-    'add_category'                                => 'Add New User',
-    'update_category'                             => 'Update User',
+    'add_category'                                => 'Add New Category',
+    'update_category'                             => 'Update Category',
     'bulk_delete_warning'                     => 'You are about to delete the  :count category(s) listed below. Super admin names are highlighted in red.',
 
     'success' => array(
@@ -30,7 +30,7 @@ return array(
         'delete'             => 'There was an issue deleting the category. Please try again.',
         'activate'           => 'There was an issue activating the category. Please try again.',
         'import'             => 'There was an issue importing categories. Please try again.',
-        'could_not_restore'  => 'User could not be restored.',
+        'could_not_restore'  => 'Category could not be restored.',
         'delete_own_account' => 'Sorry!! You can not delete your own account.',
         'delete_super_admin' => 'You are not allowed to delete Super Admin category',
     ),

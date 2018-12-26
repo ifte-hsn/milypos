@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Image;
 use File;
+use Input;
 
 class CategoriesController extends Controller
 {
@@ -25,7 +26,7 @@ class CategoriesController extends Controller
     }
 
     /**
-     * Get list of users form database
+     * Get list of categories form database
      *
      * @param  \Illuminate\Http\Request $request
      * @return mixed
@@ -161,7 +162,7 @@ class CategoriesController extends Controller
         }
 
         $error = __('categories/message.category_not_found', compact('id'));
-        return redirect()->route('users.index')->with('error', $error);
+        return redirect()->route('category.index')->with('error', $error);
     }
 
     /**
@@ -239,7 +240,7 @@ class CategoriesController extends Controller
      */
     public function destroy($id)
     {
-        $this->authorize('Delete Category', User::class);
+        $this->authorize('Delete Category', Category::class);
 
         try {
             $category = Category::findOrFail($id);
@@ -257,7 +258,7 @@ class CategoriesController extends Controller
     }
 
     /**
-     * Restore Deleted User
+     * Restore Deleted Category
      * @param int $id ID of the user
      * @return \Illuminate\Http\RedirectResponse
      * @throws \Illuminate\Auth\Access\AuthorizationException
@@ -265,7 +266,7 @@ class CategoriesController extends Controller
     public function restore($id = null) {
         // Authorize user
         // check if logged in user has the permission to restore user
-        // Any user with permission "Create User" can restore data.
+        // Any user with permission "Create Category" can restore data.
         $this->authorize('Create Category', Category::class);
 
         if(!$category = Category::onlyTrashed()->find($id)) {
@@ -278,5 +279,47 @@ class CategoriesController extends Controller
         }
 
         return redirect()->route('category.index')->with('error', __('category/message.error.could_not_restore'));
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
+    public function postBulkEdit(Request $request)
+    {
+        $this->authorize(['Update Category', 'Delete Category'], Category::class);
+
+        if ($request->has('ids') && (count($request->input('ids')) > 0)) {
+            $categories_raw_array = array_keys(Input::get('ids'));
+
+            $categories = Category::whereIn('id', $categories_raw_array)->get();
+
+            if($request->input('bulk_actions') == 'edit') {
+                return view('categories.bulk-edit', compact('categories'));
+            }
+            return view('categories.confirm-bulk-delete',compact('categories'));
+        }
+
+        return redirect()->back()->with('error', 'category/message.no_user_selected');
+    }
+
+    public function postBulkSave(Request $request)
+    {
+        $this->authorize(['Update Category', 'Delete Category'], Category::class);
+
+        if (!$request->has('ids') || count($request->input('ids')) == 0 ) {
+            return redirect()->route('category.index')->with('error', __('categories/message.no_category_selected'));
+        } else {
+            $categories_raw_array = Input::get('ids');
+
+            $categories = Category::whereIn('id', $categories_raw_array)->get();
+
+            foreach ($categories as $category) {
+                $category->delete();
+            }
+
+            return redirect()->route('category.index')->with('success', __('categories/message.success.selected_user_deleted'));
+        }
     }
 }
