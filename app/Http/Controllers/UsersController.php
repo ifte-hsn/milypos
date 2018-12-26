@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Image;
 use File;
+use Auth;
 
 class UsersController extends Controller
 {
