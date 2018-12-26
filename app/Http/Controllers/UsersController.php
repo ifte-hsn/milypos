@@ -435,7 +435,7 @@ class UsersController extends Controller
         $this->authorize(['Update User', 'Delete User'], User::class);
 
         if (!$request->has('ids') || count($request->input('ids')) == 0 ) {
-            return redirect()->back()->with('error', 'users/message.no_user_selected');
+            return redirect()->back()->with('error', __('users/message.no_user_selected'));
         } else {
             $user_raw_array = Input::get('ids');
 
