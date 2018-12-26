@@ -95,5 +95,5 @@
 @endsection
 
 @section('page_scripts')
-    @include ('layouts.partials.bootstrap-table')
+    @include ('partials.bootstrap-table')
 @endsection

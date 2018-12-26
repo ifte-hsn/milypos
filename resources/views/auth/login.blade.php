@@ -23,7 +23,7 @@
 
 
                 <!-- Notifications -->
-            @include('layouts.partials.notifications')
+            @include('partials.notifications')
 
 
 

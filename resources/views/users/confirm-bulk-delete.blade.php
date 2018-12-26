@@ -67,7 +67,3 @@
         </form>
     </div><!-- .box -->
 @endsection
-
-@section('page_scripts')
-    @include ('layouts.partials.bootstrap-table')
-@endsection

@@ -66,11 +66,11 @@
 <!-- Site wrapper -->
 <div class="wrapper">
 
-    @include('layouts.partials.header')
+    @include('partials.header')
 
     <!-- =============================================== -->
 
-    @include('layouts.partials.left-sidebar')
+    @include('partials.left-sidebar')
 
     <!-- =============================================== -->
 
@@ -88,7 +88,7 @@
 
         <!-- Main content -->
         <section class="content">
-            @include('layouts.partials.notifications')
+            @include('partials.notifications')
 
             @yield('content')
 
@@ -97,9 +97,9 @@
     </div>
     <!-- /.content-wrapper -->
 
-    @include('layouts.partials.footer')
+    @include('partials.footer')
 
-    @include('layouts.partials.right-sidebar')
+    @include('partials.right-sidebar')
 </div>
 <!-- ./wrapper -->
 
