@@ -7,6 +7,7 @@ use App\Models\Category;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 use Image;
 use File;
 use Input;
@@ -304,6 +305,11 @@ class CategoriesController extends Controller
         return redirect()->back()->with('error', 'category/message.no_user_selected');
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function postBulkSave(Request $request)
     {
         $this->authorize(['Update Category', 'Delete Category'], Category::class);
@@ -321,5 +327,50 @@ class CategoriesController extends Controller
 
             return redirect()->route('category.index')->with('success', __('categories/message.success.selected_user_deleted'));
         }
+    }
+
+    /**
+     * Export category as csv
+     * 
+     * @return StreamedResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
+    public function exportAsCsv() {
+        $this->authorize('Read Category', Category::class);
+        \Debugbar::disable();
+
+        $response = new StreamedResponse(function() {
+            // Open output steam
+            $handle = fopen('php://output', 'w');
+            Category::orderBy('created_at', 'desc')->chunk(500, function ($categories) use ($handle) {
+                $headers = [
+                    // strtolower to prevent Excel from trying to open it as a SYSLK file
+                    strtolower(__('general.id')),
+                    __('users/table.name'),
+                    __('general.created_at'),
+                ];
+
+                fputcsv($handle, $headers);
+
+                foreach ($categories as $category) {
+
+
+                    $values = [
+                        $category->id,
+                        $category->name,
+                        $category->created_at,
+                    ];
+
+                    fputcsv($handle, $values);
+                }
+            });
+
+            // Close the output stream
+            fclose($handle);
+        }, 200, [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => 'attachment; filename="categories-'.date('Y-m-d-his').'.csv"',
+        ]);
+        return $response;
     }
 }
