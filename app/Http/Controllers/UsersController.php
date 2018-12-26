@@ -431,9 +431,8 @@ class UsersController extends Controller
      */
     public function postBulkSave(Request $request)
     {
-        // Authorize user
-        // check if logged in user has the permission to update user
-        $this->authorize('Update User', User::class);
+
+        $this->authorize(['Update User', 'Delete User'], User::class);
 
         if (!$request->has('ids') || count($request->input('ids')) == 0 ) {
             return redirect()->back()->with('error', 'users/message.no_user_selected');
