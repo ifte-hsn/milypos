@@ -404,7 +404,7 @@ class UsersController extends Controller
     {
         // Authorize user
         // check if logged in user has the permission to update user
-        $this->authorize('Update User', User::class);
+        $this->authorize(['Update User', 'Delete User'], User::class);
 
 
         if ($request->has('ids') && (count($request->input('ids')) > 0)) {
