@@ -34,50 +34,42 @@
                     <!--==========================
                      =            Image          =
                      ==========================-->
+
                     <div class="form-group">
-                        <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
+                        <div class="col-md-offset-3 col-sm-offset-3 col-md-6 col-sm-6 col-xs-12">
                             @if ($category->image)
-                                <img src="{{ url('/') }}/uploads/avatars/{{ $category->image }}"
-                                     class="img-thumbnail">
-                            @else
-                                <img src="{{ url('/') }}/images/category-placeholder.png" class="img-thumbnail">
+                                <img src="{{ url('/') }}/uploads/categories/{{ $category->image }}" alt="{{ $category->name }}" class="img-thumbnail" style="max-width: 200px;"/>
                             @endif
-                        </div><!-- col-md-9 col-sm-9 col-xs-12 -->
+                        </div><!-- .col-md-6 col-sm-6 col-xs-12 -->
+
+                    </div>
+
+
+                    @include ('partials.forms.edit.image-upload')
+
+                    <div class="form-group {{ $errors->has('name') ? 'has-error' : '' }}">
+                        <label for="name" class="control-label col-md-3 col-sm-3 col-xs-12">
+                            {{ __('general.name') }} {!! (\App\Helpers\Helper::checkIfRequired($category, 'name')) ? '<span class="text-danger">*</span>':'' !!}
+                        </label><!-- control-label col-md-3 col-sm-3 col-xs-12 -->
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input type="text" id="name" name="name" class="form-control col-md-7 col-xs-12"
+                                   placeholder="{{ __('general.name') }}"
+                                   value="{{ Input::old('name', $category->name) }}">
+                            {!! $errors->first('name', '<span class="alert-msg">:message</span>') !!}
+                        </div><!-- .col-md-6 col-sm-6 col-xs-12 -->
                     </div><!-- form-group -->
-                    <div class="form-group {{ $errors->has('image') ? 'has-error' : '' }}"
-                    ">
-                    <label for="uploadFile" class="control-label col-md-3 col-sm-3 col-xs-12">
-                        {{ __('general.upload_image') }} {!! (\App\Helpers\Helper::checkIfRequired($category, 'image')) ? '<span class="text-danger">*</span>':'' !!}
-                    </label><!-- control-label col-md-3 col-sm-3 col-xs-12 -->
-                    <div class="col-md-6 col-sm-6 col-xs-12">
-                        <input id="uploadFile" name="image" type="file" class="form-control col-md-7 col-xs-12">
-                        {!! $errors->first('image', '<span class="alert-msg">:message</span>') !!}
-                    </div><!-- .col-md-6 col-sm-6 col-xs-12 -->
-                </div><!-- form-group -->
 
-                <div class="form-group {{ $errors->has('name') ? 'has-error' : '' }}">
-                    <label for="name" class="control-label col-md-3 col-sm-3 col-xs-12">
-                        {{ __('general.name') }} {!! (\App\Helpers\Helper::checkIfRequired($category, 'name')) ? '<span class="text-danger">*</span>':'' !!}
-                    </label><!-- control-label col-md-3 col-sm-3 col-xs-12 -->
-                    <div class="col-md-6 col-sm-6 col-xs-12">
-                        <input type="text" id="name" name="name" class="form-control col-md-7 col-xs-12"
-                               placeholder="{{ __('general.name') }}"
-                               value="{{ Input::old('name', $category->name) }}">
-                        {!! $errors->first('name', '<span class="alert-msg">:message</span>') !!}
-                    </div><!-- .col-md-6 col-sm-6 col-xs-12 -->
-                </div><!-- form-group -->
-
-        </div><!-- .box-body -->
-        <div class="box-footer">
-            <div class="row">
-                <div class="col-md-4 col-md-offset-6">
-                    <button class="btn btn-success"><i class="fa fa-floppy-o"></i> {{ __('general.save') }}
-                    </button>
-                </div><!-- col-md-4 col-md-offset-6 -->
-            </div><!-- .row -->
-        </div><!-- box-footer -->
-        </form><!-- form-horizontal form-label-left -->
-    </div>
+                </div><!-- .box-body -->
+                <div class="box-footer">
+                    <div class="row">
+                        <div class="col-md-4 col-md-offset-6">
+                            <button class="btn btn-success"><i class="fa fa-floppy-o"></i> {{ __('general.save') }}
+                            </button>
+                        </div><!-- col-md-4 col-md-offset-6 -->
+                    </div><!-- .row -->
+                </div><!-- box-footer -->
+            </form><!-- form-horizontal form-label-left -->
+        </div>
     </div><!-- box-primary -->
 @endsection
 

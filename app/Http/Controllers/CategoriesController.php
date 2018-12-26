@@ -6,6 +6,7 @@ use App\Http\Transformers\CategoriesTransformer;
 use App\Models\Category;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 use Image;
 use File;
 
@@ -103,18 +104,21 @@ class CategoriesController extends Controller
         $category = new Category();
         $category->name = $request->input('name');
 
-
         // process the image
         if ($request->hasFile('image')) {
             $image = $request->file('image');
             $file_name = str_random(25) . "." . $image->getClientOriginalExtension();
             $path = public_path('uploads/categories/' . $file_name);
 
-            Image::make($image->getRealPath())->resize(200, null, function ($constraint) {
-                $constraint->aspectRatio();
-                $constraint->upsize();
-            })->save($path);
-            $category->image = $file_name;
+            if ($image->getClientOriginalExtension()!='svg') {
+                Image::make($image->getRealPath())->resize(500, null, function ($constraint) {
+                    $constraint->aspectRatio();
+                    $constraint->upsize();
+                })->save($path);
+                $category->image = $file_name;
+            } else {
+                $image->move(app('categories_upload_path'), $file_name);
+            }
 
         }
 
@@ -134,10 +138,11 @@ class CategoriesController extends Controller
      * Display the specified resource.
      *
      * @param  int $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function show($id)
     {
+        return Redirect::route('category.edit', ['id' => $id]);
     }
 
     /**
@@ -169,12 +174,10 @@ class CategoriesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // Authorize user
-        // check if logged in user has the permission to create new data
         $this->authorize('Update Category', Category::class);
 
         $request->validate([
-            'name' => 'required|unique:categories',
+            'name' => 'required',
             'image' => 'image'
         ]);
 
@@ -204,11 +207,15 @@ class CategoriesController extends Controller
             $file_name = str_random(25) . "." . $image->getClientOriginalExtension();
             $path = public_path('uploads/categories/' . $file_name);
 
-            Image::make($image->getRealPath())->resize(200, null, function ($constraint) {
-                $constraint->aspectRatio();
-                $constraint->upsize();
-            })->save($path);
-            $category->image = $file_name;
+            if ($image->getClientOriginalExtension()!='svg') {
+                Image::make($image->getRealPath())->resize(500, null, function ($constraint) {
+                    $constraint->aspectRatio();
+                    $constraint->upsize();
+                })->save($path);
+                $category->image = $file_name;
+            } else {
+                $image->move(app('categories_upload_path'), $file_name);
+            }
 
         }
 

@@ -51,6 +51,7 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('{id}', 'CategoriesController@destroy')->name('category.destroy');
         Route::match(['put', 'patch'], '{id}', 'CategoriesController@update')->name('category.update');
         Route::get('{id}/edit', 'CategoriesController@edit')->name('category.edit');
+        Route::get('{id}', 'CategoriesController@show')->name('category.show');
     });
 
     /**

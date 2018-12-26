@@ -48,6 +48,7 @@ return [
     'home'                    => 'Home',
     'id'                      => 'Id',
     'image'                   => 'Image',
+    'image_filetypes_help'    => 'Accepted filetypes are jpg, png, gif, and svg. Max upload size allowed is :size.',
     'inactive'                => 'Inactive',
     'language'                => 'Language',
     'last'                    => 'Last',

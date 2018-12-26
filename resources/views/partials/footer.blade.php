@@ -1,6 +1,6 @@
 <footer class="main-footer hidden-print">
 
-    <strong>Copyright &copy {{ date('Y') }} {{ $milyPosSettings->site_name }} </strong> All rights
+    <strong>Copyright &copy; {{ date('Y') }} {{ $milyPosSettings->site_name }} </strong> All rights
     reserved.
 
 
