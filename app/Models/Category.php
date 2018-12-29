@@ -5,12 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Watson\Validating\ValidatingTrait;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Traits\Searchable;
+use App\Traits\SearchableTrait;
 
 class Category extends Model
 {
     use SoftDeletes, ValidatingTrait;
-    use Searchable;
+    use SearchableTrait;
 
     protected $presenter = 'App\Presenters\CategoryPresenter';
 

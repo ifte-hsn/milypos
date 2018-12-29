@@ -8,7 +8,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Watson\Validating\ValidatingTrait;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use App\Traits\Searchable;
+use App\Traits\SearchableTrait;
 use Spatie\Permission\Traits\HasRoles;
 use DB;
 
@@ -16,7 +16,7 @@ class User extends Authenticatable
 {
     use Notifiable;
     use SoftDeletes, ValidatingTrait;
-    use Searchable;
+    use SearchableTrait;
     use HasRoles;
 
     protected $presenter = 'App\Presenters\UserPresenter';

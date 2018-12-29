@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Builder as Builder;
  *
  * @author Till Deeke <kontakt@tilldeeke.de>
  */
-trait Searchable
+trait SearchableTrait
 {
     /**
      * Performs a search on the model, using the provided search terms
