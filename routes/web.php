@@ -10,9 +10,6 @@
 |
 */
 
-
-
-
 Route::middleware(['auth'])->group(function () {
     Route::get('/', function () {
         return view('dashboard');
@@ -33,6 +30,16 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('{id}', 'UsersController@destroy')->name('users.destroy');
         Route::match(['put', 'patch'], '{id}','UsersController@update')->name('users.update');
         Route::get('{id}/edit','UsersController@edit')->name('users.edit');
+    });
+
+    Route::prefix('roles')->group(function () {
+        Route::get('/', 'AclController@roleIndex')->name('roles.index');
+        Route::get('getRoleList', 'AclController@getRoleList')->name('roles.list');
+        Route::get('create', 'AclController@create')->name('roles.create');
+        Route::get('{id}/restore', 'AclController@getRoleRestore')->name('roles.restore');
+        Route::delete('{id}', 'AclController@destroyRole')->name('roles.destroy');
+        Route::match(['put', 'patch'], '{id}', 'AclController@update')->name('roles.update');
+        Route::get('{id}/edit', 'AclController@getRoleEdit')->name('roles.edit');
     });
 
     /**

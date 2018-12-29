@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\SearchableTrait;
+use Watson\Validating\ValidatingTrait;
 
 class Role extends \Spatie\Permission\Models\Role
 {
-    use SoftDeletes;
+    use SoftDeletes, ValidatingTrait;
     use SearchableTrait;
 
     protected $presenter = 'App\Presenters\RolePresenter';

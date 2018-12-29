@@ -17,7 +17,7 @@ class AclController extends Controller
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function roleIndex() {
-        $this->authorize('Read Role', \Spatie\Permission\Models\Role::class);
+        $this->authorize('Read Role', Role::class);
         return view('roles.index');
     }
 
@@ -29,7 +29,7 @@ class AclController extends Controller
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function getRoleList(Request $request) {
-        $this->authorize('Read Role', \Spatie\Permission\Models\Role::class);
+        $this->authorize('Read Role', Role::class);
 
         $roles = Role::select([
             'roles.id',
@@ -66,8 +66,33 @@ class AclController extends Controller
         return (new RolesTransformer)->transformRoles($roles, $total);
     }
 
+    /**
+     * Show edit form
+     *
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
+    public function getRoleEdit($id) {
+        $this->authorize('Update Role', Role::class);
+
+        if($role =  Role::findOrFail($id)) {
+            return view('roles.edit', compact('role'));
+        }
+
+        $error = __('roles/message.role_not_found', compact('id'));
+        return redirect()->route('roles.index')->with('error', $error);
+    }
+
+    /**
+     * Method for restore roles
+     *
+     * @param null $id
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function getRoleRestore($id = null) {
-        $this->authorize('Create Role', \Spatie\Permission\Models\Role::class);
+        $this->authorize('Create Role', Role::class);
 
         if(!$role = Role::onlyTrashed()->find($id)) {
             return redirect()->route('roles.index')->with('error', __('roles/message.role_not_found', ['id'=>$id]));
@@ -81,7 +106,7 @@ class AclController extends Controller
     }
 
     public function destroyRole($id) {
-        $this->authorize('Delete Role', \Spatie\Permission\Models\Role::class);
+        $this->authorize('Delete Role', Role::class);
 
         try {
             $role = Role::findOrFail($id);

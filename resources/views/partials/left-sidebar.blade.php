@@ -29,6 +29,13 @@
             </li>
             @endif
 
+            <li>
+                <a href="{{ route('roles.index') }}">
+                    <i class="fa fa-shield"></i>
+                    <span>{{ __('menu.roles') }}</span>
+                </a>
+            </li>
+
             @if (Auth::user()->hasAnyPermission(
                 [
                     'Create Category',
