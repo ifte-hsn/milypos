@@ -8,7 +8,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Watson\Validating\ValidatingTrait;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use App\Traits\Searchable;
+use App\Traits\SearchableTrait;
 use Spatie\Permission\Traits\HasRoles;
 use DB;
 
@@ -16,7 +16,7 @@ class User extends Authenticatable
 {
     use Notifiable;
     use SoftDeletes, ValidatingTrait;
-    use Searchable;
+    use SearchableTrait;
     use HasRoles;
 
     protected $presenter = 'App\Presenters\UserPresenter';
@@ -56,7 +56,7 @@ class User extends Authenticatable
         'first_name'              => 'required|string|min:1',
         'email'                   => 'required|email|nullable|unique',
         'password'                => 'required|min:6',
-        'website'                => 'url'
+        'website'                => 'nullable|url'
     ];
 
     /**
@@ -84,6 +84,10 @@ class User extends Authenticatable
         'phone',
         'employee_num'
     ];
+
+    protected $searchableRelations = [
+        'country' => ['name']
+        ];
 
     public function scopeGetDeleted($query)
     {
