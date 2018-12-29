@@ -85,6 +85,10 @@ class User extends Authenticatable
         'employee_num'
     ];
 
+    protected $searchableRelations = [
+        'country' => ['name']
+        ];
+
     public function scopeGetDeleted($query)
     {
         return $query->withTrashed()->whereNotNull('deleted_at');
