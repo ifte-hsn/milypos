@@ -274,7 +274,6 @@ class CategoriesController extends Controller
             return redirect()->route('category.index')->with('error', __('category/message.category_not_found', ['id'=>$id]));
         }
 
-        // Restore the user
         if ($category->withTrashed()->where('id', $id)->restore()) {
             return redirect()->route('category.index')->with('success', __('category/message.success.restored'));
         }
