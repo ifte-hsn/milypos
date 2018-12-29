@@ -184,7 +184,8 @@
 
     var formatters = [
         'users',
-        'categories'
+        'categories',
+        'roles'
     ];
 
     for (var i in formatters) {
