@@ -9,7 +9,7 @@ class CategoryPresenter
     {
         $layout = [
             [
-                'field' => 'checkboc',
+                'field' => 'checkbox',
                 'checkbox' => 'true',
             ],
             [
