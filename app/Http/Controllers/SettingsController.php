@@ -106,4 +106,27 @@ class SettingsController extends Controller
 
         return redirect()->back()->withInput()->withErrors($setting->getErrors());
     }
+
+    public function getLocalization() {
+        $this->authorize('Update Settings', Setting::class);
+
+        $settings = Setting::first();
+        return view('settings.localization', compact('settings'));
+    }
+
+    public function postLocalization(Request $request) {
+        if (is_null($setting = Setting::first())) {
+            return redirect()->route('settings.localization')->with('error', trans('settings/message.update.error'));
+        }
+
+        $setting->default_currency = $request->input('default_currency', '$');
+        $setting->date_display_format = $request->input('date_display_format');
+        $setting->time_display_format = $request->input('time_display_format');
+
+        if ($setting->save()) {
+            return redirect()->route('settings.localization')
+                ->with('success', trans('settings/message.update.success'));
+        }
+        return redirect()->back()->withInput()->withErrors($setting->getErrors());
+    }
 }

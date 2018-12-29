@@ -5,8 +5,8 @@
 @endsection
 
 @section('breadcrumb')
-    <li><a href="{{ route('home') }}"><i class="fa fa-dashboard"></i> Home</a></li>
-    <li class="active"><a href="{{ route('settings.index') }}"><i class="fa fa-wrench"></i>Settings</a></li>
+    <li><a href="{{ route('home') }}"><i class="fa fa-dashboard"></i> {{ __('general.home') }}</a></li>
+    <li class="active"><a href="{{ route('settings.index') }}"><i class="fa fa-wrench"></i> {{ __('general.settings') }}</a></li>
     <li class="active">{{ __('general.branding') }}</li>
 @endsection
 

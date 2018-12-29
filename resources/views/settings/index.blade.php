@@ -23,6 +23,24 @@
             </a>
             <!-- /.info-box -->
         </div>
+
+        <!-- *********************-->
+        <!--     Localization     -->
+        <!-- *********************-->
+
+        <div class="col-md-3 col-sm-6 col-xs-12">
+            <a href="{{ route('settings.localization') }}" class="black-text">
+                <div class="info-box">
+                    <span class="info-box-icon bg-aqua"><i class="fa fa-globe"></i></span>
+                    <div class="info-box-content">
+                        <h4><string>{{ __('general.localization') }}</string></h4>
+                        <small>{{ __('general.language') }}, {{ __('general.date') }}, {{ __('general.etc') }}</small>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+            </a>
+            <!-- /.info-box -->
+        </div>
     </div><!-- .row -->
 @endsection
 

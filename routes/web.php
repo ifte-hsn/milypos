@@ -61,6 +61,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/', 'SettingsController@index')->name('settings.index');
         Route::get('brand_settings', 'SettingsController@getBranding')->name('settings.branding');
         Route::post('brand_settings', 'SettingsController@postBranding')->name('settings.branding');
+        Route::get('localization', 'SettingsController@getLocalization')->name('settings.localization');
+        Route::post('localization', 'SettingsController@postLocalization')->name('settings.localization');
     });
 
 });
