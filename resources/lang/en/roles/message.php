@@ -30,6 +30,7 @@ return array(
         'import'             => 'There was an issue importing categories. Please try again.',
         'could_not_restore'  => 'Role could not be restored.',
         'delete_super_admin' => 'You are not allowed to delete Super Admin role',
+        'not_allowed_to_edit_or_view_super_admin_permission' => 'You are not allowed to edit/view permission of Super Admin Role'
     ),
     'upload' => array(
         'error'   => 'File(s) not uploaded. Please try again.',

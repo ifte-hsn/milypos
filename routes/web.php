@@ -40,6 +40,7 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('{id}', 'AclController@destroyRole')->name('roles.destroy');
         Route::match(['put', 'patch'], '{id}', 'AclController@update')->name('roles.update');
         Route::get('{id}/edit', 'AclController@getRoleEdit')->name('roles.edit');
+        Route::get('{id}', 'AclController@show')->name('roles.show');
     });
 
     /**

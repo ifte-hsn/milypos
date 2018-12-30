@@ -6,6 +6,7 @@ use App\Http\Transformers\RolesTransformer;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use App\Models\Role;
+use Illuminate\Support\Facades\Redirect;
 
 class AclController extends Controller
 {
@@ -66,6 +67,23 @@ class AclController extends Controller
         return (new RolesTransformer)->transformRoles($roles, $total);
     }
 
+    /**
+     * @param $id
+     * @return mixed
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
+    public function show($id) {
+        $this->authorize('edit_role', Role::class);
+
+        $role = Role::findById($id);
+
+        if($role->name === 'Super Admin') {
+            $error = __('roles/message.error.not_allowed_to_edit_or_view_super_admin_permission');
+            return redirect()->back()->with('error', $error);
+        }
+
+        return Redirect::route('roles.edit', ['id' => $id]);
+    }
     /**
      * Show edit form
      *

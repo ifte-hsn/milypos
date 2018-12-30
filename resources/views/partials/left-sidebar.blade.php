@@ -29,12 +29,24 @@
             </li>
             @endif
 
+
+            @if (Auth::user()->hasAnyPermission(
+                [
+                    'add_role',
+                    'view_role',
+                    'edit_role',
+                    'delete_role',
+                    'restore_role'
+                ]) || Auth::user()->hasRole('Super Admin')
+            )
             <li>
                 <a href="{{ route('roles.index') }}">
                     <i class="fa fa-shield"></i>
                     <span>{{ __('menu.roles') }}</span>
                 </a>
             </li>
+
+            @endif
 
             @if (Auth::user()->hasAnyPermission(
                 [
