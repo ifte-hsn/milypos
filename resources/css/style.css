@@ -19,3 +19,9 @@
     padding: 5px 5px 5px 0px;
     max-height: 50px;
 }
+.reports-table thead th, th, td{
+    vertical-align: middle!important;
+}
+.padding05 {
+    padding: 0 5px;
+}
