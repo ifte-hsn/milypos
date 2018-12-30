@@ -19,7 +19,7 @@
         <div class="box-header with-border clearfix">
             <div class="pull-right">
 
-                @can('Create Roles')
+                @can('Add Roles')
                     <a href="{{ route('roles.create') }}" class="btn btn-info"><i class="fa fa-plus"></i> {{ __('general.create_new') }}</a>
                 @endcan
 
@@ -29,9 +29,8 @@
                     @else
                         <a href="{{ route('roles.index', ['status' => 'deleted']) }}" class="btn btn-default"><i class="fa fa-trash"></i> {{ __('general.show_deleted_roles') }}</a>
                     @endif
-                    <a href="{{ route('category.csv.export') }}" class="btn btn-default"><i class="fa fa-download"></i> {{ __('general.export') }}</a>
+                   
                 @endcan
-
 
             </div><!-- pull-right -->
         </div>

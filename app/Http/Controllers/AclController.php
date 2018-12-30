@@ -92,7 +92,7 @@ class AclController extends Controller
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function getRoleRestore($id = null) {
-        $this->authorize('Create Role', Role::class);
+        $this->authorize('Add Role', Role::class);
 
         if(!$role = Role::onlyTrashed()->find($id)) {
             return redirect()->route('roles.index')->with('error', __('roles/message.role_not_found', ['id'=>$id]));
