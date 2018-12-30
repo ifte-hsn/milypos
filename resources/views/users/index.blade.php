@@ -19,7 +19,7 @@
         <div class="box-header with-border clearfix">
             <div class="pull-right">
 
-                @can('Create User')
+                @can('Add User')
                     <a href="{{ route('users.create') }}" class="btn btn-info"><i class="fa fa-plus"></i> {{ __('general.create_new') }}</a>
                 @endcan
 

@@ -74,24 +74,24 @@
 
                                     <td class="text-center">
                                         <div class="checkbox icheck">
-                                            <label>
-                                                <input name="View User" id="read_user" type="checkbox">
+                                            <label for="view_user">
+                                                <input name="View User" id="view_user" type="checkbox">
                                             </label>
                                         </div>
                                     </td><!-- read -->
 
                                     <td class="text-center">
                                         <div class="checkbox icheck">
-                                            <label>
-                                                <input name="Create User" id="create_user" type="checkbox">
+                                            <label for="add_user">
+                                                <input name="Add User" id="add_user" type="checkbox">
                                             </label>
                                         </div>
                                     </td><!-- Create -->
 
                                     <td class="text-center">
                                         <div class="checkbox icheck">
-                                            <label>
-                                                <input name="Edit User" id="update_user" type="checkbox">
+                                            <label for="edit_user">
+                                                <input name="Edit User" id="edit_user" type="checkbox">
                                             </label>
                                         </div>
                                     </td><!-- Update -->

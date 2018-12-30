@@ -15,7 +15,7 @@
             @if (Auth::user()->hasAnyPermission(
                 [
                     'View User',
-                    'Create User',
+                    'Add User',
                     'Edit User',
                     'Delete User'
                 ]) || Auth::user()->hasRole('Super Admin')

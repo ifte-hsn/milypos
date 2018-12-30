@@ -100,7 +100,7 @@ class UsersController extends Controller
     public function create()
     {
 
-        $this->authorize('Create User', User::class);
+        $this->authorize('Add User', User::class);
 
         $user = new User();
         $user->activated = 1;
@@ -119,7 +119,7 @@ class UsersController extends Controller
      */
     public function store(Request $request)
     {
-        $this->authorize('Create User', User::class);
+        $this->authorize('Add User', User::class);
 
         $request->validate([
             'first_name'              => 'required|string|min:1',
@@ -359,7 +359,7 @@ class UsersController extends Controller
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function getRestore($id = null) {
-        $this->authorize('Create User', User::class);
+        $this->authorize('Add User', User::class);
 
         if(!$user = User::onlyTrashed()->find($id)) {
             return redirect()->route('users.index')->with('error', __('users/message.user_not_found', ['id'=>$id]));
