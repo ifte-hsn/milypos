@@ -19,11 +19,11 @@
         <div class="box-header with-border clearfix">
             <div class="pull-right">
 
-                @can('Add Category')
+                @can('add_category')
                     <a href="{{ route('category.create') }}" class="btn btn-info"><i class="fa fa-plus"></i> {{ __('general.create_new') }}</a>
                 @endcan
 
-                @can('View Category')
+                @can('view_category')
                     @if (Input::get('status')=='deleted')
                         <a href="{{ route('category.index') }}" class="btn btn-default"><i class="fa fa-th"></i> {{ __('general.show_current_categories') }}</a>
                     @else
@@ -42,11 +42,11 @@
                 @csrf
                 @if(Input::get('status') != 'deleted')
 
-                    @if(((Auth::user()->can('Delete Category') || Auth::user()->can('Edit Category')) && Auth::user()->can('View Category')))
+                    @if(((Auth::user()->can('delete_category') || Auth::user()->can('edit_category')) && Auth::user()->can('view_category')))
 
                         <div id="toolbar">
                             <select name="bulk_actions" class="form-control select2" width="200px;">
-                                @can('Delete Category')
+                                @can('delete_category')
                                     <option value="delete">{{ __('general.bulk_checkin_and_delete') }}</option>
                                 @endcan
                             </select>
@@ -57,7 +57,7 @@
                     @endif
                 @endif
 
-                @can('View Category')
+                @can('view_category')
                 <table
                         data-click-to-select="true"
                         data-columns="{{ \App\Presenters\CategoryPresenter::dataTableLayout() }}"

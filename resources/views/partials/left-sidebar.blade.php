@@ -14,10 +14,10 @@
             {{-- Display user menu if user have any of the following permission--}}
             @if (Auth::user()->hasAnyPermission(
                 [
-                    'View User',
-                    'Add User',
-                    'Edit User',
-                    'Delete User'
+                    'view_user',
+                    'add_user',
+                    'edit_user',
+                    'delete_user'
                 ]) || Auth::user()->hasRole('Super Admin')
             )
 
@@ -38,10 +38,10 @@
 
             @if (Auth::user()->hasAnyPermission(
                 [
-                    'Add Category',
-                    'View Category',
-                    'Edit Category',
-                    'Delete Category'
+                    'add_category',
+                    'view_category',
+                    'edit_category',
+                    'delete_category'
                 ]) || Auth::user()->hasRole('Super Admin')
             )
                 <li>

@@ -19,11 +19,11 @@
         <div class="box-header with-border clearfix">
             <div class="pull-right">
 
-                @can('Add User')
+                @can('add_user')
                     <a href="{{ route('users.create') }}" class="btn btn-info"><i class="fa fa-plus"></i> {{ __('general.create_new') }}</a>
                 @endcan
 
-                @can('View User')
+                @can('view_user')
                     @if (Input::get('status')=='deleted')
                         <a href="{{ route('users.index') }}" class="btn btn-default"><i class="fa fa-user-circle"></i> {{ __('general.show_current_users') }}</a>
                     @else
@@ -31,7 +31,7 @@
                     @endif
                 @endcan
 
-                @can('Export Users')
+                @can('export_users')
                         <a href="{{ route('users.csv.export') }}" class="btn btn-default"><i class="fa fa-download"></i> {{ __('general.export') }}</a>
                 @endcan
 
@@ -43,21 +43,21 @@
                 @csrf
                 @if(Input::get('status') != 'deleted')
 
-                    @can('Bulk Delete Users')
+                    @can('bulk_delete_users')
 
                         <div id="toolbar">
                             <select name="bulk_actions" class="form-control select2" width="200px;">
-                                @can('Bulk Delete Users')
+                                @can('bulk_delete_users')
                                     <option value="delete">{{ __('general.bulk_checkin_and_delete') }}</option>
                                 @endcan
                             </select>
                             <button class="btn btn-default" id="bulkEdit" disabled>Go</button>
 
                         </div> <!-- #toolbar -->
-                    @endif {{-- Auth::user()->hasAnyPermission(['Edit User', 'Delete User'])--}}
+                    @endif
                 @endcan
 
-                @can('View User')
+                @can('view_user')
                 <table
                         data-click-to-select="true"
                         data-columns="{{ \App\Presenters\UserPresenter::dataTableLayout() }}"

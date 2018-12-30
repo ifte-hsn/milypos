@@ -50,33 +50,33 @@ class UsersTableSeeder extends Seeder
          */
 
         // User
-        $addUser = Permission::create(['name'=>'Add User']);
-        $viewUser = Permission::create(['name'=>'View User']);
-        $editUser = Permission::create(['name'=>'Edit User']);
-        $deleteUser = Permission::create(['name' => 'Delete User']);
-        $restoreUser = Permission::create(['name' => 'Restore User']);
-        $bulkDeleteUser = Permission::create(['name' => 'Bulk Delete Users']);
-        $exportUser = Permission::create(['name' => 'Export Users']);
+        $addUser = Permission::create(['name'=>'add_user']);
+        $viewUser = Permission::create(['name'=>'view_user']);
+        $editUser = Permission::create(['name'=>'edit_user']);
+        $deleteUser = Permission::create(['name' => 'delete_user']);
+        $restoreUser = Permission::create(['name' => 'restore_user']);
+        $bulkDeleteUser = Permission::create(['name' => 'bulk_delete_users']);
+        $exportUser = Permission::create(['name' => 'export_users']);
 
         // Categories
-        $createCategory = Permission::create(['name'=>'Add Category']);
-        $readCategory = Permission::create(['name'=>'View Category']);
-        $updateCategory = Permission::create(['name'=>'Edit Category']);
-        $deleteCategory = Permission::create(['name' => 'Delete Category']);
-        $restoreCategory = Permission::create(['name' => 'Restore Category']);
-        $exportCategory = Permission::create(['name' => 'Export Categories']);
-        $bulkDeleteCategory = Permission::create(['name' => 'Bulk Delete Categories']);
+        $createCategory = Permission::create(['name'=>'add_category']);
+        $readCategory = Permission::create(['name'=>'view_category']);
+        $updateCategory = Permission::create(['name'=>'edit_category']);
+        $deleteCategory = Permission::create(['name' => 'delete_category']);
+        $restoreCategory = Permission::create(['name' => 'restore_category']);
+        $exportCategory = Permission::create(['name' => 'export_categories']);
+        $bulkDeleteCategory = Permission::create(['name' => 'bulk_delete_categories']);
 
 
         // Role
-        $addRole = Permission::create(['name' => 'Add Role']);
-        $viewRole = Permission::create(['name' => 'View Role']);
-        $editRole = Permission::create(['name' => 'Edit Role']);
-        $deleteRole = Permission::create(['name' => 'Delete Role']);
-        $restoreRole = Permission::create(['name' => 'Restore Role']);
+        $addRole = Permission::create(['name' => 'add_role']);
+        $viewRole = Permission::create(['name' => 'view_role']);
+        $editRole = Permission::create(['name' => 'edit_role']);
+        $deleteRole = Permission::create(['name' => 'delete_role']);
+        $restoreRole = Permission::create(['name' => 'restore_role']);
 
         // Settings
-        $updateSettings = Permission::create(['name'=>'Update Settings']);
+        $updateSettings = Permission::create(['name'=>'update_settings']);
 
         // Assign Roles
         $superAdminUser->assignRole($superAdminRole);

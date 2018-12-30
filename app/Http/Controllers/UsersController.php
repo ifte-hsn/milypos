@@ -25,7 +25,7 @@ class UsersController extends Controller
      */
     public function index()
     {
-        $this->authorize('View User', User::class);
+        $this->authorize('view_user', User::class);
         return view('users.index');
     }
 
@@ -37,7 +37,7 @@ class UsersController extends Controller
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function getUserList(Request $request) {
-        $this->authorize('View User', User::class);
+        $this->authorize('view_user', User::class);
 
 
         $users = User::select([
@@ -100,7 +100,7 @@ class UsersController extends Controller
     public function create()
     {
 
-        $this->authorize('Add User', User::class);
+        $this->authorize('add_user', User::class);
 
         $user = new User();
         $user->activated = 1;
@@ -119,7 +119,7 @@ class UsersController extends Controller
      */
     public function store(Request $request)
     {
-        $this->authorize('Add User', User::class);
+        $this->authorize('add_user', User::class);
 
         $request->validate([
             'first_name'              => 'required|string|min:1',
@@ -177,7 +177,7 @@ class UsersController extends Controller
     public function edit($id)
     {
 
-        $this->authorize('Edit User', User::class);
+        $this->authorize('edit_user', User::class);
 
 
         if($user =  User::findOrFail($id)) {
@@ -200,7 +200,7 @@ class UsersController extends Controller
     public function update(Request $request, $id)
     {
 
-        $this->authorize('Edit User', User::class);
+        $this->authorize('edit_user', User::class);
 
 
         try {
@@ -270,7 +270,7 @@ class UsersController extends Controller
      */
     public function destroy($id = null)
     {
-        $this->authorize('Delete User', User::class);
+        $this->authorize('delete_user', User::class);
 
 
         try {
@@ -310,7 +310,7 @@ class UsersController extends Controller
     public function exportAsCsv () 
     {
 
-        $this->authorize('Export Users', User::class);
+        $this->authorize('export_users', User::class);
 
 
         $response = new StreamedResponse(function() {
@@ -359,7 +359,7 @@ class UsersController extends Controller
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function getRestore($id = null) {
-        $this->authorize('Restore User', User::class);
+        $this->authorize('restore_user', User::class);
 
         if(!$user = User::onlyTrashed()->find($id)) {
             return redirect()->route('users.index')->with('error', __('users/message.user_not_found', ['id'=>$id]));
@@ -382,7 +382,7 @@ class UsersController extends Controller
      */
     public function postBulkEdit(Request $request)
     {
-        $this->authorize('Bulk Delete Users', User::class);
+        $this->authorize('bulk_delete_users', User::class);
 
 
         if ($request->has('ids') && (count($request->input('ids')) > 0)) {

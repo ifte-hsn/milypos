@@ -9,23 +9,26 @@ use Auth;
 
 class SettingsController extends Controller
 {
-    public function index() {
-        $this->authorize('Update Settings', Setting::class);
+    public function index()
+    {
+        $this->authorize('update_settings', Setting::class);
 
         $settings = Setting::all();
         return view('settings.index', compact('settings'));
     }
+
     public function getBranding()
     {
-        $this->authorize('Update Settings', Setting::class);
+        $this->authorize('update_settings', Setting::class);
         $settings = Setting::first();
         return view('settings.branding', compact('settings'));
     }
 
 
-    public function postBranding(Request $request) {
+    public function postBranding(Request $request)
+    {
 
-        $this->authorize('Update Settings', Setting::class);
+        $this->authorize('update_settings', Setting::class);
         $request->validate([
             'email' => 'nullable|email',
             'website' => 'nullable|url',
@@ -107,14 +110,17 @@ class SettingsController extends Controller
         return redirect()->back()->withInput()->withErrors($setting->getErrors());
     }
 
-    public function getLocalization() {
-        $this->authorize('Update Settings', Setting::class);
+    public function getLocalization()
+    {
+        $this->authorize('update_settings', Setting::class);
 
         $settings = Setting::first();
         return view('settings.localization', compact('settings'));
     }
 
-    public function postLocalization(Request $request) {
+    public function postLocalization(Request $request)
+    {
+        $this->authorize('update_settings', Setting::class);
         if (is_null($setting = Setting::first())) {
             return redirect()->route('settings.localization')->with('error', trans('settings/message.update.error'));
         }

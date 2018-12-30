@@ -19,11 +19,11 @@
         <div class="box-header with-border clearfix">
             <div class="pull-right">
 
-                @can('Add Role')
+                @can('add_role')
                     <a href="{{ route('roles.create') }}" class="btn btn-info"><i class="fa fa-plus"></i> {{ __('general.create_new') }}</a>
                 @endcan
 
-                @can('View Role')
+                @can('view_role')
                     @if (Input::get('status')=='deleted')
                         <a href="{{ route('roles.index') }}" class="btn btn-default"><i class="fa fa-shield"></i> {{ __('general.show_current_roles') }}</a>
                     @else
@@ -35,7 +35,7 @@
             </div><!-- pull-right -->
         </div>
         <div class="box-body">
-                @can('View Role')
+                @can('view_role')
                     <table
                             data-click-to-select="true"
                             data-columns="{{ \App\Presenters\RolePresenter::dataTableLayout() }}"

@@ -76,8 +76,8 @@
                                     <td class="text-center">
                                         <div class="checkbox icheck">
                                             <label for="view_user">
-                                                <input name="View User" id="view_user"
-                                                       type="checkbox" {{ (old('View User', $role->hasPermissionTo('View User'))) == '1' ? ' checked="checked"' : '' }}>
+                                                <input name="view_user" id="view_user"
+                                                       type="checkbox" {{ (old('view_user', $role->hasPermissionTo('view_user'))) == '1' ? ' checked="checked"' : '' }}>
                                             </label>
                                         </div>
                                     </td><!-- read -->
@@ -85,8 +85,8 @@
                                     <td class="text-center">
                                         <div class="checkbox icheck">
                                             <label for="add_user">
-                                                <input name="Add User" id="add_user"
-                                                       type="checkbox" {{ (old('Add User', $role->hasPermissionTo('Add User'))) == '1' ? ' checked="checked"' : '' }}>
+                                                <input name="add_user" id="add_user"
+                                                       type="checkbox" {{ (old('add_user', $role->hasPermissionTo('add_user'))) == '1' ? ' checked="checked"' : '' }}>
                                             </label>
                                         </div>
                                     </td><!-- Create -->
@@ -94,8 +94,8 @@
                                     <td class="text-center">
                                         <div class="checkbox icheck">
                                             <label for="edit_user">
-                                                <input name="Edit User" id="edit_user"
-                                                       type="checkbox" {{ (old('Edit User', $role->hasPermissionTo('Edit User'))) == '1' ? ' checked="checked"' : '' }}>
+                                                <input name="edit_user" id="edit_user"
+                                                       type="checkbox" {{ (old('edit_user', $role->hasPermissionTo('edit_user'))) == '1' ? ' checked="checked"' : '' }}>
                                             </label>
                                         </div>
                                     </td><!-- Update -->
@@ -104,8 +104,8 @@
                                     <td class="text-center">
                                         <div class="checkbox icheck">
                                             <label for="delete_user">
-                                                <input name="Delete User" id="delete_user"
-                                                       type="checkbox" {{ (old('Delete User', $role->hasPermissionTo('Delete User'))) == '1' ? ' checked="checked"' : '' }}>
+                                                <input name="delete_user" id="delete_user"
+                                                       type="checkbox" {{ (old('delete_user', $role->hasPermissionTo('delete_user'))) == '1' ? ' checked="checked"' : '' }}>
                                             </label>
                                         </div>
                                     </td><!-- Update -->
@@ -114,8 +114,8 @@
                                         <span style="display:inline-block;">
                                             <div class="checkbox icheck">
                                                 <label for="restore_user" class="label-padding">
-                                                    <input name="Restore User" id="restore_user"
-                                                           type="checkbox" {{ (old('Restore User', $role->hasPermissionTo('Restore User'))) == '1' ? ' checked="checked"' : '' }}>
+                                                    <input name="restore_user" id="restore_user"
+                                                           type="checkbox" {{ (old('restore_user', $role->hasPermissionTo('restore_user'))) == '1' ? ' checked="checked"' : '' }}>
                                                     <strong>{{ __('general.restore') }}</strong>
                                                 </label>
                                             </div>
@@ -124,8 +124,8 @@
                                         <span style="display:inline-block;">
                                                 <div class="checkbox icheck">
                                                     <label for="export_user" class="label-padding">
-                                                        <input name="Export Users" id="export_user"
-                                                               type="checkbox" {{ (old('Export Users', $role->hasPermissionTo('Export Users'))) == '1' ? ' checked="checked"' : '' }}>
+                                                        <input name="export_users" id="export_user"
+                                                               type="checkbox" {{ (old('export_users', $role->hasPermissionTo('export_users'))) == '1' ? ' checked="checked"' : '' }}>
                                                         <strong>{{ __('general.export') }}</strong>
                                                     </label>
                                                 </div>
@@ -134,8 +134,8 @@
                                             <span style="display:inline-block;">
                                                 <div class="checkbox icheck">
                                                     <label for="bulk_delete_user" class="label-padding">
-                                                        <input name="Bulk Delete Users" id="bulk_delete"
-                                                               type="checkbox" {{ (old('Bulk Delete Users', $role->hasPermissionTo('Bulk Delete Users'))) == '1' ? ' checked="checked"' : '' }}>
+                                                        <input name="bulk_delete_users" id="bulk_delete"
+                                                               type="checkbox" {{ (old('bulk_delete_users', $role->hasPermissionTo('bulk_delete_users'))) == '1' ? ' checked="checked"' : '' }}>
                                                         <strong>{{ __('general.bulk_checkin_and_delete') }}</strong>
                                                     </label>
                                                 </div>
@@ -152,8 +152,8 @@
                                     <td class="text-center">
                                         <div class="checkbox icheck">
                                             <label for="view_category">
-                                                <input name="View Category" id="view_category"
-                                                       type="checkbox" {{ (old('View Category', $role->hasPermissionTo('View Category'))) == '1' ? ' checked="checked"' : '' }}>
+                                                <input name="view_category" id="view_category"
+                                                       type="checkbox" {{ (old('view_category', $role->hasPermissionTo('view_category'))) == '1' ? ' checked="checked"' : '' }}>
                                             </label>
                                         </div>
                                     </td><!-- read -->
@@ -161,8 +161,8 @@
                                     <td class="text-center">
                                         <div class="checkbox icheck">
                                             <label for="add_category">
-                                                <input name="Add Category" id="add_category"
-                                                       type="checkbox" {{ (old('Add Category', $role->hasPermissionTo('Add Category'))) == '1' ? ' checked="checked"' : '' }}>
+                                                <input name="add_category" id="add_category"
+                                                       type="checkbox" {{ (old('add_category', $role->hasPermissionTo('add_category'))) == '1' ? ' checked="checked"' : '' }}>
                                             </label>
                                         </div>
                                     </td><!-- Create -->
@@ -170,8 +170,8 @@
                                     <td class="text-center">
                                         <div class="checkbox icheck">
                                             <label for="edit_category">
-                                                <input name="Edit Category" id="edit_category"
-                                                       type="checkbox" {{ (old('Edit Category', $role->hasPermissionTo('Edit Category'))) == '1' ? ' checked="checked"' : '' }}>
+                                                <input name="edit_category" id="edit_category"
+                                                       type="checkbox" {{ (old('edit_category', $role->hasPermissionTo('edit_category'))) == '1' ? ' checked="checked"' : '' }}>
                                             </label>
                                         </div>
                                     </td><!-- Update -->
@@ -180,8 +180,8 @@
                                     <td class="text-center">
                                         <div class="checkbox icheck">
                                             <label for="delete_category">
-                                                <input name="Delete Category" id="delete_category"
-                                                       type="checkbox" {{ (old('Delete Category', $role->hasPermissionTo('Delete Category'))) == '1' ? ' checked="checked"' : '' }}>
+                                                <input name="delete_category" id="delete_category"
+                                                       type="checkbox" {{ (old('delete_category', $role->hasPermissionTo('delete_category'))) == '1' ? ' checked="checked"' : '' }}>
                                             </label>
                                         </div>
                                     </td><!-- Update -->
@@ -191,8 +191,8 @@
                                         <span style="display:inline-block;">
                                             <div class="checkbox icheck">
                                                 <label for="restore_category" class="label-padding">
-                                                    <input name="Restore Category" id="restore_category"
-                                                           type="checkbox" {{ (old('Restore Category', $role->hasPermissionTo('Restore Category'))) == '1' ? ' checked="checked"' : '' }}>
+                                                    <input name="restore_category" id="restore_category"
+                                                           type="checkbox" {{ (old('restore_category', $role->hasPermissionTo('restore_category'))) == '1' ? ' checked="checked"' : '' }}>
                                                     <strong>{{ __('general.restore') }}</strong>
                                                 </label>
                                             </div>
@@ -201,8 +201,8 @@
                                         <span style="display:inline-block;">
                                                 <div class="checkbox icheck">
                                                     <label for="export_category" class="label-padding">
-                                                        <input name="Export Categories" id="export_category"
-                                                               type="checkbox" {{ (old('Export Categories', $role->hasPermissionTo('Export Categories'))) == '1' ? ' checked="checked"' : '' }}>
+                                                        <input name="export_categories" id="export_category"
+                                                               type="checkbox" {{ (old('export_categories', $role->hasPermissionTo('export_categories'))) == '1' ? ' checked="checked"' : '' }}>
                                                         <strong>{{ __('general.export') }}</strong>
                                                     </label>
                                                 </div>
@@ -211,8 +211,8 @@
                                         <span style="display:inline-block;">
                                                 <div class="checkbox icheck">
                                                     <label for="bulk_delete_category" class="label-padding">
-                                                        <input name="Bulk Delete Categories" id="bulk_delete_category"
-                                                               type="checkbox" {{ (old('Bulk Delete Categories', $role->hasPermissionTo('Bulk Delete Categories'))) == '1' ? ' checked="checked"' : '' }}>
+                                                        <input name="bulk_delete_categories" id="bulk_delete_category"
+                                                               type="checkbox" {{ (old('bulk_delete_categories', $role->hasPermissionTo('bulk_delete_categories'))) == '1' ? ' checked="checked"' : '' }}>
                                                         <strong>{{ __('general.bulk_checkin_and_delete') }}</strong>
                                                     </label>
                                                 </div>
@@ -228,8 +228,8 @@
                                    <td class="text-center">
                                        <div class="checkbox icheck">
                                            <label for="view_role">
-                                               <input name="View Role" id="view_role"
-                                                      type="checkbox" {{ (old('View Role', $role->hasPermissionTo('View Role'))) == '1' ? ' checked="checked"' : '' }}>
+                                               <input name="view_role" id="view_role"
+                                                      type="checkbox" {{ (old('view_role', $role->hasPermissionTo('view_role'))) == '1' ? ' checked="checked"' : '' }}>
                                            </label>
                                        </div>
                                    </td><!-- read -->
@@ -238,8 +238,8 @@
                                    <td class="text-center">
                                        <div class="checkbox icheck">
                                            <label for="add_role">
-                                               <input name="Add Role" id="add_role"
-                                                      type="checkbox" {{ (old('Add Role', $role->hasPermissionTo('Add Role'))) == '1' ? ' checked="checked"' : '' }}>
+                                               <input name="add_role" id="add_role"
+                                                      type="checkbox" {{ (old('add_role', $role->hasPermissionTo('add_role'))) == '1' ? ' checked="checked"' : '' }}>
                                            </label>
                                        </div>
                                    </td><!-- add -->
@@ -248,8 +248,8 @@
                                    <td class="text-center">
                                        <div class="checkbox icheck">
                                            <label for="edit_role">
-                                               <input name="Edit Role" id="edit_role"
-                                                      type="checkbox" {{ (old('Edit Role', $role->hasPermissionTo('Edit Role'))) == '1' ? ' checked="checked"' : '' }}>
+                                               <input name="edit_role" id="edit_role"
+                                                      type="checkbox" {{ (old('edit_role', $role->hasPermissionTo('edit_role'))) == '1' ? ' checked="checked"' : '' }}>
                                            </label>
                                        </div>
                                    </td><!-- edit -->
@@ -258,8 +258,8 @@
                                    <td class="text-center">
                                        <div class="checkbox icheck">
                                            <label for="delete_role">
-                                               <input name="Delete Role" id="delete_role"
-                                                      type="checkbox" {{ (old('Delete Role', $role->hasPermissionTo('Delete Role'))) == '1' ? ' checked="checked"' : '' }}>
+                                               <input name="delete_role" id="delete_role"
+                                                      type="checkbox" {{ (old('delete_role', $role->hasPermissionTo('delete_role'))) == '1' ? ' checked="checked"' : '' }}>
                                            </label>
                                        </div>
                                    </td><!-- delete -->
@@ -269,8 +269,8 @@
                                        <span style="display:inline-block;">
                                            <div class="checkbox icheck">
                                                <label for="restore_role" class="label-padding">
-                                                   <input name="Restore Role" id="restore_role"
-                                                          type="checkbox" {{ (old('Restore Role', $role->hasPermissionTo('Restore Role'))) == '1' ? ' checked="checked"' : '' }}>
+                                                   <input name="restore_role" id="restore_role"
+                                                          type="checkbox" {{ (old('restore_role', $role->hasPermissionTo('restore_role'))) == '1' ? ' checked="checked"' : '' }}>
                                                    <strong>{{ __('general.restore_role') }}</strong>
                                                </label>
                                            </div>

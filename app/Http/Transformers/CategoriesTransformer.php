@@ -35,9 +35,9 @@ class CategoriesTransformer
 
         // Permissions
         $permissions_array['available_actions'] = [
-            'update' => (Auth::user()->can('Edit Category') && ($category->deleted_at==''))  ? true : false,
-            'delete' => (Auth::user()->can('Delete Category') && ($category->deleted_at=='')) ? true : false,
-            'restore' => (Auth::user()->can('Restore Category') && ($category->deleted_at!='')) ? true : false,
+            'update' => (Auth::user()->can('edit_category') && ($category->deleted_at==''))  ? true : false,
+            'delete' => (Auth::user()->can('delete_category') && ($category->deleted_at=='')) ? true : false,
+            'restore' => (Auth::user()->can('restore_category') && ($category->deleted_at!='')) ? true : false,
         ];
 
         $array += $permissions_array;

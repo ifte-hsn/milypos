@@ -15,9 +15,9 @@ class RolesTransformer
 
         // Permissions
         $permissions_array['available_actions'] = [
-            'update' => (Auth::user()->can('Edit Role') && ($role->deleted_at=='') && $role->name != 'Super Admin')  ? true : false,
-            'delete' =>(Auth::user()->can('Delete Role') && ($role->deleted_at=='') && $role->name != 'Super Admin') ? true : false,
-            'restore' => (Auth::user()->can('Restore Role') && ($role->deleted_at!='') && $role->name != 'Super Admin') ? true : false,
+            'update' => (Auth::user()->can('edit_role') && ($role->deleted_at=='') && $role->name != 'Super Admin')  ? true : false,
+            'delete' =>(Auth::user()->can('delete_role') && ($role->deleted_at=='') && $role->name != 'Super Admin') ? true : false,
+            'restore' => (Auth::user()->can('restore_role') && ($role->deleted_at!='') && $role->name != 'Super Admin') ? true : false,
         ];
 
         $array += $permissions_array;

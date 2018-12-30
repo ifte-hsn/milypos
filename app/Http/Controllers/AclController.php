@@ -17,7 +17,7 @@ class AclController extends Controller
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function roleIndex() {
-        $this->authorize('View Role', Role::class);
+        $this->authorize('view_role', Role::class);
         return view('roles.index');
     }
 
@@ -29,7 +29,7 @@ class AclController extends Controller
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function getRoleList(Request $request) {
-        $this->authorize('View Role', Role::class);
+        $this->authorize('view_role', Role::class);
 
         $roles = Role::select([
             'roles.id',
@@ -74,7 +74,7 @@ class AclController extends Controller
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function getRoleEdit($id) {
-        $this->authorize('Edit Role', Role::class);
+        $this->authorize('edit_role', Role::class);
 
         if($role =  Role::findOrFail($id)) {
             return view('roles.edit', compact('role'));
@@ -85,14 +85,14 @@ class AclController extends Controller
     }
 
     /**
-     * Method for restore roles
+     * Method for Restore Roles
      *
      * @param null $id
      * @return \Illuminate\Http\RedirectResponse
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function getRoleRestore($id = null) {
-        $this->authorize('Add Role', Role::class);
+        $this->authorize('restore_role', Role::class);
 
         if(!$role = Role::onlyTrashed()->find($id)) {
             return redirect()->route('roles.index')->with('error', __('roles/message.role_not_found', ['id'=>$id]));
@@ -106,7 +106,7 @@ class AclController extends Controller
     }
 
     public function destroyRole($id) {
-        $this->authorize('Delete Role', Role::class);
+        $this->authorize('delete_role', Role::class);
 
         try {
             $role = Role::findOrFail($id);
@@ -121,5 +121,11 @@ class AclController extends Controller
             // Redirect to the user management page
             return redirect()->route('roles.index')->with('error', $error);
         }
+    }
+
+
+    public function update(Request $request)
+    {
+        dd($request);
     }
 }

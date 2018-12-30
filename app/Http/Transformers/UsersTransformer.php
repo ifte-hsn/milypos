@@ -54,9 +54,9 @@ class UsersTransformer
 
         // TODO: Implement parmissinon wise actions
         $permissions_array['available_actions'] = [
-            'update' => (Auth::user()->can('Edit User') && ($user->deleted_at==''))  ? true : false,
-            'delete' =>(Auth::user()->can('Delete User') && ($user->deleted_at=='')) ? true : false,
-            'restore' => (Auth::user()->can('Restore User') && ($user->deleted_at!='')) ? true : false,
+            'update' => (Auth::user()->can('edit_user') && ($user->deleted_at==''))  ? true : false,
+            'delete' =>(Auth::user()->can('delete_user') && ($user->deleted_at=='')) ? true : false,
+            'restore' => (Auth::user()->can('restore_user') && ($user->deleted_at!='')) ? true : false,
         ];
 
         $array += $permissions_array;
