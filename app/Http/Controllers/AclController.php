@@ -17,7 +17,7 @@ class AclController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function roleIndex() {
+    public function index() {
         $this->authorize('view_role', Role::class);
         return view('roles.index');
     }
@@ -78,7 +78,7 @@ class AclController extends Controller
         $role = Role::findById($id);
 
         if($role->name === 'Super Admin') {
-            $error = __('roles/message.error.not_allowed_to_edit_or_view_super_admin_permission');
+            $error = __('roles/message.error.roleIndex');
             return redirect()->back()->with('error', $error);
         }
 
@@ -91,7 +91,7 @@ class AclController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function getRoleEdit($id) {
+    public function edit($id) {
         $this->authorize('edit_role', Role::class);
 
         if($role =  Role::findOrFail($id)) {
@@ -123,11 +123,24 @@ class AclController extends Controller
         return redirect()->route('roles.index')->with('error', __('roles/message.add_role/message.error.could_not_restore'));
     }
 
-    public function destroyRole($id) {
+    /**
+     * Delete Role
+     *
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
+    public function destroy($id) {
         $this->authorize('delete_role', Role::class);
 
         try {
             $role = Role::findOrFail($id);
+
+            if($role->name === 'Super Admin') {
+                $error = __('roles/message.error.delete_super_admin');
+                return redirect()->route('roles.index')->with('error', $error);
+            }
+
             $role->delete();
 
             $success = __('roles/message.success.delete');
