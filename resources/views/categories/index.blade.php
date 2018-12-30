@@ -58,7 +58,7 @@
                     @endif {{-- Auth::user()->hasAnyPermission(['Update User', 'Delete User'])--}}
                 @endif
 
-                @can('Read User')
+                @can('View User')
                 <table
                         data-click-to-select="true"
                         data-columns="{{ \App\Presenters\CategoryPresenter::dataTableLayout() }}"

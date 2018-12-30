@@ -75,7 +75,7 @@
                                     <td class="text-center">
                                         <div class="checkbox icheck">
                                             <label>
-                                                <input name="Read User" id="read_user" type="checkbox">
+                                                <input name="View User" id="read_user" type="checkbox">
                                             </label>
                                         </div>
                                     </td><!-- read -->

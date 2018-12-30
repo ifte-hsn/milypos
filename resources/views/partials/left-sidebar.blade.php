@@ -14,8 +14,8 @@
             {{-- Display user menu if user have any of the following permission--}}
             @if (Auth::user()->hasAnyPermission(
                 [
+                    'View User',
                     'Create User',
-                    'Read User',
                     'Update User',
                     'Delete User'
                 ]) || Auth::user()->hasRole('Super Admin')

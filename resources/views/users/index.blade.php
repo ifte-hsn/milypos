@@ -23,7 +23,7 @@
                     <a href="{{ route('users.create') }}" class="btn btn-info"><i class="fa fa-plus"></i> {{ __('general.create_new') }}</a>
                 @endcan
 
-                @can('Read User')
+                @can('View User')
                     @if (Input::get('status')=='deleted')
                         <a href="{{ route('users.index') }}" class="btn btn-default"><i class="fa fa-user-circle"></i> {{ __('general.show_current_users') }}</a>
                     @else
@@ -40,7 +40,7 @@
                 @csrf
                 @if(Input::get('status') != 'deleted')
 
-                    @if(((Auth::user()->can('Delete User') || Auth::user()->can('Update User')) && Auth::user()->can('Read User')))
+                    @if(((Auth::user()->can('Delete User') || Auth::user()->can('Update User')) && Auth::user()->can('View User')))
 
                         <div id="toolbar">
                             <select name="bulk_actions" class="form-control select2" width="200px;">
@@ -58,7 +58,7 @@
                     @endif {{-- Auth::user()->hasAnyPermission(['Update User', 'Delete User'])--}}
                 @endif
 
-                @can('Read User')
+                @can('View User')
                 <table
                         data-click-to-select="true"
                         data-columns="{{ \App\Presenters\UserPresenter::dataTableLayout() }}"

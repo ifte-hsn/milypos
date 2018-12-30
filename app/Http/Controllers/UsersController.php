@@ -28,7 +28,7 @@ class UsersController extends Controller
         // Authorize user
         // check if logged in user has the permission to see users data
 
-        $this->authorize('Read User', User::class);
+        $this->authorize('View User', User::class);
         return view('users.index');
     }
 
@@ -42,7 +42,7 @@ class UsersController extends Controller
     public function getUserList(Request $request) {
         // Authorize user
         // check if logged in user has the permission to see users data
-        $this->authorize('Read User', User::class);
+        $this->authorize('View User', User::class);
 
 
         $users = User::select([
@@ -327,7 +327,7 @@ class UsersController extends Controller
 
         // Authorize user
         // check if logged in user has the permission to see users data
-        $this->authorize('Read User', User::class);
+        $this->authorize('View User', User::class);
 
 
         $response = new StreamedResponse(function() {
