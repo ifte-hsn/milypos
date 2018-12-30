@@ -66,10 +66,11 @@ class UsersTableSeeder extends Seeder
 
 
         // Role
-        $createRole = Permission::create(['name' => 'Add Role']);
-        $readRole = Permission::create(['name' => 'View Role']);
-        $updateRole = Permission::create(['name' => 'Update Role']);
+        $addRole = Permission::create(['name' => 'Add Role']);
+        $viewRole = Permission::create(['name' => 'View Role']);
+        $editRole = Permission::create(['name' => 'Edit Role']);
         $deleteRole = Permission::create(['name' => 'Delete Role']);
+        $restoreRole = Permission::create(['name' => 'Restore Role']);
 
         // Settings
         $updateSettings = Permission::create(['name'=>'Update Settings']);
@@ -91,10 +92,11 @@ class UsersTableSeeder extends Seeder
             $updateCategory,
             $deleteCategory,
             $updateSettings,
-            $createRole,
-            $readRole,
-            $updateRole,
-            $deleteRole
+            $addRole,
+            $viewRole,
+            $editRole,
+            $deleteRole,
+            $restoreRole
         ]);
         factory(App\Models\User::class, 200)->create();
     }

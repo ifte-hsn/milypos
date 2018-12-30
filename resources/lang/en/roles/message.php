@@ -5,7 +5,7 @@ return array(
     'role_not_found'                          => 'Role [:id] does not exists.',
     'insufficient_permissions'                => 'Insufficient Permissions.',
     'role_deleted_warning'                    => 'This role has been deleted. You will have to restore this role to edit them.',
-    'do_not_have_permission_to_see_role_list' => 'Sorry! You do not have permission to see role list!',
+    'do_not_have_permission_to_see_roles_list' => 'Sorry! You do not have permission to see role list!',
     'add_role'                                => 'Add New Role',
     'update_role'                             => 'Update Role',
     'bulk_delete_warning'                     => 'You are about to delete the  :count role(s) listed below. Super admin names are highlighted in red.',

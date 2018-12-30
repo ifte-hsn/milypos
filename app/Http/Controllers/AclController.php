@@ -74,7 +74,7 @@ class AclController extends Controller
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function getRoleEdit($id) {
-        $this->authorize('Update Role', Role::class);
+        $this->authorize('Edit Role', Role::class);
 
         if($role =  Role::findOrFail($id)) {
             return view('roles.edit', compact('role'));

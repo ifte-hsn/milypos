@@ -19,7 +19,7 @@
         <div class="box-header with-border clearfix">
             <div class="pull-right">
 
-                @can('Add Roles')
+                @can('Add Role')
                     <a href="{{ route('roles.create') }}" class="btn btn-info"><i class="fa fa-plus"></i> {{ __('general.create_new') }}</a>
                 @endcan
 
@@ -35,7 +35,7 @@
             </div><!-- pull-right -->
         </div>
         <div class="box-body">
-                @can('Read Role')
+                @can('View Role')
                     <table
                             data-click-to-select="true"
                             data-columns="{{ \App\Presenters\RolePresenter::dataTableLayout() }}"

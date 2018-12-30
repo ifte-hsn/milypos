@@ -44,26 +44,26 @@
                     </div><!-- form-group -->
 
                     <div class="table-responsive">
-                        <table class="table table-bordered table-hover table-striped reports-table">
+                        <table class="table table-bordered table-hover table-striped permissions-table">
 
                             <thead>
-                                <tr>
-                                    <th colspan="6"
-                                        class="text-center"> {{ ($role->name) ? $role->name: '' }} {{ __('general.permissions') }}</th>
-                                </tr>
+                            <tr>
+                                <th colspan="6"
+                                    class="text-center"> {{ ($role->name) ? $role->name: '' }} {{ __('general.permissions') }}</th>
+                            </tr>
 
-                                <tr>
-                                    <th rowspan="2" class="text-center">{{ __('general.module_name') }}</th>
-                                    <th colspan="5" class="text-center">{{ __('general.permissions') }}</th>
-                                </tr>
+                            <tr>
+                                <th rowspan="2" class="text-center">{{ __('general.module_name') }}</th>
+                                <th colspan="5" class="text-center">{{ __('general.permissions') }}</th>
+                            </tr>
 
-                                <tr>
-                                    <th class="text-center">{{ __('general.view') }}</th>
-                                    <th class="text-center">{{ __('general.add') }}</th>
-                                    <th class="text-center">{{ __('general.edit') }}</th>
-                                    <th class="text-center">{{ __('general.delete') }}</th>
-                                    <th class="text-center">{{ __('general.miscellaneous') }}</th>
-                                </tr>
+                            <tr>
+                                <th class="text-center">{{ __('general.view') }}</th>
+                                <th class="text-center">{{ __('general.add') }}</th>
+                                <th class="text-center">{{ __('general.edit') }}</th>
+                                <th class="text-center">{{ __('general.delete') }}</th>
+                                <th class="text-center">{{ __('general.miscellaneous') }}</th>
+                            </tr>
                             </thead>
 
                             <tbody>
@@ -75,7 +75,8 @@
                                     <td class="text-center">
                                         <div class="checkbox icheck">
                                             <label for="view_user">
-                                                <input name="View User" id="view_user" type="checkbox" {{ (old('View User', $role->hasPermissionTo('View User'))) == '1' ? ' checked="checked"' : '' }}>
+                                                <input name="View User" id="view_user"
+                                                       type="checkbox" {{ (old('View User', $role->hasPermissionTo('View User'))) == '1' ? ' checked="checked"' : '' }}>
                                             </label>
                                         </div>
                                     </td><!-- read -->
@@ -83,7 +84,8 @@
                                     <td class="text-center">
                                         <div class="checkbox icheck">
                                             <label for="add_user">
-                                                <input name="Add User" id="add_user" type="checkbox" {{ (old('Add User', $role->hasPermissionTo('Add User'))) == '1' ? ' checked="checked"' : '' }}>
+                                                <input name="Add User" id="add_user"
+                                                       type="checkbox" {{ (old('Add User', $role->hasPermissionTo('Add User'))) == '1' ? ' checked="checked"' : '' }}>
                                             </label>
                                         </div>
                                     </td><!-- Create -->
@@ -91,7 +93,8 @@
                                     <td class="text-center">
                                         <div class="checkbox icheck">
                                             <label for="edit_user">
-                                                <input name="Edit User" id="edit_user" type="checkbox" {{ (old('Edit User', $role->hasPermissionTo('Edit User'))) == '1' ? ' checked="checked"' : '' }}>
+                                                <input name="Edit User" id="edit_user"
+                                                       type="checkbox" {{ (old('Edit User', $role->hasPermissionTo('Edit User'))) == '1' ? ' checked="checked"' : '' }}>
                                             </label>
                                         </div>
                                     </td><!-- Update -->
@@ -100,41 +103,103 @@
                                     <td class="text-center">
                                         <div class="checkbox icheck">
                                             <label>
-                                                <input name="Delete User" id="delete_user" type="checkbox" {{ (old('Delete User', $role->hasPermissionTo('Delete User'))) == '1' ? ' checked="checked"' : '' }}>
+                                                <input name="Delete User" id="delete_user"
+                                                       type="checkbox" {{ (old('Delete User', $role->hasPermissionTo('Delete User'))) == '1' ? ' checked="checked"' : '' }}>
                                             </label>
                                         </div>
                                     </td><!-- Update -->
 
                                     <td>
 
-                                        <span style="display:inline-block;">
-                                            <div class="checkbox icheck">
-                                                <label for="restore_user" class="label-padding">
-                                                    <input name="Restore User" id="restore_user" type="checkbox" {{ (old('Restore User', $role->hasPermissionTo('Restore User'))) == '1' ? ' checked="checked"' : '' }}>
-                                                    <strong>{{ __('general.restore') }}</strong>
-                                                </label>
-                                            </div>
-                                        </span>
+                                            <span style="display:inline-block;">
+                                                <div class="checkbox icheck">
+                                                    <label for="restore_user" class="label-padding">
+                                                        <input name="Restore User" id="restore_user"
+                                                               type="checkbox" {{ (old('Restore User', $role->hasPermissionTo('Restore User'))) == '1' ? ' checked="checked"' : '' }}>
+                                                        <strong>{{ __('general.restore') }}</strong>
+                                                    </label>
+                                                </div>
+                                            </span>
 
                                         <span style="display:inline-block;">
-                                            <div class="checkbox icheck">
-                                                <label for="export_user" class="label-padding">
-                                                    <input name="Export Users" id="export_user" type="checkbox" {{ (old('Export Users', $role->hasPermissionTo('Export Users'))) == '1' ? ' checked="checked"' : '' }}>
-                                                    <strong>{{ __('general.export') }}</strong>
-                                                </label>
-                                            </div>
-                                        </span>
+                                                <div class="checkbox icheck">
+                                                    <label for="export_user" class="label-padding">
+                                                        <input name="Export Users" id="export_user"
+                                                               type="checkbox" {{ (old('Export Users', $role->hasPermissionTo('Export Users'))) == '1' ? ' checked="checked"' : '' }}>
+                                                        <strong>{{ __('general.export') }}</strong>
+                                                    </label>
+                                                </div>
+                                            </span>
 
-                                        <span style="display:inline-block;">
-                                            <div class="checkbox icheck">
-                                                <label for="bulk_delete_user" class="label-padding">
-                                                    <input name="Bulk Delete Users" id="bulk_delete" type="checkbox" {{ (old('Bulk Delete Users', $role->hasPermissionTo('Bulk Delete Users'))) == '1' ? ' checked="checked"' : '' }}>
-                                                    <strong>{{ __('general.bulk_checkin_and_delete') }}</strong>
-                                                </label>
-                                            </div>
-                                        </span>
+                                            <span style="display:inline-block;">
+                                                <div class="checkbox icheck">
+                                                    <label for="bulk_delete_user" class="label-padding">
+                                                        <input name="Bulk Delete Users" id="bulk_delete"
+                                                               type="checkbox" {{ (old('Bulk Delete Users', $role->hasPermissionTo('Bulk Delete Users'))) == '1' ? ' checked="checked"' : '' }}>
+                                                        <strong>{{ __('general.bulk_checkin_and_delete') }}</strong>
+                                                    </label>
+                                                </div>
+                                            </span>
                                     </td><!-- Update -->
                                 </tr> <!-- user module -->
+
+                               <tr>
+                                   <td>
+                                       {{ __('general.role') }}
+                                   </td>
+
+                                   <td class="text-center">
+                                       <div class="checkbox icheck">
+                                           <label for="view_role">
+                                               <input name="View Role" id="view_role"
+                                                      type="checkbox" {{ (old('View Role', $role->hasPermissionTo('View Role'))) == '1' ? ' checked="checked"' : '' }}>
+                                           </label>
+                                       </div>
+                                   </td><!-- read -->
+
+
+                                   <td class="text-center">
+                                       <div class="checkbox icheck">
+                                           <label for="add_role">
+                                               <input name="Add Role" id="add_role"
+                                                      type="checkbox" {{ (old('Add Role', $role->hasPermissionTo('Add Role'))) == '1' ? ' checked="checked"' : '' }}>
+                                           </label>
+                                       </div>
+                                   </td><!-- add -->
+
+
+                                   <td class="text-center">
+                                       <div class="checkbox icheck">
+                                           <label for="edit_role">
+                                               <input name="Edit Role" id="edit_role"
+                                                      type="checkbox" {{ (old('Edit Role', $role->hasPermissionTo('Edit Role'))) == '1' ? ' checked="checked"' : '' }}>
+                                           </label>
+                                       </div>
+                                   </td><!-- edit -->
+
+
+                                   <td class="text-center">
+                                       <div class="checkbox icheck">
+                                           <label for="delete_role">
+                                               <input name="Delete Role" id="delete_role"
+                                                      type="checkbox" {{ (old('Delete Role', $role->hasPermissionTo('Delete Role'))) == '1' ? ' checked="checked"' : '' }}>
+                                           </label>
+                                       </div>
+                                   </td><!-- delete -->
+
+
+                                   <td>
+                                       <span style="display:inline-block;">
+                                           <div class="checkbox icheck">
+                                               <label for="restore_role" class="label-padding">
+                                                   <input name="Restore Role" id="restore_role"
+                                                          type="checkbox" {{ (old('Restore Role', $role->hasPermissionTo('Restore Role'))) == '1' ? ' checked="checked"' : '' }}>
+                                                   <strong>{{ __('general.restore_role') }}</strong>
+                                               </label>
+                                           </div>
+                                       </span>
+                                   </td><!-- read -->
+                               </tr>
                             </tbody>
                         </table>
                     </div><!-- table-responsive -->

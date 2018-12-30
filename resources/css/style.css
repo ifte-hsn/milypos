@@ -19,13 +19,23 @@
     padding: 5px 5px 5px 0px;
     max-height: 50px;
 }
-.reports-table thead th, th, td{
+.permissions-table thead th, th, td{
     vertical-align: middle!important;
 }
 .padding05 {
     padding: 0 5px;
 }
 
-.reports-table .label-padding{
+.permissions-table .label-padding{
     padding: 0 35px;
+}
+
+
+.permissions-table>thead>tr>th,
+.permissions-table>tbody>tr>th,
+.permissions-table>tfoot>tr>th,
+.permissions-table>thead>tr>td,
+.permissions-table>tbody>tr>td,
+.permissions-table>tfoot>tr>td {
+    border-color: #ddd;
 }
