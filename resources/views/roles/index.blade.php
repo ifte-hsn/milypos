@@ -23,7 +23,7 @@
                     <a href="{{ route('roles.create') }}" class="btn btn-info"><i class="fa fa-plus"></i> {{ __('general.create_new') }}</a>
                 @endcan
 
-                @can('Read Roles')
+                @can('View Role')
                     @if (Input::get('status')=='deleted')
                         <a href="{{ route('roles.index') }}" class="btn btn-default"><i class="fa fa-shield"></i> {{ __('general.show_current_roles') }}</a>
                     @else

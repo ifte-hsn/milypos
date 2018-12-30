@@ -67,7 +67,7 @@ class UsersTableSeeder extends Seeder
 
         // Role
         $createRole = Permission::create(['name' => 'Add Role']);
-        $readRole = Permission::create(['name' => 'Read Role']);
+        $readRole = Permission::create(['name' => 'View Role']);
         $updateRole = Permission::create(['name' => 'Update Role']);
         $deleteRole = Permission::create(['name' => 'Delete Role']);
 

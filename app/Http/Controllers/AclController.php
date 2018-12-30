@@ -17,7 +17,7 @@ class AclController extends Controller
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function roleIndex() {
-        $this->authorize('Read Role', Role::class);
+        $this->authorize('View Role', Role::class);
         return view('roles.index');
     }
 
@@ -29,7 +29,7 @@ class AclController extends Controller
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function getRoleList(Request $request) {
-        $this->authorize('Read Role', Role::class);
+        $this->authorize('View Role', Role::class);
 
         $roles = Role::select([
             'roles.id',
