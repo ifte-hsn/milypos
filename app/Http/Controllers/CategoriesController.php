@@ -22,7 +22,7 @@ class CategoriesController extends Controller
      */
     public function index()
     {
-        $this->authorize('Read Category', Category::class);
+        $this->authorize('View Category', Category::class);
         return view('categories.index');
     }
 
@@ -35,7 +35,7 @@ class CategoriesController extends Controller
      */
     public function getCategoriesList(Request $request)
     {
-        $this->authorize('Read Category', Category::class);
+        $this->authorize('View Category', Category::class);
 
         $categories = Category::select([
             'categories.id',
@@ -80,7 +80,7 @@ class CategoriesController extends Controller
      */
     public function create()
     {
-        $this->authorize('Create Category', Category::class);
+        $this->authorize('Add Category', Category::class);
 
         $category = new Category();
         return view('categories.edit', compact('category'));
@@ -96,7 +96,7 @@ class CategoriesController extends Controller
      */
     public function store(Request $request)
     {
-        $this->authorize('Create Category', Category::class);
+        $this->authorize('Add Category', Category::class);
 
         $request->validate([
             'name' => 'required|unique:categories',
@@ -141,9 +141,12 @@ class CategoriesController extends Controller
      *
      * @param  int $id
      * @return \Illuminate\Http\RedirectResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function show($id)
     {
+        $this->authorize('View Category', Category::class);
+
         return Redirect::route('category.edit', ['id' => $id]);
     }
 
@@ -156,7 +159,7 @@ class CategoriesController extends Controller
      */
     public function edit($id)
     {
-        $this->authorize('Update Category', Category::class);
+        $this->authorize('Edit Category', Category::class);
 
         if($category =  Category::findOrFail($id)) {
             return view('categories.edit', compact('category'));
@@ -176,7 +179,7 @@ class CategoriesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->authorize('Update Category', Category::class);
+        $this->authorize('Edit Category', Category::class);
 
         $request->validate([
             'name' => 'required',
@@ -265,10 +268,8 @@ class CategoriesController extends Controller
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function restore($id = null) {
-        // Authorize user
-        // check if logged in user has the permission to restore user
-        // Any user with permission "Create Category" can restore data.
-        $this->authorize('Create Category', Category::class);
+        
+        $this->authorize('Restore Category', Category::class);
 
         if(!$category = Category::onlyTrashed()->find($id)) {
             return redirect()->route('category.index')->with('error', __('category/message.category_not_found', ['id'=>$id]));
@@ -288,7 +289,7 @@ class CategoriesController extends Controller
      */
     public function postBulkEdit(Request $request)
     {
-        $this->authorize(['Update Category', 'Delete Category'], Category::class);
+        $this->authorize('Bulk Delete Categories', Category::class);
 
         if ($request->has('ids') && (count($request->input('ids')) > 0)) {
             $categories_raw_array = array_keys(Input::get('ids'));
@@ -311,7 +312,7 @@ class CategoriesController extends Controller
      */
     public function postBulkSave(Request $request)
     {
-        $this->authorize(['Update Category', 'Delete Category'], Category::class);
+        $this->authorize('Bulk Delete Categories', Category::class);
 
         if (!$request->has('ids') || count($request->input('ids')) == 0 ) {
             return redirect()->route('category.index')->with('error', __('categories/message.no_category_selected'));
@@ -335,7 +336,7 @@ class CategoriesController extends Controller
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function exportAsCsv() {
-        $this->authorize('Read Category', Category::class);
+        $this->authorize('Export Categories', Category::class);
         \Debugbar::disable();
 
         $response = new StreamedResponse(function() {

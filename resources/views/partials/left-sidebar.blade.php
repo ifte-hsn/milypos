@@ -38,9 +38,9 @@
 
             @if (Auth::user()->hasAnyPermission(
                 [
-                    'Create Category',
-                    'Read Category',
-                    'Update Category',
+                    'Add Category',
+                    'View Category',
+                    'Edit Category',
                     'Delete Category'
                 ]) || Auth::user()->hasRole('Super Admin')
             )

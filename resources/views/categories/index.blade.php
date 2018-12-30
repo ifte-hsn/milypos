@@ -19,19 +19,21 @@
         <div class="box-header with-border clearfix">
             <div class="pull-right">
 
-                @can('Create Category')
+                @can('Add Category')
                     <a href="{{ route('category.create') }}" class="btn btn-info"><i class="fa fa-plus"></i> {{ __('general.create_new') }}</a>
                 @endcan
 
-                @can('Read Category')
+                @can('View Category')
                     @if (Input::get('status')=='deleted')
                         <a href="{{ route('category.index') }}" class="btn btn-default"><i class="fa fa-th"></i> {{ __('general.show_current_categories') }}</a>
                     @else
                         <a href="{{ route('category.index', ['status' => 'deleted']) }}" class="btn btn-default"><i class="fa fa-trash"></i> {{ __('general.show_deleted_categories') }}</a>
                     @endif
-                        <a href="{{ route('category.csv.export') }}" class="btn btn-default"><i class="fa fa-download"></i> {{ __('general.export') }}</a>
                 @endcan
 
+                @can('Export Categoreis')
+                    <a href="{{ route('category.csv.export') }}" class="btn btn-default"><i class="fa fa-download"></i> {{ __('general.export') }}</a>
+                @endcan
 
             </div><!-- pull-right -->
         </div>
@@ -40,25 +42,22 @@
                 @csrf
                 @if(Input::get('status') != 'deleted')
 
-                    @if(((Auth::user()->can('Delete Category') || Auth::user()->can('Update Category')) && Auth::user()->can('Read Category')))
+                    @if(((Auth::user()->can('Delete Category') || Auth::user()->can('Edit Category')) && Auth::user()->can('View Category')))
 
                         <div id="toolbar">
                             <select name="bulk_actions" class="form-control select2" width="200px;">
-                                @can('Delete User')
+                                @can('Delete Category')
                                     <option value="delete">{{ __('general.bulk_checkin_and_delete') }}</option>
                                 @endcan
-
-                                @can('Update User')
-                                    <option value="edit">{{ __('general.bulk_edit') }}</option>
-                                @endcan
                             </select>
+
                             <button class="btn btn-default" id="bulkEdit" disabled>Go</button>
 
                         </div> <!-- #toolbar -->
-                    @endif {{-- Auth::user()->hasAnyPermission(['Update User', 'Delete User'])--}}
+                    @endif
                 @endif
 
-                @can('View User')
+                @can('View Category')
                 <table
                         data-click-to-select="true"
                         data-columns="{{ \App\Presenters\CategoryPresenter::dataTableLayout() }}"

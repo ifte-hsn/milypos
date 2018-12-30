@@ -35,10 +35,9 @@ class CategoriesTransformer
 
         // Permissions
         $permissions_array['available_actions'] = [
-            'update' => (Auth::user()->can('Update Category') && ($category->deleted_at==''))  ? true : false,
-            // TODO: this option will only available when there is no asset in this category
-            'delete' =>(Auth::user()->can('Delete Category') && ($category->deleted_at=='')) ? true : false,
-            'restore' => (Auth::user()->can('Create Category') && ($category->deleted_at!='')) ? true : false,
+            'update' => (Auth::user()->can('Edit Category') && ($category->deleted_at==''))  ? true : false,
+            'delete' => (Auth::user()->can('Delete Category') && ($category->deleted_at=='')) ? true : false,
+            'restore' => (Auth::user()->can('Restore Category') && ($category->deleted_at!='')) ? true : false,
         ];
 
         $array += $permissions_array;

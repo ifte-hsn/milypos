@@ -59,9 +59,9 @@ class UsersTableSeeder extends Seeder
         $exportUser = Permission::create(['name' => 'Export Users']);
 
         // Categories
-        $createCategory = Permission::create(['name'=>'Create Category']);
-        $readCategory = Permission::create(['name'=>'Read Category']);
-        $updateCategory = Permission::create(['name'=>'Update Category']);
+        $createCategory = Permission::create(['name'=>'Add Category']);
+        $readCategory = Permission::create(['name'=>'View Category']);
+        $updateCategory = Permission::create(['name'=>'Edit Category']);
         $deleteCategory = Permission::create(['name' => 'Delete Category']);
 
 
