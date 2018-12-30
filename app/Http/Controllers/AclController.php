@@ -124,8 +124,46 @@ class AclController extends Controller
     }
 
 
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
-        dd($request);
+        $parmissions_list = array(
+            'add_user',
+            'view_user',
+            'edit_user',
+            'delete_user',
+            'restore_user',
+            'bulk_delete_users',
+            'export_users',
+            'add_category',
+            'view_category',
+            'edit_category',
+            'delete_category',
+            'restore_category',
+            'export_categories',
+            'bulk_delete_categories',
+            'add_role',
+            'view_role',
+            'edit_role',
+            'delete_role',
+            'restore_role',
+            'update_settings'
+        );
+
+        $new_permissions = array();
+
+        foreach ($parmissions_list as $permission => $value) {
+            if($request->input($permission)==null)
+                continue;
+
+            $new_permissions[$permission] = $permission;
+        }
+
+        $role = Role::findById($id);
+
+        $role->syncPermissions($new_permissions);
+
+        $success = __('roles/message.success.update');
+
+        return redirect()->route('roles.index')->with('success', $success);
     }
 }
