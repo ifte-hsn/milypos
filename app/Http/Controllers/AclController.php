@@ -151,19 +151,16 @@ class AclController extends Controller
 
         $new_permissions = array();
 
-        foreach ($parmissions_list as $permission => $value) {
+        foreach ($parmissions_list as $permission) {
             if($request->input($permission)==null)
                 continue;
-
             $new_permissions[$permission] = $permission;
         }
 
+
         $role = Role::findById($id);
-
         $role->syncPermissions($new_permissions);
-
         $success = __('roles/message.success.update');
-
         return redirect()->route('roles.index')->with('success', $success);
     }
 }
