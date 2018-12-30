@@ -16,7 +16,7 @@
                 [
                     'View User',
                     'Create User',
-                    'Update User',
+                    'Edit User',
                     'Delete User'
                 ]) || Auth::user()->hasRole('Super Admin')
             )

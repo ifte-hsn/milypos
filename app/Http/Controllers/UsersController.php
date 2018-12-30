@@ -25,9 +25,6 @@ class UsersController extends Controller
      */
     public function index()
     {
-        // Authorize user
-        // check if logged in user has the permission to see users data
-
         $this->authorize('View User', User::class);
         return view('users.index');
     }
@@ -40,8 +37,6 @@ class UsersController extends Controller
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function getUserList(Request $request) {
-        // Authorize user
-        // check if logged in user has the permission to see users data
         $this->authorize('View User', User::class);
 
 
@@ -105,8 +100,6 @@ class UsersController extends Controller
     public function create()
     {
 
-        // Authorize user
-        // check if logged in user has the permission to create new user data
         $this->authorize('Create User', User::class);
 
         $user = new User();
@@ -126,9 +119,6 @@ class UsersController extends Controller
      */
     public function store(Request $request)
     {
-
-        // Authorize user
-        // check if logged in user has the permission to create new users data
         $this->authorize('Create User', User::class);
 
         $request->validate([
@@ -187,9 +177,7 @@ class UsersController extends Controller
     public function edit($id)
     {
 
-        // Authorize user
-        // check if logged in user has the permission to update user information data
-        $this->authorize('Update User', User::class);
+        $this->authorize('Edit User', User::class);
 
 
         if($user =  User::findOrFail($id)) {
@@ -212,9 +200,7 @@ class UsersController extends Controller
     public function update(Request $request, $id)
     {
 
-        // Authorize user
-        // check if logged in user has the permission to update user information data
-        $this->authorize('Update User', User::class);
+        $this->authorize('Edit User', User::class);
 
 
         try {
@@ -284,8 +270,6 @@ class UsersController extends Controller
      */
     public function destroy($id = null)
     {
-        // Authorize user
-        // check if logged in user has the permission to delete user data
         $this->authorize('Delete User', User::class);
 
 
@@ -323,10 +307,9 @@ class UsersController extends Controller
      * @return StreamedResponse
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function exportAsCsv () {
+    public function exportAsCsv () 
+    {
 
-        // Authorize user
-        // check if logged in user has the permission to see users data
         $this->authorize('View User', User::class);
 
 
@@ -376,9 +359,6 @@ class UsersController extends Controller
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function getRestore($id = null) {
-        // Authorize user
-        // check if logged in user has the permission to restore user
-        // Any user with permission "Create User" can restore data.
         $this->authorize('Create User', User::class);
 
         if(!$user = User::onlyTrashed()->find($id)) {
@@ -402,9 +382,7 @@ class UsersController extends Controller
      */
     public function postBulkEdit(Request $request)
     {
-        // Authorize user
-        // check if logged in user has the permission to update user
-        $this->authorize(['Update User', 'Delete User'], User::class);
+        $this->authorize(['Edit User', 'Delete User'], User::class);
 
 
         if ($request->has('ids') && (count($request->input('ids')) > 0)) {
@@ -431,9 +409,7 @@ class UsersController extends Controller
      */
     public function postBulkSave(Request $request)
     {
-        // Authorize user
-        // check if logged in user has the permission to update user
-        $this->authorize(['Update User', 'Delete User'], User::class);
+        $this->authorize(['Edit User', 'Delete User'], User::class);
 
         if (!$request->has('ids') || count($request->input('ids')) == 0 ) {
 

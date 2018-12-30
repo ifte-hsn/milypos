@@ -52,7 +52,7 @@ class UsersTableSeeder extends Seeder
         // User
         $createUser = Permission::create(['name'=>'Create User']);
         $viewUser = Permission::create(['name'=>'View User']);
-        $updateUser = Permission::create(['name'=>'Update User']);
+        $editUser = Permission::create(['name'=>'Edit User']);
         $deleteUser = Permission::create(['name' => 'Delete User']);
 
         // Categories
@@ -79,7 +79,7 @@ class UsersTableSeeder extends Seeder
         $adminRole->syncPermissions([
             $createUser,
             $viewUser,
-            $updateUser,
+            $editUser,
             $deleteUser,
             $createCategory,
             $readCategory,

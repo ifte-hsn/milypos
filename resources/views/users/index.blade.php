@@ -40,7 +40,7 @@
                 @csrf
                 @if(Input::get('status') != 'deleted')
 
-                    @if(((Auth::user()->can('Delete User') || Auth::user()->can('Update User')) && Auth::user()->can('View User')))
+                    @if(((Auth::user()->can('Delete User') || Auth::user()->can('Edit User')) && Auth::user()->can('View User')))
 
                         <div id="toolbar">
                             <select name="bulk_actions" class="form-control select2" width="200px;">
@@ -48,14 +48,14 @@
                                     <option value="delete">{{ __('general.bulk_checkin_and_delete') }}</option>
                                 @endcan
 
-                                @can('Update User')
+                                @can('Edit User')
                                     <option value="edit">{{ __('general.bulk_edit') }}</option>
                                 @endcan
                             </select>
                             <button class="btn btn-default" id="bulkEdit" disabled>Go</button>
 
                         </div> <!-- #toolbar -->
-                    @endif {{-- Auth::user()->hasAnyPermission(['Update User', 'Delete User'])--}}
+                    @endif {{-- Auth::user()->hasAnyPermission(['Edit User', 'Delete User'])--}}
                 @endif
 
                 @can('View User')

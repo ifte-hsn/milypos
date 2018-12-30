@@ -91,7 +91,7 @@
                                     <td class="text-center">
                                         <div class="checkbox icheck">
                                             <label>
-                                                <input name="Update User" id="update_user" type="checkbox">
+                                                <input name="Edit User" id="update_user" type="checkbox">
                                             </label>
                                         </div>
                                     </td><!-- Update -->
