@@ -85,7 +85,7 @@ class AclController extends Controller
         $role->syncPermissions($new_permissions);
         $success = __('roles/message.success.update');
         return redirect()->route('roles.index')->with('success', $success);
-        
+
 
         $role = Role::findById($id);
 

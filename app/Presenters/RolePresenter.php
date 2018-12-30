@@ -9,10 +9,6 @@ class RolePresenter
     {
         $layout = [
             [
-                'field' => 'checkbox',
-                'checkbox' => 'true',
-            ],
-            [
                 'field' => 'id',
                 'searchable' => false,
                 'sortable' => true,
