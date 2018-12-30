@@ -106,6 +106,15 @@
                                     </td><!-- Update -->
 
                                     <td>
+
+                                        <span style="display:inline-block;">
+                                            <div class="checkbox icheck">
+                                                <label for="restore_user" class="padding05">
+                                                    <input name="Restore User" id="restore_user" type="checkbox"> <strong>{{ __('general.restore') }}</strong>
+                                                </label>
+                                            </div>
+                                        </span>
+
                                         <span style="display:inline-block;">
                                             <div class="checkbox icheck">
                                                 <label for="export_user" class="padding05">
@@ -116,8 +125,8 @@
 
                                         <span style="display:inline-block;">
                                             <div class="checkbox icheck">
-                                                <label for="bulk_delete" class="padding05">
-                                                    <input name="Bulk Delete" id="bulk_delete" type="checkbox"> <strong>{{ __('general.bulk_checkin_and_delete') }}</strong>
+                                                <label for="bulk_delete_user" class="padding05">
+                                                    <input name="Bulk Delete Users" id="bulk_delete" type="checkbox"> <strong>{{ __('general.bulk_checkin_and_delete') }}</strong>
                                                 </label>
                                             </div>
                                         </span>

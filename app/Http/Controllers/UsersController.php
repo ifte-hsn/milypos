@@ -310,7 +310,7 @@ class UsersController extends Controller
     public function exportAsCsv () 
     {
 
-        $this->authorize('View User', User::class);
+        $this->authorize('Export Users', User::class);
 
 
         $response = new StreamedResponse(function() {
@@ -359,7 +359,7 @@ class UsersController extends Controller
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function getRestore($id = null) {
-        $this->authorize('Add User', User::class);
+        $this->authorize('Restore User', User::class);
 
         if(!$user = User::onlyTrashed()->find($id)) {
             return redirect()->route('users.index')->with('error', __('users/message.user_not_found', ['id'=>$id]));
@@ -382,7 +382,7 @@ class UsersController extends Controller
      */
     public function postBulkEdit(Request $request)
     {
-        $this->authorize(['Edit User', 'Delete User'], User::class);
+        $this->authorize('Bulk Delete Users', User::class);
 
 
         if ($request->has('ids') && (count($request->input('ids')) > 0)) {
@@ -409,7 +409,7 @@ class UsersController extends Controller
      */
     public function postBulkSave(Request $request)
     {
-        $this->authorize(['Edit User', 'Delete User'], User::class);
+        $this->authorize('Bulk Delete', User::class);
 
         if (!$request->has('ids') || count($request->input('ids')) == 0 ) {
 

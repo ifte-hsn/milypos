@@ -50,10 +50,12 @@ class UsersTableSeeder extends Seeder
          */
 
         // User
-        $createUser = Permission::create(['name'=>'Add User']);
+        $addUser = Permission::create(['name'=>'Add User']);
         $viewUser = Permission::create(['name'=>'View User']);
         $editUser = Permission::create(['name'=>'Edit User']);
         $deleteUser = Permission::create(['name' => 'Delete User']);
+        $restoreUser = Permission::create(['name' => 'Restore User']);
+        $bulkDeleteUser = Permission::create(['name' => 'Bulk Delete Users']);
 
         // Categories
         $createCategory = Permission::create(['name'=>'Create Category']);
@@ -81,6 +83,8 @@ class UsersTableSeeder extends Seeder
             $viewUser,
             $editUser,
             $deleteUser,
+            $restoreUser,
+            $bulkDeleteUser,
             $createCategory,
             $readCategory,
             $updateCategory,

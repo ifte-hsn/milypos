@@ -29,6 +29,9 @@
                     @else
                         <a href="{{ route('users.index', ['status' => 'deleted']) }}" class="btn btn-default"><i class="fa fa-trash"></i> {{ __('general.show_deleted_users') }}</a>
                     @endif
+                @endcan
+
+                @can('Export Users')
                         <a href="{{ route('users.csv.export') }}" class="btn btn-default"><i class="fa fa-download"></i> {{ __('general.export') }}</a>
                 @endcan
 
@@ -40,23 +43,19 @@
                 @csrf
                 @if(Input::get('status') != 'deleted')
 
-                    @if(((Auth::user()->can('Delete User') || Auth::user()->can('Edit User')) && Auth::user()->can('View User')))
+                    @can('Bulk Delete Users')
 
                         <div id="toolbar">
                             <select name="bulk_actions" class="form-control select2" width="200px;">
-                                @can('Delete User')
+                                @can('Bulk Delete Users')
                                     <option value="delete">{{ __('general.bulk_checkin_and_delete') }}</option>
-                                @endcan
-
-                                @can('Edit User')
-                                    <option value="edit">{{ __('general.bulk_edit') }}</option>
                                 @endcan
                             </select>
                             <button class="btn btn-default" id="bulkEdit" disabled>Go</button>
 
                         </div> <!-- #toolbar -->
                     @endif {{-- Auth::user()->hasAnyPermission(['Edit User', 'Delete User'])--}}
-                @endif
+                @endcan
 
                 @can('View User')
                 <table
