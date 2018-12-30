@@ -34,6 +34,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::prefix('roles')->group(function () {
         Route::get('/', 'AclController@index')->name('roles.index');
+        Route::post('/','AclController@store')->name('roles.store');
         Route::get('getRoleList', 'AclController@getRoleList')->name('roles.list');
         Route::get('create', 'AclController@create')->name('roles.create');
         Route::get('{id}/restore', 'AclController@getRoleRestore')->name('roles.restore');
