@@ -63,6 +63,9 @@ class UsersTableSeeder extends Seeder
         $readCategory = Permission::create(['name'=>'View Category']);
         $updateCategory = Permission::create(['name'=>'Edit Category']);
         $deleteCategory = Permission::create(['name' => 'Delete Category']);
+        $restoreCategory = Permission::create(['name' => 'Restore Category']);
+        $exportCategory = Permission::create(['name' => 'Export Categories']);
+        $bulkDeleteCategory = Permission::create(['name' => 'Bulk Delete Categories']);
 
 
         // Role
