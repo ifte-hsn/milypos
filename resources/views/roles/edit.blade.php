@@ -31,7 +31,7 @@
 
                 <div class="box-body">
 
-                    <div class="form-group {{ $errors->has('name') ? 'has-error' : '' }}">
+                    <div class="form-group margin-top {{ $errors->has('name') ? 'has-error' : '' }}">
                         <label for="name" class="control-label col-md-3 col-sm-3 col-xs-12">
                             {{ __('general.name') }} {!! (\App\Helpers\Helper::checkIfRequired($role, 'name')) ? '<span class="text-danger">*</span>':'' !!}
                         </label><!-- control-label col-md-3 col-sm-3 col-xs-12 -->
@@ -43,11 +43,12 @@
                         </div><!-- .col-md-6 col-sm-6 col-xs-12 -->
                     </div><!-- form-group -->
 
+                    <div style="margin-bottom: 100px"></div>
                     <div class="table-responsive">
                         <table class="table table-bordered table-hover table-striped permissions-table">
 
                             <thead>
-                            <tr>
+                            <tr class="title">
                                 <th colspan="6"
                                     class="text-center"> {{ ($role->name) ? $role->name: '' }} {{ __('general.permissions') }}</th>
                             </tr>
@@ -283,8 +284,8 @@
                 </div><!-- .box-body -->
                 <div class="box-footer">
                     <div class="row">
-                        <div class="col-md-4 col-md-offset-6">
-                            <button class="btn btn-success"><i class="fa fa-floppy-o"></i> {{ __('general.save') }}
+                        <div class="col-md-4">
+                            <button class="btn btn-lg btn-success"><i class="fa fa-floppy-o"></i> {{ __('general.save') }}
                             </button>
                         </div><!-- col-md-4 col-md-offset-6 -->
                     </div><!-- .row -->

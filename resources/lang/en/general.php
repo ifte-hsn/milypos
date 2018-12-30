@@ -108,6 +108,7 @@ return [
     'update_role'               => 'Update Role',
     'upload_image'              => 'Upload Image',
     'update_site_configuration' => 'Update Site Configuration',
+    'user'                      => 'User',
     'users'                     => 'Users',
     'vat_no'                    => 'VAT No',
     'view'                      => 'View',
