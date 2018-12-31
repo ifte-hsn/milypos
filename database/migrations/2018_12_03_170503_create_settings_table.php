@@ -41,7 +41,7 @@ class CreateSettingsTable extends Migration
             $table->string('barcode_type')->nullable()->default('QRCODE');
             $table->string('alt_barcode')->nullable()->default('C128');
             $table->boolean('alt_barcode_enabled')->nullable()->default('1');
-            $table->string('default_currency',10)->nullable()->default(NULL);
+            $table->integer('currency_id')->unsigned()->nullable();
             $table->text('custom_css')->nullable()->default(NULL);
             $table->string('locale',5)->nullable()->default(config('app.locale'));
 

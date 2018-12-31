@@ -48,6 +48,7 @@ class Setting extends Model
         'locale',
         'date_display_format',
         'time_display_format',
+        'currency_id',
     ];
 
 
@@ -146,6 +147,11 @@ class Setting extends Model
             }
         }
         return $result;
+    }
+
+    public function currency()
+    {
+        return $this->belongsTo('App\Models\Currency');
     }
 
 }

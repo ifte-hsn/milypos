@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Currency;
 use Illuminate\Http\Request;
 use App\Models\Setting;
 use Image;
@@ -114,8 +115,10 @@ class SettingsController extends Controller
     {
         $this->authorize('update_settings', Setting::class);
 
+
+        $currencies = Currency::all();
         $settings = Setting::first();
-        return view('settings.localization', compact('settings'));
+        return view('settings.localization', compact('settings', 'currencies'));
     }
 
     public function postLocalization(Request $request)
@@ -125,7 +128,7 @@ class SettingsController extends Controller
             return redirect()->route('settings.localization')->with('error', trans('settings/message.update.error'));
         }
 
-        $setting->default_currency = $request->input('default_currency', '$');
+        $setting->currency_id = $request->input('currency_id');
         $setting->date_display_format = $request->input('date_display_format');
         $setting->time_display_format = $request->input('time_display_format');
 

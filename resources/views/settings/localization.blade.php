@@ -109,8 +109,15 @@
                                 {{ __('general.default_currency') }} {!! (\App\Helpers\Helper::checkIfRequired($settings, 'default_currency')) ? '<span class="text-danger">*</span>':'' !!}
                             </label><!-- control-label col-md-3 col-sm-3 col-xs-12 -->
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input type="text" class="form-control" name="default_currency" id="default_currency" placeholder="{{ __('general.currency') }}" value="{{ Input::old('default_currency', $settings->default_currency) }}">
-                                {!! $errors->first('default_currency', '<span class="alert-msg">:message</span>') !!}
+
+                                <select name="currency_id" id="default_currency" class="form-control select2">
+                                    <option value="">{{ __('general.select') }}</option>
+                                    @foreach($currencies as $currency)
+                                        <option value="{{ $currency->id }}" {!!  ($settings->currency->id === $currency->id) ? 'selected="selected"':'' !!}>{{ $currency->country. ' '.$currency->currency .' ('.$currency->code.')'}}</option>
+                                    @endforeach
+
+                                    </select>
+                                {!! $errors->first('currency_id', '<span class="alert-msg">:message</span>') !!}
                             </div><!-- .col-md-6 col-sm-6 col-xs-12 -->
                         </div><!-- form-group -->
                     </div><!-- col-md-12 col-sm-12 col-xs-12 -->

@@ -17,7 +17,7 @@ class SettingsTableSeeder extends Seeder
 
         Setting::create([
             'site_name' => 'Mily POS',
-            'default_currency' => 'USD'
+            'currency_id' => 1
         ]);
     }
 }
