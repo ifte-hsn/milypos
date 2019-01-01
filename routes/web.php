@@ -47,7 +47,6 @@ Route::middleware(['auth'])->group(function () {
     /**
      * Categories Routes
      */
-
     Route::prefix('categories')->group(function () {
         Route::get('/', 'CategoriesController@index')->name('category.index');
         Route::post('/', 'CategoriesController@store')->name('category.store');
@@ -61,6 +60,24 @@ Route::middleware(['auth'])->group(function () {
         Route::match(['put', 'patch'], '{id}', 'CategoriesController@update')->name('category.update');
         Route::get('{id}/edit', 'CategoriesController@edit')->name('category.edit');
         Route::get('{id}', 'CategoriesController@show')->name('category.show');
+    });
+
+    /**
+     * Products
+     */
+
+    Route::prefix('products')->group(function () {
+        Route::get('/', 'ProductsController@index')->name('products.index');
+        Route::post('/','ProductsController@store')->name('products.store');
+        Route::post('bulkSave', 'ProductsController@postBulkSave')->name('products.bulkSave');
+        Route::post('bulkedit', 'ProductsController@postBulkEdit')->name('products.bulkedit'); // need to check if we really need this
+        Route::get('create', 'ProductsController@create')->name('products.create');
+        Route::get('export', 'ProductsController@exportAsCsv')->name('products.csv.export');
+        Route::get('getProductsList', 'ProductsController@getProductList')->name('products.list');
+        Route::get('{id}/restore', 'ProductsController@getRestore')->name('products.restore');
+        Route::delete('{id}', 'ProductsController@destroy')->name('products.destroy');
+        Route::match(['put', 'patch'], '{id}','ProductsController@update')->name('products.update');
+        Route::get('{id}/edit','ProductsController@edit')->name('products.edit');
     });
 
     /**

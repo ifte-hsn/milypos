@@ -31,7 +31,7 @@
                     @endif
                 @endcan
 
-                @can('Export Categoreis')
+                @can('export_categoreis')
                     <a href="{{ route('category.csv.export') }}" class="btn btn-default"><i class="fa fa-download"></i> {{ __('general.export') }}</a>
                 @endcan
 

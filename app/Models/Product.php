@@ -15,6 +15,10 @@ class Product extends Model
     use SearchableTrait;
 
     protected $presenter = 'App\Presenters\ProductPresenter';
+    protected $searchableRelations = [
+        'category' => ['name']
+    ];
+
 
     protected $dates = ['deleted_at'];
     protected $fillable = [
@@ -30,6 +34,6 @@ class Product extends Model
     ];
     protected $rules = [];
     public function category() {
-        return $this->belongsTo('App\Model\Category');
+        return $this->belongsTo('App\Models\Category');
     }
 }

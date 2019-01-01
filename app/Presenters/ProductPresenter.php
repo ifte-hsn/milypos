@@ -56,7 +56,7 @@ class ProductPresenter
                 'sortable' => true,
                 'title' => __('general.description'),
                 'visible' => true,
-                'formatter' => 'descriptionsFormatter',
+                'formatter' => 'productsLinkFormatter',
             ],
             [
                 'field' => 'category',
@@ -64,7 +64,7 @@ class ProductPresenter
                 'sortable' => true,
                 'title' => __('general.category'),
                 'visible' => true,
-                'formatter' => 'productCategoryFormatter',
+                'formatter' => 'productsLinkFormatter',
             ],
             [
                 'field' => 'stock',
@@ -72,41 +72,44 @@ class ProductPresenter
                 'sortable' => true,
                 'title' => __('general.stock'),
                 'visible' => true,
-                'formatter' => 'stockFormatter',
+                'formatter' => 'productsLinkFormatter',
             ],
+
             [
                 'field' => 'purchase_price',
                 'searchable' => true,
                 'sortable' => true,
                 'title' => __('general.purchase_price'),
                 'visible' => true,
-                'formatter' => 'priceFormatter',
+                'formatter' => 'productsLinkFormatter',
             ],
             [
-                'field' => 'purchase_price',
+                'field' => 'sell_price',
                 'searchable' => true,
                 'sortable' => true,
-                'title' => __('general.purchase_price'),
+                'title' => __('general.selling_price'),
                 'visible' => true,
-                'formatter' => 'purchasePriceFormatter',
+                'formatter' => 'productsLinkFormatter',
             ],
             [
-                'field' => 'sale_price',
-                'searchable' => true,
+                'field' => 'created_at',
+                'searchable' => false,
                 'sortable' => true,
-                'title' => __('general.sale_price'),
-                'visible' => true,
-                'formatter' => 'salePriceFormatter',
+                'switchable' => true,
+                'title' => __('general.created_at'),
+                'visible' => false,
+                'formatter' => 'dateDisplayFormatter'
             ],
             [
-                'field' => 'rack',
-                'searchable' => true,
-                'sortable' => true,
-                'title' => __('general.rack'),
+                'field' => 'actions',
+                'searchable' => false,
+                'sortable' => false,
+                'switchable' => false,
+                'title' => __('general.actions'),
                 'visible' => true,
-                'formatter' => 'rackFormatter',
+                'formatter' => 'productsActionsFormatter',
             ]
         ];
-        return $layout;
+        return json_encode($layout);
     }
 }
