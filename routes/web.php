@@ -78,6 +78,7 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('{id}', 'ProductsController@destroy')->name('products.destroy');
         Route::match(['put', 'patch'], '{id}','ProductsController@update')->name('products.update');
         Route::get('{id}/edit','ProductsController@edit')->name('products.edit');
+        Route::get('category/{id}','ProductsController@getProductsByCategory')->name('products.productByCategory');
     });
 
     /**

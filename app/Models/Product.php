@@ -14,11 +14,15 @@ class Product extends Model
     use ValidatingTrait;
     use SearchableTrait;
 
-    protected $presenter = 'App\Presenters\ProductPresenter';
     protected $searchableRelations = [
         'category' => ['name']
     ];
 
+    protected $presenter = 'App\Presenters\ProductPresenter';
+    protected $rules = [
+      'name' => 'required',
+      'code' => 'required',
+    ];
 
     protected $dates = ['deleted_at'];
     protected $fillable = [
@@ -32,7 +36,7 @@ class Product extends Model
         'sales',
         'category_id'
     ];
-    protected $rules = [];
+
     public function category() {
         return $this->belongsTo('App\Models\Category');
     }
