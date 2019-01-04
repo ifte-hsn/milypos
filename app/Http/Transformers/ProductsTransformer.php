@@ -23,7 +23,7 @@ class ProductsTransformer
 
     public function transformProduct(Product $product)
     {
-        $image = '';
+        $image = url('/').'/images/products_placeholder.png';
 
         if($product->image) {
             $image = url('/').'/uploads/products/'.$product->image;

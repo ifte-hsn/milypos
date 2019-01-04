@@ -147,6 +147,7 @@
                         <div class="col-md-6 col-sm-6 col-xs-12">
 
                             <select name="category_id" id="category_id" class="form-control select2 col-md-7 col-xs-12">
+                                <option value="">{{ __('general.select') }}</option>
                                 @foreach($categories as $category)
                                     <option value="{{ $category->id }}" {{ $category->id == $product->category_id ? 'selected="selected"' : '""' }}>{{ $category->name }}</option>
                                 @endforeach
