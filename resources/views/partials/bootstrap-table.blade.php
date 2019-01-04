@@ -184,6 +184,7 @@
 
     var formatters = [
         'users',
+        'clients',
         'categories',
         'products',
         'roles'

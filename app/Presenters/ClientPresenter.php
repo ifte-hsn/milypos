@@ -1,10 +1,9 @@
 <?php
 
-
 namespace App\Presenters;
 
 
-class UserPresenter
+class ClientPresenter
 {
     /**
      * Json Column Layout for bootstrap table
@@ -30,7 +29,7 @@ class UserPresenter
                 'searchable' => false,
                 'sortable' => false,
                 'switchable' => true,
-                'title' => __('general.avatar'),
+                'title' => __('general.image'),
                 'visible' => true,
                 'formatter' => 'imageFormatter'
             ],
@@ -40,7 +39,7 @@ class UserPresenter
                 'sortable' => true,
                 'title' => __('general.name'),
                 'visible' => true,
-                'formatter' => 'usersLinkFormatter'
+                'formatter' => 'clientsLinkFormatter'
             ],
             [
                 'field' => 'email',
@@ -118,38 +117,11 @@ class UserPresenter
                 'visible' => true
             ],
             [
-                'field' => 'website',
-                'searchable' => true,
-                'sortable' => true,
-                'switchable' => true,
-                'title' => __('general.website'),
-                'visible' => true,
-                'formatter' => 'websiteLinkFormatter'
-            ],
-            [
-                'field' => 'activated',
-                'searchable' => false,
-                'sortable' => true,
-                'switchable' => true,
-                'title' => __('general.activated'),
-                'visible' => true,
-                'formatter' => 'trueFalseFormatter'
-            ],
-            [
                 'field' => 'created_at',
                 'searchable' => true,
                 'sortable' => true,
                 'switchable' => true,
                 'title' => __('general.created_at'),
-                'visible' => false,
-                'formatter' => 'dateDisplayFormatter'
-            ],
-            [
-                'field' => 'last_login',
-                'searchable' => false,
-                'sortable' => true,
-                'switchable' => true,
-                'title' => __('general.last_login'),
                 'visible' => false,
                 'formatter' => 'dateDisplayFormatter'
             ],
@@ -160,7 +132,7 @@ class UserPresenter
                 'switchable' => false,
                 'title' => __('general.actions'),
                 'visible' => true,
-                'formatter' => 'usersActionsFormatter',
+                'formatter' => 'clientsActionsFormatter',
             ]
         ];
 

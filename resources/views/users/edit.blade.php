@@ -32,7 +32,7 @@
                         <div class="col-md-4 col-xs-12">
 
                             <!--==========================
-                            =            Logo            =
+                            =            Avatar            =
                             ===========================-->
                             <div class="form-group">
                                 <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">

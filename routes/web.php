@@ -32,6 +32,27 @@ Route::middleware(['auth'])->group(function () {
         Route::get('{id}/edit','UsersController@edit')->name('users.edit');
     });
 
+
+    /**
+     * Clients Routes
+     */
+    Route::prefix('clients')->group(function () {
+        Route::get('/', 'ClientsController@index')->name('clients.index');
+        Route::post('/','ClientsController@store')->name('clients.store');
+        Route::post('bulkSave', 'ClientsController@postBulkSave')->name('clients.bulkSave');
+        Route::post('bulkedit', 'ClientsController@postBulkEdit')->name('clients.bulkedit'); // need to check if we really need this
+        Route::get('create', 'ClientsController@create')->name('clients.create');
+        Route::get('export', 'ClientsController@exportAsCsv')->name('clients.csv.export');
+        Route::get('getUsersList', 'ClientsController@getClientList')->name('clients.list');
+        Route::get('{id}/restore', 'ClientsController@getRestore')->name('clients.restore');
+        Route::delete('{id}', 'ClientsController@destroy')->name('clients.destroy');
+        Route::match(['put', 'patch'], '{id}','ClientsController@update')->name('clients.update');
+        Route::get('{id}/edit','ClientsController@edit')->name('clients.edit');
+    });
+
+    /**
+     * Roles Routes
+     */
     Route::prefix('roles')->group(function () {
         Route::get('/', 'AclController@index')->name('roles.index');
         Route::post('/','AclController@store')->name('roles.store');
