@@ -37,7 +37,7 @@ class ProductsTransformer
             'stock'=>$product->stock,
             'description'=>$product->description,
             'purchase_price'=>$product->purchase_price,
-            'sell_price'=>$product->sell_price,
+            'selling_price'=>$product->selling_price,
             'sales'=>$product->sales,
             'category'=> ($product->category) ? e($product->category->name) : null,
             'created_at' => Helper::getFormattedDateObject($product->created_at, 'datetime'),

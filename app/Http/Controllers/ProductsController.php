@@ -45,17 +45,17 @@ class ProductsController extends Controller
             'products.stock',
             'products.description',
             'products.purchase_price',
-            'products.sell_price',
+            'products.selling_price',
             'products.sales',
             'products.category_id',
             'products.created_at',
             'products.updated_at',
+            'products.deleted_at',
         ]);
 
         if (($request->has('deleted')) && ($request->input('deleted') == 'true')) {
             $products = $products->GetDeleted();
         }
-
         if ($request->has('search') && $request->input('search') != '') {
             $products = $products->TextSearch($request->input('search'));
         }
@@ -69,7 +69,7 @@ class ProductsController extends Controller
             default:
                 $allowed_columns = [
                     'name', 'code', 'stock', 'description',
-                    'purchase_price', 'sell_price', 'sales', 'category.name', 'id'
+                    'purchase_price', 'selling_price', 'sales', 'category.name', 'id'
                 ];
 
                 $sort = in_array($request->get('sort'), $allowed_columns) ? $request->get('sort') : 'name';
@@ -79,6 +79,7 @@ class ProductsController extends Controller
 
         $total = $products->count();
         $products = $products->skip($offset)->take($limit)->get();
+
 
         return (new ProductsTransformer)->transformProducts($products, $total);
     }
@@ -110,8 +111,11 @@ class ProductsController extends Controller
 
         $request->validate([
             'name' => 'required',
-            'code' => 'required',
-            'image' => 'image'
+            'code' => 'required|unique:products',
+            'image' => 'image',
+            'sales' => 'nullable|numeric',
+            'purchase_price' =>'numeric',
+            'selling_price' => 'numeric'
         ]);
 
         $product = new Product();
@@ -120,7 +124,7 @@ class ProductsController extends Controller
         $product->stock = $request->input('stock');
         $product->description = $request->input('description');
         $product->purchase_price = $request->input('purchase_price');
-        $product->sell_price = $request->input('sell_price');
+        $product->selling_price = $request->input('selling_price');
         $product->sales = $request->input('sales');
         $product->category_id = $request->input('category_id');
 
@@ -140,7 +144,7 @@ class ProductsController extends Controller
             }
         }
         if ($product->save()) {
-            return redirect()->route('category.index')->with('success', __('products/message.create.success'));
+            return redirect()->route('products.index')->with('success', __('products/message.create.success'));
         }
         return redirect()->back()->withInput()->withErrors($product->getErrors());
     }
@@ -187,7 +191,10 @@ class ProductsController extends Controller
         $request->validate([
             'name' => 'required',
             'code' => 'required',
-            'image' => 'image'
+            'image' => 'image',
+            'sales' => 'nullable|numeric',
+            'purchase_price' =>'numeric',
+            'selling_price' => 'numeric'
         ]);
 
 
@@ -204,7 +211,7 @@ class ProductsController extends Controller
         $product->stock = $request->input('stock');
         $product->description = $request->input('description');
         $product->purchase_price = $request->input('purchase_price');
-        $product->sell_price = $request->input('sell_price');
+        $product->selling_price = $request->input('selling_price');
         $product->sales = $request->input('sales');
         $product->category_id = $request->input('category_id');
 
@@ -234,7 +241,7 @@ class ProductsController extends Controller
         }
 
         if ($product->save()) {
-            return redirect()->route('category.index')->with('success', __('products/message.success.update'));
+            return redirect()->route('products.index')->with('success', __('products/message.success.update'));
         }
         return redirect()->back()->withInput()->withErrors($product->getErrors());
     }
@@ -247,11 +254,12 @@ class ProductsController extends Controller
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function destroy($id) {
+
         $this->authorize('delete_product', Product::class);
 
         try {
             $product = Product::findOrFail($id);
-            $product->destroy();
+            $product->delete();
             $success = __('products/message.success.delete');
 
             return redirect()->route('products.index')->with('success', $success);
@@ -300,10 +308,12 @@ class ProductsController extends Controller
                     // strtolower to prevent Excel from trying to open it as a SYSLK file
                     strtolower(__('general.id')),
                     __('general.name'),
+                    __('general.code'),
                     __('general.stock'),
                     __('general.description'),
                     __('general.purchase_price'),
-                    __('general.sell_price'),
+                    __('general.selling_price'),
+                    __('general.sales'),
                     __('general.category'),
                     __('general.created_at'),
                 ];
@@ -316,10 +326,12 @@ class ProductsController extends Controller
                     $values = [
                         $product->id,
                         $product->name,
+                        $product->code,
                         $product->stock,
                         $product->description,
                         $product->purchase_price,
-                        $product->sell_price,
+                        $product->selling_price,
+                        $product->sales,
                         $product->category->name,
                         $product->created_at,
                     ];
@@ -334,6 +346,8 @@ class ProductsController extends Controller
             'Content-Type' => 'text/csv',
             'Content-Disposition' => 'attachment; filename="products-'.date('Y-m-d-his').'.csv"',
         ]);
+
+
         return $response;
     }
 

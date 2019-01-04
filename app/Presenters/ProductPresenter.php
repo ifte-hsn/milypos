@@ -84,7 +84,7 @@ class ProductPresenter
                 'formatter' => 'productsLinkFormatter',
             ],
             [
-                'field' => 'sell_price',
+                'field' => 'selling_price',
                 'searchable' => true,
                 'sortable' => true,
                 'title' => __('general.selling_price'),

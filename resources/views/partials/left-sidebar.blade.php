@@ -64,6 +64,22 @@
                 </li>
             @endif
 
+            @if (Auth::user()->hasAnyPermission(
+                [
+                    'add_product',
+                    'view_product',
+                    'edit_product',
+                    'delete_product'
+                ]) || Auth::user()->hasRole('Super Admin')
+            )
+                <li>
+                    <a href="{{ route('products.index') }}">
+                        <i class="fa fa-product-hunt"></i>
+                        <span>{{ __('menu.products') }}</span>
+                    </a>
+                </li>
+            @endif
+
             @if(Auth::user()->can('Update Settings'))
             <li>
                 <a href="{{ route('settings.index') }}">
