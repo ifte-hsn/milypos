@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use File;
 use Image;
@@ -153,13 +154,13 @@ class ProductsController extends Controller
      * Show specific product
      *
      * @param $id
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return \Illuminate\Http\RedirectResponse
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function show($id) {
-        $this->authorize('view_product', Product::class);
-        $product = Product::findOrFail($id);
-        return view('products.show', compact('product'));
+        $this->authorize('edit_product', Product::class);
+
+        return Redirect::route('products.edit', ['id' => $id]);
     }
 
     /**
