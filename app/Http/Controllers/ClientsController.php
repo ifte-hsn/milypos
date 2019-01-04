@@ -44,6 +44,8 @@ class ClientsController extends Controller
             'clients.state',
             'clients.zip',
             'clients.country_id',
+            'clients.total_purchase',
+            'clients.last_purchase',
             'clients.created_at',
             'clients.deleted_at',
             'clients.updated_at',

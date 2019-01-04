@@ -24,7 +24,9 @@ class Client extends MilyPosModel
         'city',
         'state',
         'zip',
-        'country_id'
+        'country_id',
+        'total_purchase',
+        'last_purchase',
     ];
 
     protected $presenter = 'App\Presenters\ClientsPresenter';

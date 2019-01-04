@@ -42,7 +42,9 @@ class ClientsTransformer
             'created_at' => Helper::getFormattedDateObject($client->created_at, 'datetime'),
             'updated_at' => Helper::getFormattedDateObject($client->updated_at, 'datetime'),
             'image' => $image,
-            'sex' => ($client->sex) ? $client->sex : ''
+            'sex' => ($client->sex) ? $client->sex : '',
+            'total_purchase' => ($client->total_purchase) ? e($client->total_purchase) : 0,
+            'last_purchase' => ($client->last_purchase) ? e($client->last_purchase) : null,
         ];
 
         // TODO: Implement parmissinon wise actions

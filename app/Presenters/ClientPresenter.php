@@ -109,12 +109,22 @@ class ClientPresenter
                 'visible' => false,
             ],
             [
-                'field' => 'role',
-                'searchable' => false,
-                'sortable' => false,
+                'field' => 'total_purchase',
+                'searchable' => true,
+                'sortable' => true,
                 'switchable' => true,
-                'title' => __('general.role'),
-                'visible' => true
+                'title' => __('general.total_purchase'),
+                'visible' => false,
+                'formatter' => 'clientsLinkFormatter'
+            ],
+            [
+                'field' => 'last_purchase',
+                'searchable' => true,
+                'sortable' => true,
+                'switchable' => true,
+                'title' => __('general.last_purchase'),
+                'visible' => false,
+                'formatter' => 'dateDisplayFormatter'
             ],
             [
                 'field' => 'created_at',
