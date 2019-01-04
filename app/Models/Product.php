@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Watson\Validating\ValidatingTrait;
 
-class Product extends Model
+class Product extends MilyPosModel
 {
     use SoftDeletes, Notifiable;
     use ValidatingTrait;
@@ -32,7 +32,7 @@ class Product extends Model
         'stock',
         'description',
         'purchase_price',
-        'sell_price',
+        'selling_price',
         'sales',
         'category_id'
     ];

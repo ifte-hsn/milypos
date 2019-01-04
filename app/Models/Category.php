@@ -2,12 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Watson\Validating\ValidatingTrait;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\SearchableTrait;
 
-class Category extends Model
+class Category extends MilyPosModel
 {
     use SoftDeletes, ValidatingTrait;
     use SearchableTrait;
@@ -31,8 +30,8 @@ class Category extends Model
         'name',
     ];
 
-    public function scopeGetDeleted($query)
-    {
-        return $query->withTrashed()->whereNotNull('deleted_at');
+
+    public function products() {
+        return $this->hasMany('App\Models\Product');
     }
 }
