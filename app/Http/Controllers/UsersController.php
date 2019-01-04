@@ -409,7 +409,7 @@ class UsersController extends Controller
      */
     public function postBulkSave(Request $request)
     {
-        $this->authorize('Bulk Delete', User::class);
+        $this->authorize('bulk_delete_users', User::class);
 
         if (!$request->has('ids') || count($request->input('ids')) == 0 ) {
 
