@@ -337,7 +337,6 @@ class CategoriesController extends Controller
      */
     public function exportAsCsv() {
         $this->authorize('export_categories', Category::class);
-        \Debugbar::disable();
 
         $response = new StreamedResponse(function() {
             // Open output steam
