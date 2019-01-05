@@ -11,6 +11,44 @@ use Illuminate\Support\Facades\Redirect;
 class AclController extends Controller
 {
 
+    // List of available permissions
+    private $parmissions_list = array(
+        'add_user',
+        'view_user',
+        'edit_user',
+        'delete_user',
+        'restore_user',
+        'bulk_delete_users',
+        'export_users',
+        'view_client',
+        'add_client',
+        'edit_client',
+        'delete_client',
+        'restore_client',
+        'export_clients',
+        'bulk_delete_clients',
+        'view_product',
+        'add_product',
+        'edit_product',
+        'delete_product',
+        'restore_product',
+        'export_products',
+        'bulk_delete_products',
+        'add_category',
+        'view_category',
+        'edit_category',
+        'delete_category',
+        'restore_category',
+        'export_categories',
+        'bulk_delete_categories',
+        'add_role',
+        'view_role',
+        'edit_role',
+        'delete_role',
+        'restore_role',
+        'update_settings'
+    );
+
     /**
      * Show role index page
      *
@@ -46,46 +84,10 @@ class AclController extends Controller
             'name' => 'required|unique:roles',
         ]);
 
-        $parmissions_list = array(
-            'add_user',
-            'view_user',
-            'edit_user',
-            'delete_user',
-            'restore_user',
-            'bulk_delete_users',
-            'export_users',
-            'view_client',
-            'add_client',
-            'edit_client',
-            'delete_client',
-            'restore_client',
-            'export_clients',
-            'bulk_delete_clients',
-            'view_product',
-            'add_product',
-            'edit_product',
-            'delete_product',
-            'restore_product',
-            'export_products',
-            'bulk_delete_products',
-            'add_category',
-            'view_category',
-            'edit_category',
-            'delete_category',
-            'restore_category',
-            'export_categories',
-            'bulk_delete_categories',
-            'add_role',
-            'view_role',
-            'edit_role',
-            'delete_role',
-            'restore_role',
-            'update_settings'
-        );
 
         $new_permissions = array();
 
-        foreach ($parmissions_list as $permission) {
+        foreach ($this->parmissions_list as $permission) {
             if ($request->input($permission) == null)
                 continue;
             $new_permissions[$permission] = $permission;
@@ -172,46 +174,9 @@ class AclController extends Controller
     {
         $this->authorize('edit_role', Role::class);
 
-        $parmissions_list = array(
-            'add_user',
-            'view_user',
-            'edit_user',
-            'delete_user',
-            'restore_user',
-            'bulk_delete_users',
-            'export_users',
-            'view_client',
-            'add_client',
-            'edit_client',
-            'delete_client',
-            'restore_client',
-            'export_clients',
-            'bulk_delete_clients',
-            'view_product',
-            'add_product',
-            'edit_product',
-            'delete_product',
-            'restore_product',
-            'export_products',
-            'bulk_delete_products',
-            'add_category',
-            'view_category',
-            'edit_category',
-            'delete_category',
-            'restore_category',
-            'export_categories',
-            'bulk_delete_categories',
-            'add_role',
-            'view_role',
-            'edit_role',
-            'delete_role',
-            'restore_role',
-            'update_settings'
-        );
-
         $new_permissions = array();
 
-        foreach ($parmissions_list as $permission) {
+        foreach ($this->parmissions_list as $permission) {
             if ($request->input($permission) == null)
                 continue;
             $new_permissions[$permission] = $permission;
