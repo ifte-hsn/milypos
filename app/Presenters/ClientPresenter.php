@@ -109,6 +109,15 @@ class ClientPresenter
                 'visible' => false,
             ],
             [
+                'field' => 'dob',
+                'searchable' => true,
+                'sortable' => true,
+                'switchable' => true,
+                'title' => __('general.date_of_birth'),
+                'visible' => false,
+                'formatter' => 'dateDisplayFormatter'
+            ],
+            [
                 'field' => 'total_purchase',
                 'searchable' => true,
                 'sortable' => true,

@@ -18,6 +18,7 @@ mix.scripts([
     'resources/js/select2.full.min.js',
     'resources/js/ekko-lightbox.min.js',
     'resources/js/icheck.min.js',
+    'resources/js/jquery.inputmask.bundle.js',
     'node_modules/jquery-slimscroll/jquery.slimscroll.js',
     'resources/js/adminlte.js',
     'resources/js/script.js',

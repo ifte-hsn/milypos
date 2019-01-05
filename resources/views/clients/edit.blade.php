@@ -21,7 +21,9 @@
 @section('content')
     <div class="box box-primary">
         <div class="box-body">
-            <form method="post" autocomplete="off" action="{{ ($client) ? route('clients.update', ['client'=> $client->id]) : route('clients.store') }}" class="form-horizontal form-label-left" id="client-form" enctype="multipart/form-data">
+            <form method="post" autocomplete="off"
+                  action="{{ ($client) ? route('clients.update', ['client'=> $client->id]) : route('clients.store') }}"
+                  class="form-horizontal form-label-left" id="client-form" enctype="multipart/form-data">
                 @csrf
                 @if($client->id)
                     @method('PUT')
@@ -39,7 +41,8 @@
                             <div class="form-group">
                                 <div class="col-md-offset-3 col-sm-offset-3 col-md-6 col-sm-6 col-xs-12">
                                     @if ($client->image)
-                                        <img src="{{ url('/') }}/uploads/avatars/{{ $client->image }}" alt="{{ $client->name }}" class="img-thumbnail" style="max-width: 200px;"/>
+                                        <img src="{{ url('/') }}/uploads/avatars/{{ $client->image }}"
+                                             alt="{{ $client->name }}" class="img-thumbnail" style="max-width: 200px;"/>
                                     @endif
                                 </div><!-- .col-md-6 col-sm-6 col-xs-12 -->
 
@@ -63,7 +66,10 @@
                                             {{ __('general.first_name') }} {!! (\App\Helpers\Helper::checkIfRequired($client, 'first_name')) ? '<span class="text-danger">*</span>':'' !!}
                                         </label><!-- control-label col-md-3 col-sm-3 col-xs-12 -->
                                         <div class="col-md-6 col-sm-6 col-xs-12">
-                                            <input type="text" id="first-name" name="first_name" class="form-control col-md-7 col-xs-12" placeholder="{{ __('general.first_name') }}" value="{{ Input::old('first_name', $client->first_name) }}">
+                                            <input type="text" id="first-name" name="first_name"
+                                                   class="form-control col-md-7 col-xs-12"
+                                                   placeholder="{{ __('general.first_name') }}"
+                                                   value="{{ Input::old('first_name', $client->first_name) }}">
                                             {!! $errors->first('first_name', '<span class="alert-msg">:message</span>') !!}
                                         </div><!-- .col-md-6 col-sm-6 col-xs-12 -->
                                     </div><!-- form-group -->
@@ -80,7 +86,10 @@
                                             {{ __('general.last_name') }} {!! (\App\Helpers\Helper::checkIfRequired($client, 'last_name')) ? '<span class="text-danger">*</span>':'' !!}
                                         </label><!-- control-label col-md-3 col-sm-3 col-xs-12 -->
                                         <div class="col-md-6 col-sm-6 col-xs-12">
-                                            <input type="text" id="last-name" name="last_name" class="form-control col-md-7 col-xs-12" placeholder="{{ __('general.last_name') }}" value="{{ Input::old('last_name', $client->last_name) }}">
+                                            <input type="text" id="last-name" name="last_name"
+                                                   class="form-control col-md-7 col-xs-12"
+                                                   placeholder="{{ __('general.last_name') }}"
+                                                   value="{{ Input::old('last_name', $client->last_name) }}">
                                             {!! $errors->first('last_name', '<span class="alert-msg">:message</span>') !!}
                                         </div><!-- .col-md-6 col-sm-6 col-xs-12 -->
                                     </div><!-- form-group -->
@@ -96,13 +105,15 @@
                                             {{ __('general.email_address') }} {!! (\App\Helpers\Helper::checkIfRequired($client, 'email')) ? '<span class="text-danger">*</span>':'' !!}
                                         </label><!-- control-label col-md-3 col-sm-3 col-xs-12 -->
                                         <div class="col-md-6 col-sm-6 col-xs-12">
-                                            <input type="text" id="email" name="email" class="form-control col-md-7 col-xs-12" placeholder="{{ __('general.email_address') }}" value="{{ Input::old('email', $client->email) }}">
+                                            <input type="text" id="email" name="email"
+                                                   class="form-control col-md-7 col-xs-12"
+                                                   placeholder="{{ __('general.email_address') }}"
+                                                   value="{{ Input::old('email', $client->email) }}"
+                                                   data-inputmask="'alias': 'email'" data-mask>
                                             {!! $errors->first('email', '<span class="alert-msg">:message</span>') !!}
                                         </div><!-- .col-md-6 col-sm-6 col-xs-12 -->
                                     </div><!-- form-group -->
                                 </div><!-- col-md-12 col-sm-12 col-xs-12 -->
-
-
 
                                 <!--=======================
                                 =            Sex          =
@@ -122,6 +133,32 @@
                                     </div><!-- form-group -->
                                 </div><!-- col-md-12 col-sm-12 col-xs-12 -->
 
+
+                                <!--=======================
+                                =            DOB          =
+                                ========================-->
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <div class="form-group {{ $errors->has('dob') ? 'has-error' : '' }}">
+                                        <label for="role" class="control-label col-md-3 col-sm-3 col-xs-12">
+                                            {{ __('general.date_of_birth') }} {!! (\App\Helpers\Helper::checkIfRequired($client, 'dob')) ? '<span class="text-danger">*</span>':'' !!}
+                                        </label><!-- control-label col-md-3 col-sm-3 col-xs-12 -->
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+
+                                            <div class="input-group">
+                                                <div class="input-group-addon">
+                                                    <i class="fa fa-calendar"></i>
+                                                </div>
+                                                <input type="text" class="form-control"
+                                                       data-inputmask="'alias': 'yyyy-mm-dd'" data-mask name="dob" value="{{ Input::old('dob', $client->dob) }}">
+                                            </div>
+                                            <!-- /.input group -->
+
+                                            {!! $errors->first('dob', '<span class="alert-msg">:message</span>') !!}
+                                        </div><!-- .col-md-6 col-sm-6 col-xs-12 -->
+                                    </div><!-- form-group -->
+                                </div><!-- col-md-12 col-sm-12 col-xs-12 -->
+
+
                                 <!--========================
                                 =            Phone         =
                                 =========================-->
@@ -132,7 +169,10 @@
                                             {{ __('general.phone') }} {!! (\App\Helpers\Helper::checkIfRequired($client, 'phone')) ? '<span class="text-danger">*</span>':'' !!}
                                         </label><!-- control-label col-md-3 col-sm-3 col-xs-12 -->
                                         <div class="col-md-6 col-sm-6 col-xs-12">
-                                            <input type="text" id="phone" name="phone" class="form-control col-md-7 col-xs-12" placeholder="{{ __('general.phone') }}" value="{{ Input::old('phone', $client->phone) }}">
+                                            <input type="text" id="phone" name="phone"
+                                                   class="form-control col-md-7 col-xs-12"
+                                                   placeholder="{{ __('general.phone') }}"
+                                                   value="{{ Input::old('phone', $client->phone) }}">
                                             {!! $errors->first('phone', '<span class="alert-msg">:message</span>') !!}
                                         </div><!-- .col-md-6 col-sm-6 col-xs-12 -->
                                     </div><!-- form-group -->
@@ -149,7 +189,8 @@
                                             {{ __('general.address') }} {!! (\App\Helpers\Helper::checkIfRequired($client, 'address')) ? '<span class="text-danger">*</span>':'' !!}
                                         </label><!-- control-label col-md-3 col-sm-3 col-xs-12 -->
                                         <div class="col-md-6 col-sm-6 col-xs-12">
-                                            <textarea name="address" id="address" cols="30" rows="10" class="form-control col-md-7 col-xs-12">{{ Input::old('address', $client->address) }}</textarea>
+                                            <textarea name="address" id="address" cols="30" rows="10"
+                                                      class="form-control col-md-7 col-xs-12">{{ Input::old('address', $client->address) }}</textarea>
                                             {!! $errors->first('address', '<span class="alert-msg">:message</span>') !!}
                                         </div><!-- .col-md-6 col-sm-6 col-xs-12 -->
                                     </div><!-- form-group -->
@@ -166,7 +207,10 @@
                                             {{ __('general.city') }} {!! (\App\Helpers\Helper::checkIfRequired($client, 'city')) ? '<span class="text-danger">*</span>':'' !!}
                                         </label><!-- control-label col-md-3 col-sm-3 col-xs-12 -->
                                         <div class="col-md-6 col-sm-6 col-xs-12">
-                                            <input type="text" id="city" name="city" class="form-control col-md-7 col-xs-12" placeholder="{{ __('general.city') }}" value="{{ Input::old('city', $client->city) }}">
+                                            <input type="text" id="city" name="city"
+                                                   class="form-control col-md-7 col-xs-12"
+                                                   placeholder="{{ __('general.city') }}"
+                                                   value="{{ Input::old('city', $client->city) }}">
                                             {!! $errors->first('city', '<span class="alert-msg">:message</span>') !!}
                                         </div><!-- .col-md-6 col-sm-6 col-xs-12 -->
                                     </div><!-- form-group -->
@@ -183,7 +227,10 @@
                                             {{ __('general.state') }} {!! (\App\Helpers\Helper::checkIfRequired($client, 'state')) ? '<span class="text-danger">*</span>':'' !!}
                                         </label><!-- control-label col-md-3 col-sm-3 col-xs-12 -->
                                         <div class="col-md-6 col-sm-6 col-xs-12">
-                                            <input type="text" id="state" name="state" class="form-control col-md-7 col-xs-12" placeholder="{{ __('general.state') }}" value="{{ Input::old('state', $client->state) }}">
+                                            <input type="text" id="state" name="state"
+                                                   class="form-control col-md-7 col-xs-12"
+                                                   placeholder="{{ __('general.state') }}"
+                                                   value="{{ Input::old('state', $client->state) }}">
                                             {!! $errors->first('state', '<span class="alert-msg">:message</span>') !!}
                                         </div><!-- .col-md-6 col-sm-6 col-xs-12 -->
                                     </div><!-- form-group -->
@@ -200,7 +247,10 @@
                                             {{ __('general.zip') }} {!! (\App\Helpers\Helper::checkIfRequired($client, 'zip')) ? '<span class="text-danger">*</span>':'' !!}
                                         </label><!-- control-label col-md-3 col-sm-3 col-xs-12 -->
                                         <div class="col-md-6 col-sm-6 col-xs-12">
-                                            <input type="text" id="zip" name="zip" class="form-control col-md-7 col-xs-12" placeholder="{{ __('general.zip') }}" value="{{ Input::old('zip', $client->zip) }}">
+                                            <input type="text" id="zip" name="zip"
+                                                   class="form-control col-md-7 col-xs-12"
+                                                   placeholder="{{ __('general.zip') }}"
+                                                   value="{{ Input::old('zip', $client->zip) }}">
                                             {!! $errors->first('zip', '<span class="alert-msg">:message</span>') !!}
                                         </div><!-- .col-md-6 col-sm-6 col-xs-12 -->
                                     </div><!-- form-group -->
@@ -236,7 +286,8 @@
                 <div class="box-footer">
                     <div class="row">
                         <div class="col-md-4 col-md-offset-6">
-                            <button class="btn btn-success"><i class="fa fa-floppy-o"></i> {{ __('general.save') }}</button>
+                            <button class="btn btn-success"><i class="fa fa-floppy-o"></i> {{ __('general.save') }}
+                            </button>
                         </div><!-- col-md-4 col-md-offset-6 -->
                     </div><!-- .row -->
                 </div><!-- box-footer -->
@@ -245,3 +296,13 @@
     </div><!-- box-primary -->
 @endsection
 
+
+@section('page_scripts')
+    <script>
+        $(document).ready(function () {
+            // $('[data-mask]').inputmask({"mask": "(999) 999-9999"});
+            $('[data-mask]').inputmask()
+        });
+
+    </script>
+@endsection

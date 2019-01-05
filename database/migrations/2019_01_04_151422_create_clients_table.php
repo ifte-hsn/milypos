@@ -32,6 +32,8 @@ class CreateClientsTable extends Migration
             $table->integer('total_purchase')->nullable()->default(0);
             $table->timestamp('last_purchase')->nullable();
 
+            $table->date('dob')->nullable(); // date of birth
+
             $table->integer('country_id')->unsigned()->nullable();
             $table->softDeletes();
 

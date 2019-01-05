@@ -21,6 +21,7 @@ class ClientsTableSeeder extends Seeder
                 'phone'      => $faker->phoneNumber,
                 'address'    => $faker->address,
                 'city'       => $faker->city,
+                'dob'        => $faker->date('Y-m-d', now())
             ]);
         }
     }

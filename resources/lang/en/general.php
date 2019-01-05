@@ -34,6 +34,7 @@ return [
     'dashboard'                 => 'Dashboard',
     'date'                      => 'Date',
     'date_display_format'       => 'Date Display Format',
+    'date_of_birth'             => 'Date of Birth',
     'default_currency'          => 'Default Currency',
     'delete'                    => 'Delete',
     'deleted'                   => 'Deleted',
