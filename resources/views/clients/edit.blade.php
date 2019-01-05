@@ -149,7 +149,7 @@
                                                     <i class="fa fa-calendar"></i>
                                                 </div>
                                                 <input type="text" class="form-control"
-                                                       data-inputmask="'alias': 'yyyy-mm-dd'" data-mask name="dob" value="{{ Input::old('dob', $client->dob) }}">
+                                                       data-inputmask="'alias': 'yyyy-mm-dd'" placeholder="yyyy-mm-dd" data-mask name="dob" value="{{ Input::old('dob', $client->dob) }}">
                                             </div>
                                             <!-- /.input group -->
 
