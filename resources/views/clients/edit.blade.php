@@ -295,14 +295,3 @@
         </div>
     </div><!-- box-primary -->
 @endsection
-
-
-@section('page_scripts')
-    <script>
-        $(document).ready(function () {
-            // $('[data-mask]').inputmask({"mask": "(999) 999-9999"});
-            $('[data-mask]').inputmask()
-        });
-
-    </script>
-@endsection

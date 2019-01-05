@@ -62,6 +62,11 @@
         increaseArea: '20%' /* optional */
     });
 
+    /**
+     * Input musk
+     */
+    $('[data-mask]').inputmask();
+
 }(jQuery));
 
 $(document).on('click', '[data-toggle="lightbox"]', function (event) {
