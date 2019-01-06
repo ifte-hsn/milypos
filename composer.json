@@ -14,7 +14,8 @@
         "laravel/framework": "5.7.*",
         "laravel/tinker": "^1.0",
         "spatie/laravel-permission": "^2.28",
-        "watson/validating": "^3.1"
+        "watson/validating": "^3.1",
+      "ext-json": "*"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",
