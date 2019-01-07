@@ -58,4 +58,15 @@ class SalesController extends Controller
         $sales = $sales->skip($offset)->take($limit)->get();
         return (new SalesTransformer)->transformSales($sales, $total);
     }
+
+
+    /**
+     * Show form for new sales creation.
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function create()
+    {
+        $sale = new Sale();
+        return view('sales.edit', compact('sale'));
+    }
 }
