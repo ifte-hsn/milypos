@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Transformers\CategoriesTransformer;
-use App\Models\Category;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Redirect;
-use Symfony\Component\HttpFoundation\StreamedResponse;
-use Image;
 use File;
 use Input;
+use Image;
+use App\Models\Category;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
+use App\Http\Transformers\CategoriesTransformer;
+use Symfony\Component\HttpFoundation\StreamedResponse;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class CategoriesController extends Controller
 {

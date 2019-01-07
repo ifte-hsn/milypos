@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Role;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 use App\Http\Transformers\RolesTransformer;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Http\Request;
-use App\Models\Role;
-use Illuminate\Support\Facades\Redirect;
 
 class AclController extends Controller
 {

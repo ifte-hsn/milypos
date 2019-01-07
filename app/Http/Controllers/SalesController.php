@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Transformers\SalesTransformer;
 use App\Models\Sale;
 use Illuminate\Http\Request;
+use App\Http\Transformers\SalesTransformer;
 
 class SalesController extends Controller
 {

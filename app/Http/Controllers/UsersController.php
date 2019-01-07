@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Country;
-use Carbon\Carbon;
 use DB;
+use File;
+use Auth;
 use Input;
+use Image;
+use Carbon\Carbon;
 use App\Models\User;
+use App\Models\Country;
 use Illuminate\Http\Request;
 use App\Http\Transformers\UsersTransformer;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Image;
-use File;
-use Auth;
 
 class UsersController extends Controller
 {

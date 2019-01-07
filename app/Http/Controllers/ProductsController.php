@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Transformers\ProductsTransformer;
-use App\Models\Category;
-use App\Models\Product;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Redirect;
-use Symfony\Component\HttpFoundation\StreamedResponse;
 use File;
 use Image;
 use Input;
+use App\Models\Product;
+use App\Models\Category;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
+use App\Http\Transformers\ProductsTransformer;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class ProductsController extends Controller
 {

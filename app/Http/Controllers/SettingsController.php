@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
+use Image;
+use App\Models\Setting;
 use App\Models\Currency;
 use Illuminate\Http\Request;
-use App\Models\Setting;
-use Image;
-use Auth;
 
 class SettingsController extends Controller
 {
