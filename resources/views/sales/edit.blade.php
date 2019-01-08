@@ -180,33 +180,26 @@
             <div class="box box-warning">
                 <div class="box-header with-border"></div><!-- box-header -->
                 <div class="box-body">
-                    <table class="table table-bordered table-striped">
-                        <thead>
-                            <tr>
-                                <th style="width:10px">#</th>
-                                <th>Image</th>
-                                <th>Code</th>
-                                <th>Name</th>
-                                <th>Stock</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
 
-                        <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td><img src="{{ asset('images/products_placeholder.png') }}" class="img-thumbnail" width="40px" alt=""></td>
-                                <td>0123</td>
-                                <td>iPhone</td>
-                                <td>20</td>
-                                <td>
-                                    <div class="btn-group">
-                                        <button type="button"class="btn btn-primary">Add</button>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
+                    <table
+                            data-click-to-select="true"
+                            data-columns="{{ \App\Presenters\ProductPresenter::dataTableLayoutForSale() }}"
+                            data-cookie-id-table="salesTable"
+                            data-pagination="true"
+                            data-id-table="salesTable"
+                            data-search="true"
+                            data-side-pagination="server"
+                            data-show-columns="true"
+                            data-show-export="false"
+                            data-show-refresh="true"
+                            data-sort-order="asc"
+                            data-toolbar="#toolbar"
+                            id="salesTable"
+                            class="table table-bordered table-striped milypos-table sales-table"
+                            data-url="{{ route('products.list')  }}">
+
                     </table>
+
                 </div><!-- .box-body -->
             </div><!-- box -->
         </div><!-- col-lg-7 -->
@@ -233,4 +226,23 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('page_scripts')
+    @include ('partials.bootstrap-table')
+
+
+    <script>
+        $(document).ready(function () {
+            $('.sales-table').on('click', 'button.product-button', function () {
+                $productId = $(this).data('product');
+                $(this).removeClass('btn-primary product-button');
+                $(this).addClass('btn-default');
+
+                var datas = new FormData();
+                datas.append('product_id', $productId);
+            })
+        });
+
+    </script>
 @endsection

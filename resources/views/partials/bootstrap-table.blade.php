@@ -85,6 +85,14 @@
         $('#bulkEdit').attr('disabled', 'disabled');
     });
 
+    function salesActionsFormatter() {
+        return function (value, row) {
+            if(row){
+                return '<button class="btn btn-primary product-button" type="button" data-product="'+row.id+'">{{ __('general.add') }}</button>';
+            }
+        };
+    }
+
     // This only works for model index pages because it uses the row's model ID
     function genericRowLinkFormatter(destination) {
         return function (value, row) {
@@ -194,6 +202,7 @@
         window[formatters[i] + 'LinkFormatter'] = genericRowLinkFormatter(formatters[i]);
         window[formatters[i] + 'ActionsFormatter'] = genericActionsFormatter(formatters[i]);
     }
+    window['salesActionsFormatter'] = salesActionsFormatter();
 
 
     function createdAtFormatter(value) {
@@ -257,6 +266,8 @@
             return value;
         }
     }
+
+
 
     $(function () {
         $('#bulkEdit').on('click', function () {
