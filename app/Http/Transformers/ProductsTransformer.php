@@ -3,9 +3,9 @@
 namespace App\Http\Transformers;
 
 
+use Auth;
 use App\Helpers\Helper;
 use App\Models\Product;
-use Auth;
 
 use Illuminate\Database\Eloquent\Collection;
 

@@ -40,13 +40,20 @@ class SalePresenter
                 'visible' => true,
             ],
             [
+                'field' => 'code',
+                'searchable' => false,
+                'sortable' => true,
+                'switchable' => true,
+                'title' => __('general.code'),
+                'visible' => true,
+            ],
+            [
                 'field' => 'tax',
                 'searchable' => false,
                 'sortable' => true,
                 'switchable' => true,
                 'title' => __('general.tax'),
-                'visible' => true,
-                'formatter' => 'sexFormatter'
+                'visible' => true
             ],
             [
                 'field' => 'net',

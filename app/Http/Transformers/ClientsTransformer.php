@@ -2,10 +2,10 @@
 
 namespace App\Http\Transformers;
 
-use App\Helpers\Helper;
-use App\Models\Client;
-use Illuminate\Database\Eloquent\Collection;
 use Auth;
+use App\Models\Client;
+use App\Helpers\Helper;
+use Illuminate\Database\Eloquent\Collection;
 
 class ClientsTransformer
 {

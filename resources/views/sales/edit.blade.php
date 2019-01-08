@@ -23,7 +23,8 @@
         <div class="col-lg-5 col-xs-12">
             <div class="box box-success">
                 <div class="box-header with-border"></div><!-- box-header -->
-                <form action="" role="form" method="post">
+                <form action="{{ ($sale) ? route('sales.update', ['sale'=> $sale->id]) : route('sales.store') }}" autocomplete="off" role="form" method="post">
+                    @csrf
                     <div class="box-body">
                         <div class="box">
 
@@ -33,8 +34,8 @@
                             <div class="form-group">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                                    <input type="text" class="form-control" id="seller" name="user"
-                                           value="Administrator" readonly>
+                                    <input type="text" class="form-control" id="seller" value="{{ Auth::user()->fullName }}" readonly>
+                                    <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
                                 </div><!-- input-group -->
                             </div><!-- form-group -->
 
@@ -45,7 +46,7 @@
                             <div class="form-group">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-key"></i></span>
-                                    <input type="text" class="form-control" id="sales_id" name="sales_id" value="1001"
+                                    <input type="text" class="form-control" id="sales_code" name="sales_code" value="{{ $sale->code }}"
                                            readonly>
                                 </div><!-- input-group -->
                             </div><!-- form-group -->
@@ -57,12 +58,15 @@
                             <div class="form-group">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-users"></i></span>
-                                    <select name="client" id="client" class="form-control select2">
-                                        <option value="">Select Client</option>
+                                    <select name="client_id" id="client_id" class="form-control select2">
+                                        <option value="">{{ __('general.select') }}</option>
+                                        @foreach($clients as $client)
+                                            <option value="{{ $client->id }}" {{ $client->id == $sale->client_id ? 'selected="selected"' : '""' }}>{{ $client->fullName }}</option>
+                                        @endforeach
                                     </select>
                                     <span class="input-group-addon"><button type="button" class="btn btn-default btn-xs"
                                                                             data-toggle="modal"
-                                                                            data-target="#modalAddClient">Add CLient</button></span>
+                                                                            data-target="#modalAddClient">Add Client</button></span>
                                 </div><!-- input-group -->
                             </div><!-- form-group -->
 

@@ -60,7 +60,7 @@
                 @can('view_sale')
                     <table
                             data-click-to-select="true"
-                            data-columns="{{ \App\Presenters\ClientPresenter::dataTableLayout() }}"
+                            data-columns="{{ \App\Presenters\SalePresenter::dataTableLayout() }}"
                             data-cookie-id-table="salesTable"
                             data-pagination="true"
                             data-id-table="salesTable"

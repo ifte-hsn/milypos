@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Sale;
+use App\Models\Client;
 use Illuminate\Http\Request;
 use App\Http\Transformers\SalesTransformer;
 
@@ -22,6 +23,7 @@ class SalesController extends Controller
             'sales.id',
             'sales.user_id',
             'sales.client_id',
+            'sales.code',
             'sales.products',
             'sales.tax',
             'sales.net',
@@ -46,7 +48,7 @@ class SalesController extends Controller
             default:
                 $allowed_columns = [
                     'id', 'tax', 'net', 'total',
-                    'payment_method'
+                    'payment_method', 'code'
                 ];
 
                 $sort = in_array($request->get('sort'), $allowed_columns) ? $request->get('sort') : 'id';
@@ -56,6 +58,8 @@ class SalesController extends Controller
 
         $total = $sales->count();
         $sales = $sales->skip($offset)->take($limit)->get();
+
+
         return (new SalesTransformer)->transformSales($sales, $total);
     }
 
@@ -67,6 +71,24 @@ class SalesController extends Controller
     public function create()
     {
         $sale = new Sale();
-        return view('sales.edit', compact('sale'));
+
+        // Generate Code for new sales
+        // We need to generate code in sequential order
+        // So we need to get last sales code
+        // than add 1 to it.
+        // This will our new code for new sales
+        $sale_code = Sale::orderBy('id', 'desc')->take(1)->get();
+
+
+
+        // Add 1 to generate new code
+        $new_sale_code = ($sale_code[0]) ? $sale_code[0]->code + 1 : 0;
+
+
+        $sale->code = $new_sale_code;
+
+        $clients = Client::all();
+
+        return view('sales.edit', compact('sale', 'clients'));
     }
 }

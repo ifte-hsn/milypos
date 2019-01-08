@@ -17,6 +17,7 @@ class CreateSalesTable extends Migration
             $table->increments('id');
             $table->integer('user_id')->unsigned();
             $table->integer('client_id')->unsigned();
+            $table->string('code');
             $table->text('products');
             $table->float('tax');
             $table->float('net');

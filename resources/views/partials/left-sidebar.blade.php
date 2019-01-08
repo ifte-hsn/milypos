@@ -139,7 +139,7 @@
                         <a href="{{ route('sales.manage') }}"><i class="fa fa-circle-o"></i> {{ __('general.manage_sales') }}</a>
                     </li>
                     <li {!! (Request::is('sales/create*') ? 'class="active"':'') !!}>
-                        <a href="#"><i class="fa fa-circle-o"></i> {{ __('general.create_sale') }}</a>
+                        <a href="{{ route('sales.create') }}"><i class="fa fa-circle-o"></i> {{ __('general.create_sale') }}</a>
                     </li>
                     <li {!! (Request::is('sales/report*') ? 'class="active"':'') !!}>
                         <a href="#"><i class="fa fa-circle-o"></i> {{ __('general.sales_report') }}</a>

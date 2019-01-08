@@ -3,8 +3,8 @@
 namespace App\Http\Transformers;
 
 
-use Illuminate\Database\Eloquent\Collection;
 use Auth;
+use Illuminate\Database\Eloquent\Collection;
 
 class CategoriesTransformer
 {

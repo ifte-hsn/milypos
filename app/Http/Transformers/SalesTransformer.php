@@ -3,7 +3,9 @@
 namespace App\Http\Transformers;
 
 
+use Auth;
 use App\Models\Sale;
+use App\Helpers\Helper;
 use Illuminate\Database\Eloquent\Collection;
 
 class SalesTransformer
@@ -24,8 +26,8 @@ class SalesTransformer
 
         $array = [
             'id' => (int) $sale->id,
-            'seller' => e($sale->user->name),
-            'client' => e($sale->client->name),
+            'seller' => ($sale->user->fullName) ? e($sale->user->fullName) : null,
+            'client' => ($sale->client->fullName) ? e($sale->client->fullName) : null,
             'payment_method' => e($sale->payment_method),
             'payment_method' => e($sale->tax),
             'net' => e($sale->net),
