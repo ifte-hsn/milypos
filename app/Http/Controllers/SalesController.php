@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use App\Models\Sale;
 use App\Models\Client;
 use Illuminate\Http\Request;
@@ -82,7 +83,7 @@ class SalesController extends Controller
 
 
         // Add 1 to generate new code
-        $new_sale_code = ($sale_code[0]) ? $sale_code[0]->code + 1 : 0;
+        $new_sale_code = (isset($sale_code[0])) ? $sale_code[0]->code + 1 : 1;
 
 
         $sale->code = $new_sale_code;
@@ -90,5 +91,11 @@ class SalesController extends Controller
         $clients = Client::all();
 
         return view('sales.edit', compact('sale', 'clients'));
+    }
+
+
+    public function getProductById(Request $request) {
+        $product = Product::findOrFail($request->input('product_id'));
+        return $product;
     }
 }

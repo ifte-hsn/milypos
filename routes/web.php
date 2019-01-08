@@ -87,12 +87,13 @@ Route::middleware(['auth'])->group(function () {
     });
 
     Route::group(['prefix' => 'sales'], function () {
-        Route::get('manage', 'SalesController@manage')->name('sales.manage');
+        Route::get('/', 'SalesController@manage')->name('sales.manage');
         Route::get('getSalesList', 'SalesController@getSalesList')->name('sales.list');
         Route::get('create', 'SalesController@create')->name('sales.create');
         Route::get('export', 'SalesController@exportAsCsv')->name('sales.csv.export');
         Route::post('bulkedit', 'SalesController@postBulkEdit')->name('sales.bulkedit');
         Route::match(['put', 'patch'], '{id}', 'SalesController@update')->name('sales.update');
+        Route::post('product', 'SalesController@getProductById')->name('sales.product_by_id');
     });
 
     /**

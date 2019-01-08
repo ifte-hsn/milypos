@@ -74,29 +74,9 @@
                             <!-- ******************************* -->
                             <!--    Entry for adding product     -->
                             <!-- ******************************* -->
-                            <div class="form-group row add-product">
-                                <div class="col-xs-6" style="padding-right: 0px;">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><button class="btn btn-danger btn-xs"
-                                                                                type="button"><i
-                                                        class="fa fa-times"></i></button></span>
-                                        <input type="text" class="form-control" placeholder="Product name" readonly>
-                                    </div><!-- input-group -->
-                                </div><!-- col-xs-6 -->
+                            <div class="form-group add-product">
 
-                                <!-- Product quantity -->
-                                <div class="col-xs-3">
-                                    <input type="number" class="form-control" min="1" placeholder="0" required>
-                                </div><!-- col-xs-3 -->
-
-                                <!-- Total price -->
-                                <div class="col-xs-3" style="padding-left: 0px">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i class="ion ion-logo-usd"></i></span>
-                                        <input type="number" min="1" class="form-control" required readonly>
-                                    </div><!-- input-group -->
-                                </div><!-- col-xs-3 -->
-                            </div><!-- form-group -->
+                            </div><!-- form-group add-product-->
 
                             <!-- hidden button to show only on small screen -->
                             <button class="btn btn-default hidden-lg" type="button">Add Product</button>
@@ -239,8 +219,43 @@
                 $(this).removeClass('btn-primary product-button');
                 $(this).addClass('btn-default');
 
-                var datas = new FormData();
-                datas.append('product_id', $productId);
+                $.ajax({
+                    url: "{{ route('sales.product_by_id') }}",
+                    type: "POST",
+                    data: {_token: $('meta[name="csrf-token"]').attr('content'),
+                        product_id:$productId
+                    },
+                    success: function (response) {
+                        $('.add-product').append('<div class="row" style="padding: 5px 15px">\n' +
+                            '                                    <div class="col-xs-6" style="padding-right: 0px;">\n' +
+                            '                                        <div class="input-group">\n' +
+                            '                                        <span class="input-group-addon"><button class="btn btn-danger btn-xs"\n' +
+                            '                                                                                type="button"><i\n' +
+                            '                                                        class="fa fa-times"></i></button></span>\n' +
+                            '                                            <input type="text" class="form-control" placeholder="Product name" value="'+response.name+'" readonly>\n' +
+                            '                                        </div><!-- input-group -->\n' +
+                            '                                    </div><!-- col-xs-6 -->\n' +
+                            '\n' +
+                            '                                    <!-- Product quantity -->\n' +
+                            '                                    <div class="col-xs-3">\n' +
+                            '                                        <input type="number" class="form-control" min="1" data-stock="'+response.stock+'" value="1" placeholder="0" required>\n' +
+                            '                                    </div><!-- col-xs-3 -->\n' +
+                            '\n' +
+                            '                                    <!-- Total price -->\n' +
+                            '                                    <div class="col-xs-3" style="padding-left: 0px">\n' +
+                            '                                        <div class="input-group">\n' +
+                            '                                            <span class="input-group-addon"><i class="ion ion-logo-usd"></i></span>\n' +
+                            '                                            <input type="number" min="1" class="form-control" value="'+response.selling_price+'" required readonly>\n' +
+                            '                                        </div><!-- input-group -->\n' +
+                            '                                    </div><!-- col-xs-3 -->\n' +
+                            '                                </div><!-- row -->');
+                        console.log(response)
+                    },
+                    fail: function (response) {
+                        console.log("failed");
+                        console.log(response);
+                    }
+                });
             })
         });
 
