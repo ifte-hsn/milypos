@@ -116,7 +116,8 @@ class ProductsController extends Controller
             'image' => 'image',
             'sales' => 'nullable|numeric',
             'purchase_price' =>'numeric',
-            'selling_price' => 'numeric'
+            'selling_price' => 'numeric',
+            'category_id' => 'nullable|integer|exists:categories,id'
         ]);
 
         $product = new Product();
@@ -195,9 +196,9 @@ class ProductsController extends Controller
             'image' => 'image',
             'sales' => 'nullable|numeric',
             'purchase_price' =>'numeric',
-            'selling_price' => 'numeric'
+            'selling_price' => 'numeric',
+            'category_id' => 'nullable|integer|exists:categories,id'
         ]);
-
 
 
         try {

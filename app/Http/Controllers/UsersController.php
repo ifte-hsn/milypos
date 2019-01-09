@@ -125,6 +125,7 @@ class UsersController extends Controller
             'first_name'              => 'required|string|min:1',
             'email'                   => 'required|email|unique:users',
             'password'                => 'required|min:6',
+            'country_id' => 'nullable|integer|exists:countries,id',
         ]);
 
 
@@ -199,8 +200,13 @@ class UsersController extends Controller
      */
     public function update(Request $request, $id)
     {
-
         $this->authorize('edit_user', User::class);
+
+        $request->validate([
+            'first_name'              => 'required|string|min:1',
+            'password'                => 'required|min:6',
+            'country_id' => 'nullable|integer|exists:countries,id',
+        ]);
 
 
         try {

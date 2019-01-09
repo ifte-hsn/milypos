@@ -113,6 +113,7 @@ class ClientsController extends Controller
 
         $request->validate([
             'first_name'              => 'required|string|min:1',
+            'country_id' => 'nullable|integer|exists:countries,id',
         ]);
 
 
@@ -202,6 +203,10 @@ class ClientsController extends Controller
     {
         $this->authorize('edit_client', Client::class);
 
+        $request->validate([
+            'first_name'              => 'required|string|min:1',
+            'country_id' => 'nullable|integer|exists:countries,id',
+        ]);
 
         try {
             $client = Client::findOrFail($id);
