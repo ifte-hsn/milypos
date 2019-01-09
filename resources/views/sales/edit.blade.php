@@ -23,7 +23,7 @@
         <div class="col-lg-5 col-xs-12">
             <div class="box box-success">
                 <div class="box-header with-border"></div><!-- box-header -->
-                <form action="{{ ($sale) ? route('sales.update', ['sale'=> $sale->id]) : route('sales.store') }}" autocomplete="off" role="form" method="post">
+                <form action="{{ ($sale) ? route('sales.update', ['sale'=> $sale->id]) : route('sales.store') }}" autocomplete="off" role="form" method="post" class="sales-form">
                     @csrf
                     <div class="box-body">
                         <div class="box">
@@ -175,7 +175,7 @@
                             data-sort-order="asc"
                             data-toolbar="#toolbar"
                             id="salesTable"
-                            class="table table-bordered table-striped milypos-table sales-table"
+                            class="table table-bordered table-striped milypos-table products-table"
                             data-url="{{ route('products.list')  }}">
 
                     </table>
@@ -214,7 +214,7 @@
 
     <script>
         $(document).ready(function () {
-            $('.sales-table').on('click', 'button.product-button', function () {
+            $('.products-table').on('click', 'button.product-button', function () {
                 $productId = $(this).data('product');
                 $(this).removeClass('btn-primary product-button');
                 $(this).addClass('btn-default');
@@ -226,11 +226,11 @@
                         product_id:$productId
                     },
                     success: function (response) {
-                        $('.add-product').append('<div class="row" style="padding: 5px 15px">\n' +
+                        $('.add-product').append('<div class="row product-row product-'+response.id+'" style="padding: 5px 15px">\n' +
                             '                                    <div class="col-xs-6" style="padding-right: 0px;">\n' +
                             '                                        <div class="input-group">\n' +
-                            '                                        <span class="input-group-addon"><button class="btn btn-danger btn-xs"\n' +
-                            '                                                                                type="button"><i\n' +
+                            '                                        <span class="input-group-addon"><button class="btn btn-danger btn-xs remove-product"\n' +
+                            '                                                                                type="button" data-product="'+response.id+'"><i\n' +
                             '                                                        class="fa fa-times"></i></button></span>\n' +
                             '                                            <input type="text" class="form-control" placeholder="Product name" value="'+response.name+'" readonly>\n' +
                             '                                        </div><!-- input-group -->\n' +
@@ -256,7 +256,18 @@
                         console.log(response);
                     }
                 });
-            })
+            });
+
+            $('.sales-form').on('click', 'button.remove-product', function () {
+
+                var productId = $(this).data('product');
+                var parentId = '.product-'+productId;
+
+                $(parentId).remove();
+
+                console.log($('[data-product="'+productId+'"]').removeClass('btn-default').addClass('btn-primary product-button'));
+
+            });
         });
 
     </script>
