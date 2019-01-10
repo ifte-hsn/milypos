@@ -21,15 +21,7 @@ class SalesController extends Controller
         $this->authorize('view_sales', Sale::class);
 
         $sales = Sale::select([
-            'sales.id',
-            'sales.user_id',
-            'sales.client_id',
-            'sales.code',
-            'sales.products',
-            'sales.tax',
-            'sales.net',
-            'sales.total',
-            'sales.payment_method'
+            '*'
         ]);
 
         if(($request->has('deleted')) && ($request->input('deleted') == 'true')) {

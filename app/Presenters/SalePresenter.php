@@ -56,19 +56,19 @@ class SalePresenter
                 'visible' => true
             ],
             [
-                'field' => 'net',
+                'field' => 'sub_total',
                 'searchable' => false,
                 'sortable' => true,
                 'switchable' => true,
-                'title' => __('general.net'),
+                'title' => __('general.sub_total'),
                 'visible' => true,
             ],
             [
-                'field' => 'total',
+                'field' => 'grand_total',
                 'searchable' => false,
                 'sortable' => true,
                 'switchable' => true,
-                'title' => __('general.total'),
+                'title' => __('general.grand_total'),
                 'visible' => true,
             ],
             [
