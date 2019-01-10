@@ -107,7 +107,7 @@
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><i
                                                                 class="ion ion-logo-usd"></i></span>
-                                                    <input type="number" class="form-control" min="1"
+                                                    <input type="number" class="form-control total-price" min="1"
                                                            placeholder="00000" required readonly="">
                                                 </div><!-- input-group -->
                                             </td>
@@ -226,34 +226,29 @@
                         product_id:$productId
                     },
                     success: function (response) {
-                        $('.add-product').append('<div class="row product-row product-'+response.id+'" style="padding: 5px 15px">\n' +
-                            '                                    <div class="col-xs-6" style="padding-right: 0px;">\n' +
-                            '                                        <div class="input-group">\n' +
-                            '                                        <span class="input-group-addon"><button class="btn btn-danger btn-xs remove-product"\n' +
-                            '                                                                                type="button" data-product="'+response.id+'"><i\n' +
-                            '                                                        class="fa fa-times"></i></button></span>\n' +
-                            '                                            <input type="text" class="form-control" placeholder="Product name" value="'+response.name+'" readonly>\n' +
-                            '                                        </div><!-- input-group -->\n' +
-                            '                                    </div><!-- col-xs-6 -->\n' +
-                            '\n' +
-                            '                                    <!-- Product quantity -->\n' +
-                            '                                    <div class="col-xs-3">\n' +
-                            '                                        <input type="number" class="form-control" min="1" data-stock="'+response.stock+'" value="1" placeholder="0" required>\n' +
-                            '                                    </div><!-- col-xs-3 -->\n' +
-                            '\n' +
-                            '                                    <!-- Total price -->\n' +
-                            '                                    <div class="col-xs-3" style="padding-left: 0px">\n' +
-                            '                                        <div class="input-group">\n' +
-                            '                                            <span class="input-group-addon"><i class="ion ion-logo-usd"></i></span>\n' +
-                            '                                            <input type="number" min="1" class="form-control" value="'+response.selling_price+'" required readonly>\n' +
-                            '                                        </div><!-- input-group -->\n' +
-                            '                                    </div><!-- col-xs-3 -->\n' +
-                            '                                </div><!-- row -->');
-                        console.log(response)
-                    },
-                    fail: function (response) {
-                        console.log("failed");
-                        console.log(response);
+                        $('.add-product').append('<div class="row product-row product-'+response.id+'" style="padding: 5px 15px">' +
+                                                        '<div class="col-xs-6" style="padding-right: 0px;">' +
+                                                            '<div class="input-group">' +
+                                                                '<span class="input-group-addon"><button class="btn btn-danger btn-xs remove-product" type="button" data-product="'+response.id+'"><i class="fa fa-times"></i></button></span>' +
+                                                                 '<input type="text" class="form-control" placeholder="Product name" value="'+response.name+'" readonly>' +
+                                                            '</div><!-- input-group -->' +
+                                                        '</div><!-- col-xs-6 -->' +
+                                                        '<!-- Product quantity -->' +
+                                                        '<div class="col-xs-3">' +
+                                                            '<input type="number" class="form-control" min="1" data-stock="'+response.stock+'" value="1" placeholder="0" required>' +
+                                                        '</div><!-- col-xs-3 -->' +
+                                                        '<!-- Total price -->' +
+                                                        '<div class="col-xs-3" style="padding-left: 0px">' +
+                                                            '<div class="input-group">' +
+                                                                '<span class="input-group-addon"><i class="ion ion-logo-usd"></i></span>' +
+                                                                    '<input type="number" min="1" class="form-control product-price" value="'+response.selling_price+'" required readonly>' +
+                                                            '</div><!-- input-group -->' +
+                                                        '</div><!-- col-xs-3 -->' +
+                                                    '</div><!-- row -->');
+                        // calculate the summation of
+                        // products
+                        sumTotalPrice();
+
                     }
                 });
             });
@@ -265,10 +260,45 @@
 
                 $(parentId).remove();
 
-                console.log($('[data-product="'+productId+'"]').removeClass('btn-default').addClass('btn-primary product-button'));
+                $('[data-product="'+productId+'"]').removeClass('btn-default').addClass('btn-primary product-button');
 
             });
+
         });
+
+
+        /**
+         * Calculate the summation of the price of items
+         */
+        function sumTotalPrice() {
+            // get the price of the item
+            var itemPrices = $('.product-price');
+
+            // Array for holding all the price of item
+            var priceArray = [];
+
+            // Populate price array
+            for(var i = 0; i < itemPrices.length; i++) {
+                priceArray.push(Number($(itemPrices[i]).val()));
+            }
+
+            /**
+             * Function for Calculating the summation
+             * @param total
+             * @param number
+             * @returns {*}
+             */
+            function  sumPriceArray(total, number) {
+                return total + number;
+            }
+
+            // Calculate the summation
+            var totalPrice = priceArray.reduce(sumPriceArray);
+
+
+            $('.total-price').val(totalPrice)
+
+        }
 
     </script>
 @endsection
