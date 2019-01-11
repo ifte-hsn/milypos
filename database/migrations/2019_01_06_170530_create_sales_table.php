@@ -20,8 +20,8 @@ class CreateSalesTable extends Migration
             $table->string('code');
             $table->text('products');
             $table->float('tax');
-            $table->float('sub_total');
-            $table->float('grand_total');
+            $table->float('subtotal');
+            $table->float('total');
             $table->string('payment_method');
             $table->timestamps();
         });
