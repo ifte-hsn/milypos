@@ -49,3 +49,8 @@
 .permissions-table .title th {
     /*color: #ffffff;*/
 }
+
+table#pos_table thead{
+    background: #337ab7;
+    color: #fff;
+}

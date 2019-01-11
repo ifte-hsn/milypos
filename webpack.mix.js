@@ -19,6 +19,7 @@ mix.scripts([
     'resources/js/ekko-lightbox.min.js',
     'resources/js/icheck.min.js',
     'resources/js/jquery.inputmask.bundle.js',
+    'resources/js/jquery.number.js',
     'node_modules/jquery-slimscroll/jquery.slimscroll.js',
     'resources/js/adminlte.js',
     'resources/js/script.js',

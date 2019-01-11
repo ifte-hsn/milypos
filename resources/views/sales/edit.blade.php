@@ -77,13 +77,30 @@
                             <!-- ******************************* -->
                             <!--    Entry for adding product     -->
                             <!-- ******************************* -->
-                            <div class="form-group add-product" id="add-product">
+                            <table class="table table-condensed table-bordered table-striped table-responsive" id="pos_table">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>{{ __('general.products') }}</th>
+                                        <th>{{ __('general.quantity') }}</th>
+                                        <th>{{ __('general.price') }}</th>
+                                    </tr>
+                                </thead>
 
-                            </div><!-- form-group add-product-->
+                                <tbody>
+                                    <tr>
+                                        <td><button class="btn btn-xs btn-danger"><i class="fa fa-times"></i></button></td>
+                                        <td>iPhone</td>
+                                        <td><input type="text" class="form-control" value="3"></td>
+                                        <td><input type="text" class="form-control" value="1200"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
                             <input type="hidden" id="products-list" name="products">
 
                             <!-- hidden button to show only on small screen -->
-                            <button class="btn btn-default hidden-lg" type="button">Add Product</button>
+                            <button class="btn btn-default hidden-lg" type="button" id="add-product">Add Product</button>
 
                             <hr>
 
@@ -230,162 +247,6 @@
 
 
     <script>
-        $(document).ready(function () {
-            $('.products-table').on('click', 'button.product-button', function () {
-                $productId = $(this).data('product');
-                $(this).removeClass('btn-primary product-button');
-                $(this).addClass('btn-default');
 
-                $.ajax({
-                    url: "{{ route('sales.product_by_id') }}",
-                    type: "POST",
-                    data: {
-                        _token: $('meta[name="csrf-token"]').attr('content'),
-                        product_id: $productId
-                    },
-                    success: function (response) {
-
-                        if (response.stock == 0) {
-                            $('[data-product="' + response.id + '"]').removeClass('btn-default').addClass('btn-primary product-button');
-                            alert('this product is out of stock');
-                            return;
-                        }
-                        $('#add-product').append('<div class="row product-row product-' + response.id + '" style="padding: 5px 15px">' +
-                            '<div class="col-xs-6" style="padding-right: 0px;">' +
-                            '<div class="input-group">' +
-                            '<span class="input-group-addon"><button class="btn btn-danger btn-xs remove-product" type="button" data-product="' + response.id + '"><i class="fa fa-times"></i></button></span>' +
-                            '<input type="text" class="form-control product-name" placeholder="Product name" data-name="' + response.name + '" value="' + response.name + '" readonly>' +
-                            '<input type="hidden" class="product-id" data-productId="' + response.id + '">' +
-                            '</div><!-- input-group -->' +
-                            '</div><!-- col-xs-6 -->' +
-                            '<!-- Product quantity -->' +
-                            '<div class="col-xs-3">' +
-                            '<input type="number" class="form-control product-quantity" min="1" data-stock="' + response.stock + '" value="1" placeholder="0" required>' +
-                            '</div><!-- col-xs-3 -->' +
-                            '<!-- Total price -->' +
-                            '<div class="col-xs-3" style="padding-left: 0px">' +
-                            '<div class="input-group">' +
-                            '<span class="input-group-addon"><i class="ion ion-logo-usd"></i></span>' +
-                            '<input type="number" min="1" class="form-control product-price" data-price="' + response.selling_price + '" value="' + response.selling_price + '" required readonly>' +
-                            '</div><!-- input-group -->' +
-                            '</div><!-- col-xs-3 -->' +
-                            '</div><!-- row -->');
-                        // calculate the summation of
-                        // products price
-                        sumTotalPrice();
-
-                        // Calculate the total price with sales tax
-                        computeTotal();
-
-                        // Get product list in json format
-                        productList();
-
-                    }
-                });
-            });
-
-            /**
-             * Remove product from list
-             * */
-            $('.sales-form').on('click', 'button.remove-product', function () {
-
-                let productId = $(this).data('product');
-                let parentId = '.product-' + productId;
-
-                $(parentId).remove();
-
-                $('[data-product="' + productId + '"]').removeClass('btn-default').addClass('btn-primary product-button');
-
-                if($('#add-product').children().length === 0) {
-                    $('#total').val(0);
-                    $('#sub-total').val(0);
-                } else {
-
-                    // Summation of product prices
-                    sumTotalPrice();
-
-                    // Calculate the total price with sales tax
-                    computeTotal();
-
-                    // Get product list in json format
-                    productList();
-                }
-
-            });
-
-        });
-
-
-        /**
-         * Calculate the summation of the price of items
-         */
-        function sumTotalPrice() {
-            // get the price of the item
-            let itemPrices = $('.product-price');
-
-            // Array for holding all the price of item
-            let priceArray = [];
-
-            // Populate price array
-            for (let i = 0; i < itemPrices.length; i++) {
-                priceArray.push(Number($(itemPrices[i]).val()));
-            }
-
-            /**
-             * Function for Calculating the summation
-             * @param total
-             * @param number
-             * @returns {*}
-             */
-            function sumPriceArray(total, number) {
-                return total + number;
-            }
-
-            // Calculate the summation
-            var totalPrice = priceArray.reduce(sumPriceArray);
-            totalPrice = totalPrice.toFixed(2);
-
-            $('.sub-total').val(totalPrice)
-        }
-
-        /**
-         * Compute total price with sales tax
-         */
-        function computeTotal() {
-            let tax = Number($('#tax').val());
-            let subTotal = Number($('#sub-total').val());
-            let totalTax = Number(subTotal * tax / 100);
-            let total = subTotal + totalTax;
-
-            $('#total').val(total);
-        }
-
-        /**
-         * Create json object for
-         * added products
-         */
-        function productList() {
-            let productList = [];
-            let productId = $('.product-id');
-            let name = $('.product-name');
-            let stock = $('.product-stock');
-            let quantity = $('.product-quantity');
-            let price = $('.product-price');
-
-            for (let i = 0; i < name.length; i++) {
-                productList.push({
-                    "id": $(productId).val(),
-                    "name": $(name).val(),
-                    "quantity": $(quantity).val(),
-                    "stock": $(stock).val(),
-                    "price": $(price).data('price'),
-                    "total": $(price).val()
-
-                });
-
-                $('#products-list').val(JSON.stringify(productList));
-
-            }
-        }
     </script>
 @endsection
