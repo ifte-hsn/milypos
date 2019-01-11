@@ -23,7 +23,8 @@
         <div class="col-lg-5 col-xs-12">
             <div class="box box-success">
                 <div class="box-header with-border"></div><!-- box-header -->
-                <form action="{{ ($sale) ? route('sales.update', ['sale'=> $sale->id]) : route('sales.store') }}" autocomplete="off" role="form" method="post" class="sales-form">
+                <form action="{{ ($sale) ? route('sales.update', ['sale'=> $sale->id]) : route('sales.store') }}"
+                      autocomplete="off" role="form" method="post" class="sales-form">
                     @csrf
                     <div class="box-body">
                         <div class="box">
@@ -34,7 +35,8 @@
                             <div class="form-group">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                                    <input type="text" class="form-control" id="seller" value="{{ Auth::user()->fullName }}" readonly>
+                                    <input type="text" class="form-control" id="seller"
+                                           value="{{ Auth::user()->fullName }}" readonly>
                                     <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
                                 </div><!-- input-group -->
                             </div><!-- form-group -->
@@ -46,7 +48,8 @@
                             <div class="form-group">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-key"></i></span>
-                                    <input type="text" class="form-control" id="sales_code" name="sales_code" value="{{ $sale->code }}"
+                                    <input type="text" class="form-control" id="sales_code" name="sales_code"
+                                           value="{{ $sale->code }}"
                                            readonly>
                                 </div><!-- input-group -->
                             </div><!-- form-group -->
@@ -74,9 +77,10 @@
                             <!-- ******************************* -->
                             <!--    Entry for adding product     -->
                             <!-- ******************************* -->
-                            <div class="form-group add-product">
+                            <div class="form-group add-product" id="add-product">
 
                             </div><!-- form-group add-product-->
+                            <input type="hidden" id="products-list" name="products">
 
                             <!-- hidden button to show only on small screen -->
                             <button class="btn btn-default hidden-lg" type="button">Add Product</button>
@@ -84,30 +88,43 @@
                             <hr>
 
                             <div class="row">
-                                <div class="col-xs-8 pull-right">
+                                <div class="col-xs-12 pull-right">
                                     <table class="table">
                                         <thead>
                                         <tr>
                                             <th>Tax</th>
+                                            <th>Sub Total</th>
                                             <th>Total</th>
                                         </tr>
                                         </thead>
 
                                         <tbody>
                                         <tr>
-                                            <td style="width: 50%">
+                                            <td style="width: 25%">
                                                 <div class="input-group">
-                                                    <input type="number" class="form-control" min="0" placeholder="0"
+                                                    <input type="number" class="form-control" id="tax" name="tax"
+                                                           min="0" placeholder="0"
                                                            required>
                                                     <span class="input-group-addon"><i class="fa fa-percent"></i></span>
                                                 </div><!-- input-group -->
                                             </td>
 
-                                            <td style="width: 50%">
+                                            <td style="width: 35%">
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><i
                                                                 class="ion ion-logo-usd"></i></span>
-                                                    <input type="number" class="form-control total-price" min="1"
+                                                    <input type="number" class="form-control sub-total" id="sub-total"
+                                                           name="sub_total" min="1"
+                                                           placeholder="00000" required readonly="">
+                                                </div><!-- input-group -->
+                                            </td>
+
+                                            <td style="width: 40%">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><i
+                                                                class="ion ion-logo-usd"></i></span>
+                                                    <input type="number" class="form-control total" id="total"
+                                                           name="total" min="1"
                                                            placeholder="00000" required readonly="">
                                                 </div><!-- input-group -->
                                             </td>
@@ -222,45 +239,77 @@
                 $.ajax({
                     url: "{{ route('sales.product_by_id') }}",
                     type: "POST",
-                    data: {_token: $('meta[name="csrf-token"]').attr('content'),
-                        product_id:$productId
+                    data: {
+                        _token: $('meta[name="csrf-token"]').attr('content'),
+                        product_id: $productId
                     },
                     success: function (response) {
-                        $('.add-product').append('<div class="row product-row product-'+response.id+'" style="padding: 5px 15px">' +
-                                                        '<div class="col-xs-6" style="padding-right: 0px;">' +
-                                                            '<div class="input-group">' +
-                                                                '<span class="input-group-addon"><button class="btn btn-danger btn-xs remove-product" type="button" data-product="'+response.id+'"><i class="fa fa-times"></i></button></span>' +
-                                                                 '<input type="text" class="form-control" placeholder="Product name" value="'+response.name+'" readonly>' +
-                                                            '</div><!-- input-group -->' +
-                                                        '</div><!-- col-xs-6 -->' +
-                                                        '<!-- Product quantity -->' +
-                                                        '<div class="col-xs-3">' +
-                                                            '<input type="number" class="form-control" min="1" data-stock="'+response.stock+'" value="1" placeholder="0" required>' +
-                                                        '</div><!-- col-xs-3 -->' +
-                                                        '<!-- Total price -->' +
-                                                        '<div class="col-xs-3" style="padding-left: 0px">' +
-                                                            '<div class="input-group">' +
-                                                                '<span class="input-group-addon"><i class="ion ion-logo-usd"></i></span>' +
-                                                                    '<input type="number" min="1" class="form-control product-price" value="'+response.selling_price+'" required readonly>' +
-                                                            '</div><!-- input-group -->' +
-                                                        '</div><!-- col-xs-3 -->' +
-                                                    '</div><!-- row -->');
+
+                        if (response.stock == 0) {
+                            $('[data-product="' + response.id + '"]').removeClass('btn-default').addClass('btn-primary product-button');
+                            alert('this product is out of stock');
+                            return;
+                        }
+                        $('#add-product').append('<div class="row product-row product-' + response.id + '" style="padding: 5px 15px">' +
+                            '<div class="col-xs-6" style="padding-right: 0px;">' +
+                            '<div class="input-group">' +
+                            '<span class="input-group-addon"><button class="btn btn-danger btn-xs remove-product" type="button" data-product="' + response.id + '"><i class="fa fa-times"></i></button></span>' +
+                            '<input type="text" class="form-control product-name" placeholder="Product name" data-name="' + response.name + '" value="' + response.name + '" readonly>' +
+                            '<input type="hidden" class="product-id" data-productId="' + response.id + '">' +
+                            '</div><!-- input-group -->' +
+                            '</div><!-- col-xs-6 -->' +
+                            '<!-- Product quantity -->' +
+                            '<div class="col-xs-3">' +
+                            '<input type="number" class="form-control product-quantity" min="1" data-stock="' + response.stock + '" value="1" placeholder="0" required>' +
+                            '</div><!-- col-xs-3 -->' +
+                            '<!-- Total price -->' +
+                            '<div class="col-xs-3" style="padding-left: 0px">' +
+                            '<div class="input-group">' +
+                            '<span class="input-group-addon"><i class="ion ion-logo-usd"></i></span>' +
+                            '<input type="number" min="1" class="form-control product-price" data-price="' + response.selling_price + '" value="' + response.selling_price + '" required readonly>' +
+                            '</div><!-- input-group -->' +
+                            '</div><!-- col-xs-3 -->' +
+                            '</div><!-- row -->');
                         // calculate the summation of
-                        // products
+                        // products price
                         sumTotalPrice();
+
+                        // Calculate the total price with sales tax
+                        computeTotal();
+
+                        // Get product list in json format
+                        productList();
 
                     }
                 });
             });
 
+            /**
+             * Remove product from list
+             * */
             $('.sales-form').on('click', 'button.remove-product', function () {
 
-                var productId = $(this).data('product');
-                var parentId = '.product-'+productId;
+                let productId = $(this).data('product');
+                let parentId = '.product-' + productId;
 
                 $(parentId).remove();
 
-                $('[data-product="'+productId+'"]').removeClass('btn-default').addClass('btn-primary product-button');
+                $('[data-product="' + productId + '"]').removeClass('btn-default').addClass('btn-primary product-button');
+
+                if($('#add-product').children().length === 0) {
+                    $('#total').val(0);
+                    $('#sub-total').val(0);
+                } else {
+
+                    // Summation of product prices
+                    sumTotalPrice();
+
+                    // Calculate the total price with sales tax
+                    computeTotal();
+
+                    // Get product list in json format
+                    productList();
+                }
 
             });
 
@@ -272,13 +321,13 @@
          */
         function sumTotalPrice() {
             // get the price of the item
-            var itemPrices = $('.product-price');
+            let itemPrices = $('.product-price');
 
             // Array for holding all the price of item
-            var priceArray = [];
+            let priceArray = [];
 
             // Populate price array
-            for(var i = 0; i < itemPrices.length; i++) {
+            for (let i = 0; i < itemPrices.length; i++) {
                 priceArray.push(Number($(itemPrices[i]).val()));
             }
 
@@ -288,17 +337,55 @@
              * @param number
              * @returns {*}
              */
-            function  sumPriceArray(total, number) {
+            function sumPriceArray(total, number) {
                 return total + number;
             }
 
             // Calculate the summation
             var totalPrice = priceArray.reduce(sumPriceArray);
+            totalPrice = totalPrice.toFixed(2);
 
-
-            $('.total-price').val(totalPrice)
-
+            $('.sub-total').val(totalPrice)
         }
 
+        /**
+         * Compute total price with sales tax
+         */
+        function computeTotal() {
+            let tax = Number($('#tax').val());
+            let subTotal = Number($('#sub-total').val());
+            let totalTax = Number(subTotal * tax / 100);
+            let total = subTotal + totalTax;
+
+            $('#total').val(total);
+        }
+
+        /**
+         * Create json object for
+         * added products
+         */
+        function productList() {
+            let productList = [];
+            let productId = $('.product-id');
+            let name = $('.product-name');
+            let stock = $('.product-stock');
+            let quantity = $('.product-quantity');
+            let price = $('.product-price');
+
+            for (let i = 0; i < name.length; i++) {
+                productList.push({
+                    "id": $(productId).val(),
+                    "name": $(name).val(),
+                    "quantity": $(quantity).val(),
+                    "stock": $(stock).val(),
+                    "price": $(price).data('price'),
+                    "total": $(price).val()
+
+                });
+
+                $('#products-list').val(JSON.stringify(productList));
+
+            }
+        }
     </script>
 @endsection
