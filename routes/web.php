@@ -88,6 +88,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::group(['prefix' => 'sales'], function () {
         Route::get('/', 'SalesController@manage')->name('sales.manage');
+        Route::post('/','SalesController@store')->name('sales.store');
         Route::get('getSalesList', 'SalesController@getSalesList')->name('sales.list');
         Route::get('create', 'SalesController@create')->name('sales.create');
         Route::get('export', 'SalesController@exportAsCsv')->name('sales.csv.export');

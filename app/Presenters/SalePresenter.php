@@ -64,11 +64,11 @@ class SalePresenter
                 'visible' => true,
             ],
             [
-                'field' => 'grand_total',
+                'field' => 'total',
                 'searchable' => false,
                 'sortable' => true,
                 'switchable' => true,
-                'title' => __('general.grand_total'),
+                'title' => __('general.total'),
                 'visible' => true,
             ],
             [

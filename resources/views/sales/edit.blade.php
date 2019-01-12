@@ -33,24 +33,26 @@
                             <!--        Sales Input     -->
                             <!-- ********************** -->
                             <div class="form-group">
-                                <div class="input-group">
+                                <div class="input-group {{ $errors->has('user_id') ? 'has-error' : '' }}">
                                     <span class="input-group-addon"><i class="fa fa-user"></i></span>
                                     <input type="text" class="form-control" id="seller"
                                            value="{{ Auth::user()->fullName }}" readonly>
                                     <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
+                                    {!! $errors->first('user_id', '<span class="alert-msg">:message</span>') !!}
                                 </div><!-- input-group -->
                             </div><!-- form-group -->
 
 
                             <!-- ********************** -->
-                            <!--        Sales ID     -->
+                            <!--        Sales Code     -->
                             <!-- ********************** -->
-                            <div class="form-group">
+                            <div class="form-group {{ $errors->has('code') ? 'has-error' : '' }}">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-key"></i></span>
                                     <input type="text" class="form-control" id="sales_code" name="sales_code"
                                            value="{{ $sale->code }}"
                                            readonly>
+                                    {!! $errors->first('code', '<span class="alert-msg">:message</span>') !!}
                                 </div><!-- input-group -->
                             </div><!-- form-group -->
 
@@ -59,7 +61,7 @@
                             <!--        Client     -->
                             <!-- ***************** -->
                             <div class="form-group">
-                                <div class="input-group">
+                                <div class="input-group {{ $errors->has('client_id') ? 'has-error' : '' }}">
                                     <span class="input-group-addon"><i class="fa fa-users"></i></span>
                                     <select name="client_id" id="client_id" class="form-control select2">
                                         <option value="">{{ __('general.select') }}</option>
@@ -70,6 +72,7 @@
                                     <span class="input-group-addon"><button type="button" class="btn btn-default btn-xs"
                                                                             data-toggle="modal"
                                                                             data-target="#modalAddClient">Add Client</button></span>
+                                    {!! $errors->first('client_id', '<span class="alert-msg">:message</span>') !!}
                                 </div><!-- input-group -->
                             </div><!-- form-group -->
 
@@ -113,31 +116,34 @@
                                         <tbody>
                                         <tr>
                                             <td style="width: 25%">
-                                                <div class="input-group">
+                                                <div class="input-group {{ $errors->has('tax') ? 'has-error' : '' }}">
                                                     <input type="text" class="form-control" id="tax" name="tax"
-                                                           min="0" placeholder="0"
-                                                           required>
+                                                           min="0" placeholder="0">
                                                     <span class="input-group-addon"><i class="fa fa-percent"></i></span>
+                                                    {!! $errors->first('tax', '<span class="alert-msg">:message</span>') !!}
                                                 </div><!-- input-group -->
                                             </td>
 
                                             <td style="width: 35%">
-                                                <div class="input-group">
+                                                <div class="input-group {{ $errors->has('subtotal') ? 'has-error' : '' }}">
                                                     <span class="input-group-addon"><i
                                                                 class="ion ion-logo-usd"></i></span>
-                                                    <input type="text" class="form-control sub-total" id="sub-total"
-                                                           name="subtotal" min="1"
+                                                    <input type="text" class="form-control sub-total" id="sub-total" min="1"
                                                            placeholder="00000" data-subtotal="0" required readonly>
+                                                    <input type="hidden" class="sub-total" name="subtotal">
+                                                    {!! $errors->first('subtotal', '<span class="alert-msg">:message</span>') !!}
                                                 </div><!-- input-group -->
                                             </td>
 
                                             <td style="width: 40%">
-                                                <div class="input-group">
+                                                <div class="input-group {{ $errors->has('total') ? 'has-error' : '' }}">
                                                     <span class="input-group-addon"><i
                                                                 class="ion ion-logo-usd"></i></span>
                                                     <input type="text" class="form-control total" id="total"
-                                                           name="total" min="1"
+                                                           min="1"
                                                            placeholder="00000" data-total="0" required readonly>
+                                                    <input type="hidden" name="total" class="total">
+                                                    {!! $errors->first('total', '<span class="alert-msg">:message</span>') !!}
                                                 </div><!-- input-group -->
                                             </td>
                                         </tr>
@@ -151,15 +157,16 @@
                             <!-- ******************* -->
                             <!--    Payment Method   -->
                             <!-- ******************* -->
-                            <div class="form-group row payment-method-row">
+                            <div class="form-group row payment-method-row {{ $errors->has('payment_method') ? 'has-error' : '' }}">
 
                                 <div class="col-xs-4 method-select" style="padding-right: 0px;">
                                     <select name="payment_method" id="payment_method" class="form-control select2">
                                         <option value="">Select Payment Method</option>
                                         <option value="cash">Cash</option>
-                                        <option value="creditCard">Credit Card</option>
-                                        <option value="debitCard">Debit Card</option>
+                                        <option value="TC">Credit Card</option>
+                                        <option value="TD">Debit Card</option>
                                     </select>
+                                    {!! $errors->first('payment_method', '<span class="alert-msg">:message</span>') !!}
                                 </div><!-- col-xs-4 -->
 
                                 <div class="col-xs-4 cash hidden">
@@ -182,7 +189,7 @@
 
                                 <div class="col-xs-8 card hidden">
                                     <div class="input-group">
-                                        <input type="text" class="form-control">
+                                        <input type="text" class="form-control" name="card_no">
                                         <span class="input-group-addon"><i class="fa fa-lock"></i></span>
                                     </div>
                                 </div><!-- col-xs-6 -->
@@ -193,8 +200,7 @@
                         </div><!-- box -->
                     </div><!-- box-body -->
                     <div class="box-footer">
-                        <button type="button" class="btn btn-default pull-left">Go Out</button>
-                        <button type="button" class="btn btn-primary pull-right">Save Sale</button>
+                        <button type="submit" class="btn btn-primary pull-right">Save Sale</button>
                     </div><!-- .box-footer -->
                 </form>
             </div><!-- box box-success -->
@@ -285,7 +291,7 @@
                     $('#pos-table tbody').append('<tr id="product-'+response.id+'">' +
                         '<td><button class="btn btn-xs btn-danger remove-product" type="button" data-productid="'+response.id+'"><i class="fa fa-times"></i></button></td>' +
                         '<td><span data-productname="'+response.name+'" data-productid="'+response.id+'" class="product-name">'+response.name+'</span></td>' +
-                        '<td><input type="text" class="form-control product-quantity" value="1" min="1" step="any" data-productquantity="1" data-productstock="'+Number(response.stock-1)+'"></td>' +
+                        '<td><input type="number" class="form-control product-quantity" value="1" min="1" step="any" data-productquantity="1" data-productstock="'+Number(response.stock)+'" data-newstock="'+Number(response.stock-1)+'"></td>' +
                         '<td><input type="text" class="form-control product-price" value="'+response.selling_price+'" data-unitprice="'+response.selling_price+'" data-producttotal="'+response.selling_price+'"></td>' +
                         '</tr>');
 
@@ -298,7 +304,7 @@
                     // generate product list in json format
                     generateProductList();
 
-                    $(".product-price, .sub-total, .total").number(true, 2);
+                    $(".product-price, #sub-total, #total").number(true, 2);
                     
                 }
             });
@@ -323,7 +329,9 @@
             if($('#pos-table tbody').children().length === 0) {
                 $('#sub-total').val(0)
                     .data('subtotal',0);
+                $('.sub-total').val(0);
                 $('#total').val(0).data('total', 0);
+                $('.total').val(0).data('total', 0);
             } else {
                 // sum total price
                 calculateSum();
@@ -352,7 +360,7 @@
                         '<td><select class="form-control select-product" id="product'+productNo+'">' +
                             '<option>Please select product</option>'+
                         '</select></td>' +
-                        '<td><input type="text" class="form-control product-quantity" value="1" min="1" step="any" data-productquantity="3" data-productstock=""></td>' +
+                        '<td><input type="number" class="form-control product-quantity" value="1" min="1" step="any" data-productquantity="3" data-productstock="" data-newstock=""></td>' +
                         '<td><input type="text" class="form-control product-price" value="" data-unitprice="" data-producttotal=""></td>' +
                         '</tr>');
                     
@@ -397,13 +405,14 @@
                     price.data('unitprice',sellingPrice);
                     price.data('producttotal', sellingPrice);
 
-                    quanity.data('productstock', Number(response.stock-1));
+                    quanity.data('productstock', Number(response.stock));
+                    quanity.data('newstock', Number(response.stock-1));
 
                     calculateSum();
                     calculateTotalWithTax();
                     generateProductList();
 
-                    $(".product-price, .sub-total, .total").number(true, 2);
+                    $(".product-price, #sub-total, #total").number(true, 2);
                 }
             });
 
@@ -413,17 +422,25 @@
         /*===================================================
         Update subtotal when change quantity
         ====================================================*/
-        posTable.on('keyup','.product-quantity',function () {
+        posTable.on('keyup change','.product-quantity',function () {
             let $this = $(this);
             let quantity = $this.val();
-            let stock = $this.data('productstock');
-
+            var stock = $this.data('productstock');
+            var newStock = $this.data('newstock');
 
             if(Number(quantity) > Number(stock)) {
                 $this.val(1);
                 quantity = 1;
+                $this.data('productquantity', 1);
                 alert('Insufficient Stock!');
+                return;
             }
+
+
+
+            newStock = Number(stock-quantity);
+
+            $this.data('newstock', Number(newStock));
 
             let priceFiels = $this.closest('tr').find('.product-price');
             let unitPrice = priceFiels.data('unitprice');
@@ -436,10 +453,10 @@
             calculateTotalWithTax();
             generateProductList();
 
-            $(".product-price, .sub-total, .total").number(true, 2);
+            $(".product-price, #sub-total, #total").number(true, 2);
 
         });
-        $(".product-price, .sub-total, .total").number(true, 2);
+        $(".product-price, #sub-total, #total").number(true, 2);
         /*============================================
         Update total on change tax
         =============================================*/
@@ -465,7 +482,9 @@
             let sumTotalPrice = priceArray.reduce(sumPriceArray);
             $('#sub-total').val(sumTotalPrice)
                 .data('subtotal',sumTotalPrice);
+            $('.sub-total').val(sumTotalPrice);
             $('#total').val(sumTotalPrice).data('total', sumTotalPrice);
+            $('.total').val(sumTotalPrice);
 
         }
 
@@ -480,6 +499,7 @@
             let totalCalculatedPrice = Number(subTotal) + Number(totalTax);
 
             $('#total').val(totalCalculatedPrice).data('total', totalCalculatedPrice);
+            $('.total').val(totalCalculatedPrice);
         }
 
         /*===========================================
@@ -498,7 +518,7 @@
                         'id' : $(name).data('productid'),
                         'name' : $(name).data('productname'),
                         'quantity' : $(quantity).data('productquantity'),
-                        'stock' : $(quantity).data('productstock'),
+                        'stock' : $(quantity).data('newstock'),
                         'price': $(price).data('unitprice'),
                         "total" : $(price).data('producttotal')
                     }
@@ -534,7 +554,6 @@
             let cash = $(this).val();
             let change =  Number(cash) - Number($('input#total').val());
 
-            console.log(change);
             $('input#change').val(change);
         });
     </script>

@@ -21,9 +21,7 @@ class SalesController extends Controller
     {
         $this->authorize('view_sales', Sale::class);
 
-        $sales = Sale::select([
-            '*'
-        ]);
+        $sales = Sale::select(['*']);
 
         if(($request->has('deleted')) && ($request->input('deleted') == 'true')) {
             $sales = $sales->GetDeleted();
@@ -86,6 +84,37 @@ class SalesController extends Controller
         return view('sales.edit', compact('sale', 'clients'));
     }
 
+    public function store(Request $request) {
+        $request->validate([
+            'user_id' => 'required|numeric|exists:users,id',
+            'client_id' => 'required|numeric|exists:clients,id',
+            'sales_code' => 'required|unique:sales,code',
+            'tax'        => 'nullable|numeric',
+            'subtotal'   => 'required',
+            'total'     => 'required',
+            'payment_method' => 'required'
+        ]);
+
+        $sale = new Sale();
+        $sale->user_id = $request->input('user_id');
+        $sale->client_id = $request->input('client_id');
+        $sale->code = $request->input('sales_code');
+        $sale->products = $request->input('products');
+        $sale->tax = $request->input('tax');
+        $sale->subtotal = (float) $request->input('subtotal');
+        $sale->total = (float) $request->input('total');
+        
+        if($sale->payment_method === 'TC') {
+            $sale->payment_method = 'TC-'.$request->input('card_no');
+        } else if($sale->payment_method === 'TD'){
+            $sale->payment_method = 'TD-'.$request->input('card_no');
+        } else {
+            $sale->payment_method = $request->input('payment_method');
+        }
+
+        $sale->save();
+        return redirect()->back()->with('success', __('Sale complete!'));
+    }
 
     public function getProductById(Request $request) {
         $product = Product::findOrFail($request->input('product_id'));

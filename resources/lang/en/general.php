@@ -126,6 +126,7 @@ return [
     'state'                     => 'State',
     'status'                    => 'Status',
     'stock'                     => 'Stock',
+    'sub_total'                 => 'Sub Total',
     'submit'                    => 'Submit',
     'success'                   => 'Success',
     'sure_to_delete'            => 'Are you sure you wish to delete',
