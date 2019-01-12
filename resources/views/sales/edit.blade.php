@@ -77,7 +77,7 @@
                             <!-- ******************************* -->
                             <!--    Entry for adding product     -->
                             <!-- ******************************* -->
-                            <table class="table table-condensed table-bordered table-striped table-responsive" id="pos_table">
+                            <table class="table table-condensed table-bordered table-striped table-responsive" id="pos-table">
                                 <thead>
                                     <tr>
                                         <th>#</th>
@@ -88,12 +88,7 @@
                                 </thead>
 
                                 <tbody>
-                                    <tr>
-                                        <td><button class="btn btn-xs btn-danger"><i class="fa fa-times"></i></button></td>
-                                        <td>iPhone</td>
-                                        <td><input type="text" class="form-control" value="3"></td>
-                                        <td><input type="text" class="form-control" value="1200"></td>
-                                    </tr>
+
                                 </tbody>
                             </table>
 
@@ -119,7 +114,7 @@
                                         <tr>
                                             <td style="width: 25%">
                                                 <div class="input-group">
-                                                    <input type="number" class="form-control" id="tax" name="tax"
+                                                    <input type="text" class="form-control" id="tax" name="tax"
                                                            min="0" placeholder="0"
                                                            required>
                                                     <span class="input-group-addon"><i class="fa fa-percent"></i></span>
@@ -130,9 +125,9 @@
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><i
                                                                 class="ion ion-logo-usd"></i></span>
-                                                    <input type="number" class="form-control sub-total" id="sub-total"
-                                                           name="sub_total" min="1"
-                                                           placeholder="00000" required readonly="">
+                                                    <input type="text" class="form-control sub-total" id="sub-total"
+                                                           name="subtotal" min="1"
+                                                           placeholder="00000" data-subtotal="0" required readonly>
                                                 </div><!-- input-group -->
                                             </td>
 
@@ -140,9 +135,9 @@
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><i
                                                                 class="ion ion-logo-usd"></i></span>
-                                                    <input type="number" class="form-control total" id="total"
+                                                    <input type="text" class="form-control total" id="total"
                                                            name="total" min="1"
-                                                           placeholder="00000" required readonly="">
+                                                           placeholder="00000" data-total="0" required readonly>
                                                 </div><!-- input-group -->
                                             </td>
                                         </tr>
@@ -198,9 +193,9 @@
                     <table
                             data-click-to-select="true"
                             data-columns="{{ \App\Presenters\ProductPresenter::dataTableLayoutForSale() }}"
-                            data-cookie-id-table="salesTable"
+                            data-cookie-id-table="productsTable"
                             data-pagination="true"
-                            data-id-table="salesTable"
+                            data-id-table="productsTable"
                             data-search="true"
                             data-side-pagination="server"
                             data-show-columns="true"
@@ -208,7 +203,7 @@
                             data-show-refresh="true"
                             data-sort-order="asc"
                             data-toolbar="#toolbar"
-                            id="salesTable"
+                            id="products-table"
                             class="table table-bordered table-striped milypos-table products-table"
                             data-url="{{ route('products.list')  }}">
 
@@ -244,9 +239,140 @@
 
 @section('page_scripts')
     @include ('partials.bootstrap-table')
-
-
     <script>
+        /*=========================================================
+        Adding product to pos-table
+        ==========================================================*/
+        $('#products-table').on('click', 'button.add-product-button', function () {
+            $productId = $(this).data('productid');
+            $(this).removeClass('btn-primary add-product-button');
+            $(this).addClass('btn-default');
+
+            // Ajax request
+            $.ajax({
+                url: "{{ route('sales.product_by_id') }}",
+                type: "POST",
+                data: {
+                    _token: $('meta[name="csrf-token"]').attr('content'),
+                    product_id: $productId
+                },
+                success: function (response) {
+                    if (response.stock == 0) {
+                        $('[data-product="' + response.id + '"]').removeClass('btn-default').addClass('btn-primary add-product-button');
+                        alert('this product is out of stock');
+                        return;
+                    }
+                    $('#pos-table tbody').append('<tr id="product-'+response.id+'">' +
+                        '<td><button class="btn btn-xs btn-danger remove-product" type="button" data-productid="'+response.id+'"><i class="fa fa-times"></i></button></td>' +
+                        '<td><span data-productname="'+response.name+'" data-productid="'+response.id+'" class="product-name">'+response.name+'</span></td>' +
+                        '<td><input type="text" class="form-control product-quantity" value="1" min="1" step="any" data-productquantity="3" data-productstock="'+Number(response.stock-1)+'"></td>' +
+                        '<td><input type="text" class="form-control product-price" value="'+response.selling_price+'" data-unitprice="'+response.selling_price+'" data-producttotal="'+response.selling_price+'"></td>' +
+                        '</tr>');
+
+                    // sum total price
+                    calculateSum();
+
+                    // calculate total price including tax
+                    calculateTotalWithTax();
+
+                    // generate product list in json format
+                    generateProductList();
+
+                    $(".product-price, .sub-total, .total").number(true, 2);
+                    
+                }
+            });
+
+            /*============================================
+            Remove product from pos table
+            =============================================*/
+            $('#pos-table').on('click', 'button.remove-product', function () {
+                let productId = $(this).data('productid');
+
+                $('#pos-table tr#product-'+productId).remove();
+                //
+                // $(this).removeClass('btn-primary add-product-button');
+                // $(this).addClass('btn-default');
+
+                $('[data-productid="' + productId + '"]').removeClass('btn-default').addClass('btn-primary add-product-button');
+
+                if($('#pos-table tbody').children().length === 0) {
+                    $('#sub-total').val(0)
+                        .data('subtotal',0);
+                    $('#total').val(0).data('total', 0);
+                } else {
+                    // sum total price
+                    calculateSum();
+
+                    // calculate total price including tax
+                    calculateTotalWithTax();
+
+                    // generate product list in json format
+                    generateProductList();
+                }
+            });
+
+            /*============================================
+             Calculate the sum of product price (Subtotal)
+             =============================================*/
+            function calculateSum() {
+                let itemPrice = $('.product-price');
+                let priceArray = [];
+
+                for(let i = 0; i < itemPrice.length; i++) {
+                    priceArray.push(Number($(itemPrice[i]).val()));
+                }
+
+                function sumPriceArray(total, number) {
+                    return total+number;
+                }
+
+                let sumTotalPrice = priceArray.reduce(sumPriceArray);
+                $('#sub-total').val(sumTotalPrice)
+                    .data('subtotal',sumTotalPrice);
+                $('#total').val(sumTotalPrice).data('total', sumTotalPrice);
+
+            }
+
+
+            /*=============================================
+            Calculate total price with tax
+            =============================================*/
+            function calculateTotalWithTax() {
+                let tax = $('#tax').val();
+                let subTotal = $('#sub-total').data('subtotal');
+
+                let totalTax = Number(subTotal * (tax/100));
+                let totalCalculatedPrice = Number(subTotal) + Number(totalTax);
+
+                $('#total').val(totalCalculatedPrice).data('total', totalCalculatedPrice);
+            }
+        })
+
+        /*===========================================
+        Product list to json
+        ============================================*/
+        function generateProductList() {
+            let productList = [];
+
+            let name = $('.product-name');
+            let quantity = $('.product-quantity');
+            let price = $('.product-price');
+
+            for(let i = 0; i<name.length; i++) {
+                productList.push(
+                    {
+                        'id' : $(name).data('productid'),
+                        'name' : $(name).data('productname'),
+                        'quantity' : $(quantity).data('productquantity'),
+                        'stock' : $(quantity).data('productstock'),
+                        'price': $(price).data('unitprice'),
+                        "total" : $(price).data('producttotal')
+                    }
+                );
+                $("#products-list").val(JSON.stringify(productList));
+            }
+        }
 
     </script>
 @endsection

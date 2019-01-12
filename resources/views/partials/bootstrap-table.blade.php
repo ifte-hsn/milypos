@@ -88,7 +88,7 @@
     function salesActionsFormatter() {
         return function (value, row) {
             if(row){
-                return '<button class="btn btn-primary product-button" type="button" data-product="'+row.id+'">{{ __('general.add') }}</button>';
+                return '<button class="btn btn-primary add-product-button" type="button" data-productId="'+row.id+'">{{ __('general.add') }}</button>';
             }
         };
     }
