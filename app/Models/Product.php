@@ -14,6 +14,10 @@ class Product extends MilyPosModel
     use ValidatingTrait;
     use SearchableTrait;
 
+    protected $searchableAttributes = [
+        'name', 'code'
+    ];
+
     protected $searchableRelations = [
         'category' => ['name']
     ];
