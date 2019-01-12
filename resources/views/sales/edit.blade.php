@@ -95,7 +95,7 @@
                             <input type="hidden" id="products-list" name="products">
 
                             <!-- hidden button to show only on small screen -->
-                            <button class="btn btn-default hidden-lg" type="button" id="add-product">Add Product</button>
+                            <button class="btn btn-default hidden-lg" type="button" id="add-product-btn">Add Product</button>
 
                             <hr>
 
@@ -151,20 +151,38 @@
                             <!-- ******************* -->
                             <!--    Payment Method   -->
                             <!-- ******************* -->
-                            <div class="form-group row">
+                            <div class="form-group row payment-method-row">
 
-                                <div class="col-xs-6">
+                                <div class="col-xs-4 method-select" style="padding-right: 0px;">
                                     <select name="payment_method" id="payment_method" class="form-control select2">
                                         <option value="">Select Payment Method</option>
-                                        <option value="">Cash</option>
-                                        <option value="">Credit Card</option>
-                                        <option value="">Debit Card</option>
+                                        <option value="cash">Cash</option>
+                                        <option value="creditCard">Credit Card</option>
+                                        <option value="debitCard">Debit Card</option>
                                     </select>
-                                </div><!-- col-xs-6 -->
+                                </div><!-- col-xs-4 -->
 
-                                <div class="col-xs-6" style="padding-left: 0px;">
+                                <div class="col-xs-4 cash hidden">
                                     <div class="input-group">
-                                        <input type="text" class="form-control" required>
+                                        <span class="input-group-addon">
+                                            <i class="ion ion-logo-usd"></i>
+                                        </span>
+                                        <input type="text" class="form-control" id="amount_paid" placeholder="000000">
+                                    </div>
+                                </div>
+
+                                <div class="col-xs-4 change hidden">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="ion ion-logo-usd"></i>
+                                        </span>
+                                        <input type="text" class="form-control" id="change" placeholder="000000" readonly>
+                                    </div>
+                                </div>
+
+                                <div class="col-xs-8 card hidden">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control">
                                         <span class="input-group-addon"><i class="fa fa-lock"></i></span>
                                     </div>
                                 </div><!-- col-xs-6 -->
@@ -205,7 +223,7 @@
                             data-toolbar="#toolbar"
                             id="products-table"
                             class="table table-bordered table-striped milypos-table products-table"
-                            data-url="{{ route('products.list')  }}">
+                            data-url="{{ route('sales.products.list')  }}">
 
                     </table>
 
@@ -243,6 +261,8 @@
         /*=========================================================
         Adding product to pos-table
         ==========================================================*/
+
+        var posTable = $('#pos-table');
         $('#products-table').on('click', 'button.add-product-button', function () {
             $productId = $(this).data('productid');
             $(this).removeClass('btn-primary add-product-button');
@@ -250,7 +270,7 @@
 
             // Ajax request
             $.ajax({
-                url: "{{ route('sales.product_by_id') }}",
+                url: "{{ route('sales.product.byId') }}",
                 type: "POST",
                 data: {
                     _token: $('meta[name="csrf-token"]').attr('content'),
@@ -265,7 +285,7 @@
                     $('#pos-table tbody').append('<tr id="product-'+response.id+'">' +
                         '<td><button class="btn btn-xs btn-danger remove-product" type="button" data-productid="'+response.id+'"><i class="fa fa-times"></i></button></td>' +
                         '<td><span data-productname="'+response.name+'" data-productid="'+response.id+'" class="product-name">'+response.name+'</span></td>' +
-                        '<td><input type="text" class="form-control product-quantity" value="1" min="1" step="any" data-productquantity="3" data-productstock="'+Number(response.stock-1)+'"></td>' +
+                        '<td><input type="text" class="form-control product-quantity" value="1" min="1" step="any" data-productquantity="1" data-productstock="'+Number(response.stock-1)+'"></td>' +
                         '<td><input type="text" class="form-control product-price" value="'+response.selling_price+'" data-unitprice="'+response.selling_price+'" data-producttotal="'+response.selling_price+'"></td>' +
                         '</tr>');
 
@@ -283,71 +303,184 @@
                 }
             });
 
-            /*============================================
-            Remove product from pos table
-            =============================================*/
-            $('#pos-table').on('click', 'button.remove-product', function () {
-                let productId = $(this).data('productid');
+        });
 
-                $('#pos-table tr#product-'+productId).remove();
-                //
-                // $(this).removeClass('btn-primary add-product-button');
-                // $(this).addClass('btn-default');
 
-                $('[data-productid="' + productId + '"]').removeClass('btn-default').addClass('btn-primary add-product-button');
+        /*============================================
+         Remove product from pos table
+        =============================================*/
+        posTable.on('click', 'button.remove-product', function () {
+            $(this).closest('tr').remove();
+            let productId = $(this).data('productid');
 
-                if($('#pos-table tbody').children().length === 0) {
-                    $('#sub-total').val(0)
-                        .data('subtotal',0);
-                    $('#total').val(0).data('total', 0);
-                } else {
-                    // sum total price
+            // $('#pos-table tr#product-'+productId).remove();
+            //
+            // $(this).removeClass('btn-primary add-product-button');
+            // $(this).addClass('btn-default');
+
+            $('[data-productid="' + productId + '"]').removeClass('btn-default').addClass('btn-primary add-product-button');
+
+            if($('#pos-table tbody').children().length === 0) {
+                $('#sub-total').val(0)
+                    .data('subtotal',0);
+                $('#total').val(0).data('total', 0);
+            } else {
+                // sum total price
+                calculateSum();
+
+                // calculate total price including tax
+                calculateTotalWithTax();
+
+                // generate product list in json format
+                generateProductList();
+            }
+        });
+        /*===============================================================
+        Adding product to pos table when add product button is clicked
+        This add product button is visible only on smaller device.
+        So we need separate logic for that
+        ==============================================================*/
+        var productNo = 0;
+        $('#add-product-btn').on('click', function () {
+            productNo++;
+            $.ajax({
+                "url" : "{{ route('sales.products.all')  }}",
+                "type": "GET",
+                success: function (response) {
+                    $('#pos-table tbody').append('<tr id="product-">' +
+                        '<td><button class="btn btn-xs btn-danger remove-product" type="button" data-productid=""><i class="fa fa-times"></i></button></td>' +
+                        '<td><select class="form-control select-product" id="product'+productNo+'">' +
+                            '<option>Please select product</option>'+
+                        '</select></td>' +
+                        '<td><input type="text" class="form-control product-quantity" value="1" min="1" step="any" data-productquantity="3" data-productstock=""></td>' +
+                        '<td><input type="text" class="form-control product-price" value="" data-unitprice="" data-producttotal=""></td>' +
+                        '</tr>');
+                    
+                    response.forEach(function (item, index) {
+                        if(item.stock !== 0){
+                            $('#product'+productNo).append(
+                                '<option data-productid="'+item.id+'" value="'+item.name+'">'+item.name+'</option>'
+                            )
+
+                        }
+                    });
+
                     calculateSum();
-
-                    // calculate total price including tax
                     calculateTotalWithTax();
+                }
+            });
+        });
 
-                    // generate product list in json format
+        /*=============================================
+         Populate quantity, price on select product
+         =============================================*/
+        posTable.on('change', 'select.select-product', function () {
+            var $this = $(this);
+            let productId = $this.find(':selected').data('productid');
+            let quanity = $this.closest('tr').find('.product-quantity');
+            let price = $this.closest('tr').find('.product-price');
+
+
+
+
+            $.ajax({
+                url: "{{ route('sales.product.byId') }}",
+                type: "POST",
+                data: {
+                    _token: $('meta[name="csrf-token"]').attr('content'),
+                    product_id: productId
+                },
+                success: function (response) {
+                    let sellingPrice = response.selling_price;
+                    quanity.val(1);
+                    price.val(sellingPrice);
+                    price.data('unitprice',sellingPrice);
+                    price.data('producttotal', sellingPrice);
+
+                    quanity.data('productstock', Number(response.stock-1));
+
+                    calculateSum();
+                    calculateTotalWithTax();
                     generateProductList();
+
+                    $(".product-price, .sub-total, .total").number(true, 2);
                 }
             });
 
-            /*============================================
-             Calculate the sum of product price (Subtotal)
-             =============================================*/
-            function calculateSum() {
-                let itemPrice = $('.product-price');
-                let priceArray = [];
+        });
 
-                for(let i = 0; i < itemPrice.length; i++) {
-                    priceArray.push(Number($(itemPrice[i]).val()));
-                }
 
-                function sumPriceArray(total, number) {
-                    return total+number;
-                }
+        /*===================================================
+        Update subtotal when change quantity
+        ====================================================*/
+        posTable.on('keyup','.product-quantity',function () {
+            let $this = $(this);
+            let quantity = $this.val();
+            let stock = $this.data('productstock');
 
-                let sumTotalPrice = priceArray.reduce(sumPriceArray);
-                $('#sub-total').val(sumTotalPrice)
-                    .data('subtotal',sumTotalPrice);
-                $('#total').val(sumTotalPrice).data('total', sumTotalPrice);
 
+            if(Number(quantity) > Number(stock)) {
+                $this.val(1);
+                quantity = 1;
+                alert('Insufficient Stock!');
             }
 
+            let priceFiels = $this.closest('tr').find('.product-price');
+            let unitPrice = priceFiels.data('unitprice');
+            let price = Number(quantity*unitPrice);
 
-            /*=============================================
-            Calculate total price with tax
-            =============================================*/
-            function calculateTotalWithTax() {
-                let tax = $('#tax').val();
-                let subTotal = $('#sub-total').data('subtotal');
+            priceFiels.data('producttotal', price);
+            priceFiels.val(price);
 
-                let totalTax = Number(subTotal * (tax/100));
-                let totalCalculatedPrice = Number(subTotal) + Number(totalTax);
+            calculateSum();
+            calculateTotalWithTax();
+            generateProductList();
 
-                $('#total').val(totalCalculatedPrice).data('total', totalCalculatedPrice);
+            $(".product-price, .sub-total, .total").number(true, 2);
+
+        });
+        $(".product-price, .sub-total, .total").number(true, 2);
+        /*============================================
+        Update total on change tax
+        =============================================*/
+        $('#tax').on('keyup',function () {
+            calculateTotalWithTax();
+        });
+
+        /*============================================
+        Calculate the sum of product price (Subtotal)
+        =============================================*/
+        function calculateSum() {
+            let itemPrice = $('.product-price');
+            let priceArray = [];
+
+            for(let i = 0; i < itemPrice.length; i++) {
+                priceArray.push(Number($(itemPrice[i]).val()));
             }
-        })
+
+            function sumPriceArray(total, number) {
+                return total+number;
+            }
+
+            let sumTotalPrice = priceArray.reduce(sumPriceArray);
+            $('#sub-total').val(sumTotalPrice)
+                .data('subtotal',sumTotalPrice);
+            $('#total').val(sumTotalPrice).data('total', sumTotalPrice);
+
+        }
+
+        /*=============================================
+        Calculate total price with tax
+        =============================================*/
+        function calculateTotalWithTax() {
+            let tax = $('#tax').val();
+            let subTotal = $('#sub-total').data('subtotal');
+
+            let totalTax = Number(subTotal * (tax/100));
+            let totalCalculatedPrice = Number(subTotal) + Number(totalTax);
+
+            $('#total').val(totalCalculatedPrice).data('total', totalCalculatedPrice);
+        }
 
         /*===========================================
         Product list to json
@@ -374,5 +507,35 @@
             }
         }
 
+        // payment_method
+
+        $('#payment_method').on('change', function () {
+            method = $(this);
+
+            if(method.val() === 'cash') {
+                method.closest('.payment-method-row').find('.cash').removeClass('hidden');
+                method.closest('.payment-method-row').find('.change').removeClass('hidden');
+                method.closest('.payment-method-row').find('.card').addClass('hidden');
+
+                $('#amount_paid').number( true, 2);
+                $('#change').number( true, 2);
+            } else {
+                method.closest('.payment-method-row').find('.cash').addClass('hidden');
+                method.closest('.payment-method-row').find('.change').addClass('hidden');
+                method.closest('.payment-method-row').find('.card').removeClass('hidden');
+            }
+        });
+
+
+        /*=============================================
+        Change in cash
+        =============================================*/
+        $('.sales-form').on('keyup','input#amount_paid',function () {
+            let cash = $(this).val();
+            let change =  Number(cash) - Number($('input#total').val());
+
+            console.log(change);
+            $('input#change').val(change);
+        });
     </script>
 @endsection

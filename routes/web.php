@@ -93,7 +93,9 @@ Route::middleware(['auth'])->group(function () {
         Route::get('export', 'SalesController@exportAsCsv')->name('sales.csv.export');
         Route::post('bulkedit', 'SalesController@postBulkEdit')->name('sales.bulkedit');
         Route::match(['put', 'patch'], '{id}', 'SalesController@update')->name('sales.update');
-        Route::post('product', 'SalesController@getProductById')->name('sales.product_by_id');
+        Route::post('products', 'SalesController@getProductById')->name('sales.product.byId');
+        Route::get('products', 'SalesController@getProductList')->name('sales.products.list');
+        Route::get('products/all', 'SalesController@getAllProducts')->name('sales.products.all');
     });
 
     /**

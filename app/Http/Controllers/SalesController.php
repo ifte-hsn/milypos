@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Transformers\ProductsTransformer;
 use App\Models\Product;
 use App\Models\Sale;
 use App\Models\Client;
@@ -89,5 +90,58 @@ class SalesController extends Controller
     public function getProductById(Request $request) {
         $product = Product::findOrFail($request->input('product_id'));
         return $product;
+    }
+
+
+    /**
+     * Get product list with pagination
+     * @param Request $request
+     * @return mixed
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
+    public function getProductList(Request $request)
+    {
+        $this->authorize('view_product', Product::class);
+
+        $products = Product::select(['*']);
+
+        if (($request->has('deleted')) && ($request->input('deleted') == 'true')) {
+            $products = $products->GetDeleted();
+        }
+        if ($request->has('search') && $request->input('search') != '') {
+            $products = $products->TextSearch($request->input('search'));
+        }
+
+        $order = $request->input('order') === 'asc' ? 'asc' : 'desc';
+        $offset = request('offset', 0);
+        $limit = request('limit', 20);
+
+
+        switch ($request->input('sort')) {
+            default:
+                $allowed_columns = [
+                    'name', 'code', 'stock', 'description',
+                    'purchase_price', 'selling_price', 'sales', 'category.name', 'id'
+                ];
+
+                $sort = in_array($request->get('sort'), $allowed_columns) ? $request->get('sort') : 'name';
+                $products = $products->orderBy($sort, $order);
+                break;
+        }
+
+        $total = $products->count();
+        $products = $products->skip($offset)->take($limit)->get();
+
+
+        return (new ProductsTransformer)->transformProductsForSale($products, $total);
+    }
+    /**
+     * Get all products from database
+     */
+    public function getAllProducts(Request $request) {
+        $this->authorize('create_sales', Product::class);
+
+        $products = Product::all();
+        return $products;
     }
 }
