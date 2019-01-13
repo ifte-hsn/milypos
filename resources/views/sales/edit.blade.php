@@ -63,7 +63,7 @@
                             <div class="form-group">
                                 <div class="input-group {{ $errors->has('client_id') ? 'has-error' : '' }}">
                                     <span class="input-group-addon"><i class="fa fa-users"></i></span>
-                                    <select name="client_id" id="client_id" class="form-control select2">
+                                    <select name="client_id" id="client_id" class="form-control select2" required>
                                         <option value="">{{ __('general.select') }}</option>
                                         @foreach($clients as $client)
                                             <option value="{{ $client->id }}" {{ $client->id == $sale->client_id ? 'selected="selected"' : '""' }}>{{ $client->fullName }}</option>
@@ -160,7 +160,7 @@
                             <div class="form-group row payment-method-row {{ $errors->has('payment_method') ? 'has-error' : '' }}">
 
                                 <div class="col-xs-4 method-select" style="padding-right: 0px;">
-                                    <select name="payment_method" id="payment_method" class="form-control select2">
+                                    <select name="payment_method" id="payment_method" class="form-control select2" required>
                                         <option value="">Select Payment Method</option>
                                         <option value="cash">Cash</option>
                                         <option value="TC">Credit Card</option>
@@ -168,31 +168,6 @@
                                     </select>
                                     {!! $errors->first('payment_method', '<span class="alert-msg">:message</span>') !!}
                                 </div><!-- col-xs-4 -->
-
-                                <div class="col-xs-4 cash hidden">
-                                    <div class="input-group">
-                                        <span class="input-group-addon">
-                                            <i class="ion ion-logo-usd"></i>
-                                        </span>
-                                        <input type="text" class="form-control" id="amount_paid" placeholder="000000">
-                                    </div>
-                                </div>
-
-                                <div class="col-xs-4 change hidden">
-                                    <div class="input-group">
-                                        <span class="input-group-addon">
-                                            <i class="ion ion-logo-usd"></i>
-                                        </span>
-                                        <input type="text" class="form-control" id="change" placeholder="000000" readonly>
-                                    </div>
-                                </div>
-
-                                <div class="col-xs-8 card hidden">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" name="card_no">
-                                        <span class="input-group-addon"><i class="fa fa-lock"></i></span>
-                                    </div>
-                                </div><!-- col-xs-6 -->
 
                             </div><!-- form-group row -->
 
@@ -291,7 +266,7 @@
                     $('#pos-table tbody').append('<tr id="product-'+response.id+'">' +
                         '<td><button class="btn btn-xs btn-danger remove-product" type="button" data-productid="'+response.id+'"><i class="fa fa-times"></i></button></td>' +
                         '<td><span data-productname="'+response.name+'" data-productid="'+response.id+'" class="product-name">'+response.name+'</span></td>' +
-                        '<td><input type="number" class="form-control product-quantity" value="1" min="1" step="any" data-productquantity="1" data-productstock="'+Number(response.stock)+'" data-newstock="'+Number(response.stock-1)+'"></td>' +
+                        '<td><input type="number" class="form-control product-quantity" value="1" min="1" step="any" data-productstock="'+Number(response.stock)+'" data-newstock="'+Number(response.stock-1)+'"></td>' +
                         '<td><input type="text" class="form-control product-price" value="'+response.selling_price+'" data-unitprice="'+response.selling_price+'" data-producttotal="'+response.selling_price+'"></td>' +
                         '</tr>');
 
@@ -360,7 +335,7 @@
                         '<td><select class="form-control select-product product-name" data-productname="" data-productid="" id="product'+productNo+'">' +
                             '<option>Please select product</option>'+
                         '</select></td>' +
-                        '<td><input type="number" class="form-control product-quantity" value="1" min="1" step="any" data-productquantity="1" data-productstock="" data-newstock=""></td>' +
+                        '<td><input type="number" class="form-control product-quantity" value="1" min="1" step="any" data-productstock="" data-newstock=""></td>' +
                         '<td><input type="text" class="form-control product-price" value="" data-unitprice="" data-producttotal=""></td>' +
                         '</tr>');
                     
@@ -432,7 +407,6 @@
             if(Number(quantity) > Number(stock)) {
                 $this.val(1);
                 quantity = 1;
-                $this.data('productquantity', 1);
                 alert('Insufficient Stock!');
                 return;
             }
@@ -517,12 +491,12 @@
             for(let i = 0; i<name.length; i++) {
                 productList.push(
                     {
-                        'id' : $(name).data('productid'),
-                        'name' : $(name).data('productname'),
-                        'quantity' : $(quantity).data('productquantity'),
-                        'stock' : $(quantity).data('newstock'),
-                        'price': $(price).data('unitprice'),
-                        "total" : $(price).data('producttotal')
+                        'id' : $(name[i]).data('productid'),
+                        'name' : $(name[i]).data('productname'),
+                        'quantity' : $(quantity[i]).val(),
+                        'stock' : $(quantity[i]).data('newstock'),
+                        'price': $(price[i]).data('unitprice'),
+                        "total" : $(price[i]).data('producttotal')
                     }
                 );
                 console.log(productList);
@@ -535,19 +509,48 @@
         $('#payment_method').on('change', function () {
             method = $(this);
 
+            $('.cash').remove();
+            $('.change').remove();
+            $('.card').remove();
+
             if(method.val() === 'cash') {
-                method.closest('.payment-method-row').find('.cash').removeClass('hidden');
-                method.closest('.payment-method-row').find('.change').removeClass('hidden');
-                method.closest('.payment-method-row').find('.card').addClass('hidden');
+                $('.payment-method-row').append('<div class="col-xs-4 cash">' +
+                                                                    '<div class="input-group">' +
+                                                                        '<span class="input-group-addon">' +
+                                                                            '<i class="ion ion-logo-usd"></i>' +
+                                                                        '</span>' +
+                                                                        '<input type="text" class="form-control" id="amount_paid" placeholder="000000" required>' +
+                                                                    '</div>' +
+                                                                '</div>' +
+                                                                '<div class="col-xs-4 change">' +
+                                                                    '<div class="input-group">' +
+                                                                        '<span class="input-group-addon">' +
+                                                                            '<i class="ion ion-logo-usd"></i>' +
+                                                                        '</span>' +
+                                                                        '<input type="text" class="form-control" id="change" placeholder="000000" readonly required>' +
+                                                                    '</div>' +
+                                                                '</div>');
+
+                $('.card').remove();
 
                 $('#amount_paid').number( true, 2);
                 $('#change').number( true, 2);
             } else {
-                method.closest('.payment-method-row').find('.cash').addClass('hidden');
-                method.closest('.payment-method-row').find('.change').addClass('hidden');
-                method.closest('.payment-method-row').find('.card').removeClass('hidden');
+                $('.payment-method-row').append('<div class="col-xs-8 card">\n' +
+                                                        '<div class="input-group">' +
+                                                            '<input type="text" class="form-control" name="card_no" required>' +
+                                                            '<span class="input-group-addon"><i class="fa fa-lock"></i></span>' +
+                                                        '</div>' +
+                                                    '</div><!-- col-xs-6 -->');
+                $('.cash').remove();
+                $('.change').remove();
             }
         });
+
+
+        /*=============================================
+        Populate field for payment method
+        ==============================================*/
 
 
         /*=============================================

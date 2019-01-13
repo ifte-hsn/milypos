@@ -6,6 +6,7 @@ use App\Http\Transformers\ProductsTransformer;
 use App\Models\Product;
 use App\Models\Sale;
 use App\Models\Client;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Transformers\SalesTransformer;
 
@@ -95,6 +96,36 @@ class SalesController extends Controller
             'payment_method' => 'required'
         ]);
 
+        /**===============================================
+         * Update the customer's purchase and reduce the
+         * stock and increase the sales of the product
+         ===============================================*/
+        $productList = json_decode($request->input('products'), true);
+        $totalProductPurchased = array();
+
+        foreach ($productList as $key => $value) {
+            array_push($totalProductPurchased, $value['quantity']);
+            $product = Product::findOrFail($value['id']);
+
+            // Calculate new sold quantity
+            $product->sales = $value['quantity']+$product->sales;
+            $product->stock = $value['stock'];
+            $product->save();
+        }
+
+
+        /*=======================================================
+        Update client's last purchase and shopping count
+        ========================================================*/
+        $client = Client::findOrFail($request->input('client_id'));
+
+        $client->shopping = $client->shopping + array_sum($totalProductPurchased);
+        $client->last_purchase = Carbon::now();
+        $client->save();
+
+        /*===============================================
+        Store Sale
+        ================================================*/
         $sale = new Sale();
         $sale->user_id = $request->input('user_id');
         $sale->client_id = $request->input('client_id');
@@ -103,14 +134,15 @@ class SalesController extends Controller
         $sale->tax = $request->input('tax');
         $sale->subtotal = (float) $request->input('subtotal');
         $sale->total = (float) $request->input('total');
-        
-        if($sale->payment_method === 'TC') {
+
+        if($request->input('payment_method') === 'TC') {
             $sale->payment_method = 'TC-'.$request->input('card_no');
-        } else if($sale->payment_method === 'TD'){
+        } else if($request->input('payment_method')){
             $sale->payment_method = 'TD-'.$request->input('card_no');
         } else {
             $sale->payment_method = $request->input('payment_method');
         }
+
 
         $sale->save();
         return redirect()->back()->with('success', __('Sale complete!'));

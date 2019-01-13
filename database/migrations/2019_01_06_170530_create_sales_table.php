@@ -19,7 +19,7 @@ class CreateSalesTable extends Migration
             $table->integer('client_id')->unsigned();
             $table->string('code');
             $table->text('products');
-            $table->float('tax');
+            $table->float('tax')->nullable()->default(0);
             $table->float('subtotal');
             $table->float('total');
             $table->string('payment_method');
