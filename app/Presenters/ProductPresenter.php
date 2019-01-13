@@ -74,7 +74,14 @@ class ProductPresenter
                 'visible' => true,
                 'formatter' => 'productsLinkFormatter',
             ],
-
+            [
+                'field' => 'sales',
+                'searchable' => true,
+                'sortable' => true,
+                'title' => __('general.sales'),
+                'visible' => true,
+                'formatter' => 'productsLinkFormatter',
+            ],
             [
                 'field' => 'purchase_price',
                 'searchable' => true,
