@@ -357,10 +357,10 @@
                 success: function (response) {
                     $('#pos-table tbody').append('<tr id="product-">' +
                         '<td><button class="btn btn-xs btn-danger remove-product" type="button" data-productid=""><i class="fa fa-times"></i></button></td>' +
-                        '<td><select class="form-control select-product" id="product'+productNo+'">' +
+                        '<td><select class="form-control select-product product-name" data-productname="" data-productid="" id="product'+productNo+'">' +
                             '<option>Please select product</option>'+
                         '</select></td>' +
-                        '<td><input type="number" class="form-control product-quantity" value="1" min="1" step="any" data-productquantity="3" data-productstock="" data-newstock=""></td>' +
+                        '<td><input type="number" class="form-control product-quantity" value="1" min="1" step="any" data-productquantity="1" data-productstock="" data-newstock=""></td>' +
                         '<td><input type="text" class="form-control product-price" value="" data-unitprice="" data-producttotal=""></td>' +
                         '</tr>');
                     
@@ -384,12 +384,13 @@
          =============================================*/
         posTable.on('change', 'select.select-product', function () {
             var $this = $(this);
-            let productId = $this.find(':selected').data('productid');
+            let selectedItem = $this.find(':selected');
+            let productId = selectedItem.data('productid');
+            let productName = selectedItem.val();
             let quanity = $this.closest('tr').find('.product-quantity');
             let price = $this.closest('tr').find('.product-price');
 
-
-
+            $this.data('productname', productName).data('productid',productId);
 
             $.ajax({
                 url: "{{ route('sales.product.byId') }}",
@@ -456,6 +457,7 @@
             $(".product-price, #sub-total, #total").number(true, 2);
 
         });
+
         $(".product-price, #sub-total, #total").number(true, 2);
         /*============================================
         Update total on change tax
@@ -523,6 +525,7 @@
                         "total" : $(price).data('producttotal')
                     }
                 );
+                console.log(productList);
                 $("#products-list").val(JSON.stringify(productList));
             }
         }
