@@ -44,7 +44,7 @@ class ClientsTransformer
             'image' => $image,
             'sex' => ($client->sex) ? $client->sex : '',
             'dob' => ($client->dob) ? Helper::getFormattedDateObject($client->dob, 'datetime') : null,
-            'total_purchase' => ($client->total_purchase) ? e($client->total_purchase) : 0,
+            'shopping' => ($client->shopping) ? e($client->shopping) : 0,
             'last_purchase' => ($client->last_purchase) ? Helper::getFormattedDateObject($client->last_purchase, 'datetime') : null,
         ];
 

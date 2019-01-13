@@ -33,26 +33,7 @@ class ClientsController extends Controller
         $this->authorize('view_client', Client::class);
 
 
-        $clients = Client::select([
-            'clients.id',
-            'clients.first_name',
-            'clients.last_name',
-            'clients.email',
-            'clients.image',
-            'clients.sex',
-            'clients.phone',
-            'clients.address',
-            'clients.city',
-            'clients.state',
-            'clients.zip',
-            'clients.country_id',
-            'clients.total_purchase',
-            'clients.last_purchase',
-            'clients.dob',
-            'clients.created_at',
-            'clients.deleted_at',
-            'clients.updated_at',
-        ]);
+        $clients = Client::select(['*']);
 
         if(($request->has('deleted')) && ($request->input('deleted') == 'true')) {
             $clients = $clients->GetDeleted();
@@ -393,7 +374,7 @@ class ClientsController extends Controller
                     __('general.city'),
                     __('general.state'),
                     __('general.zip'),
-                    __('general.total_purchase'),
+                    __('general.shopping'),
                     __('general.last_purchase'),
                 ];
 
@@ -413,7 +394,7 @@ class ClientsController extends Controller
                         $client->city,
                         $client->state,
                         $client->zip,
-                        $client->total_purchase,
+                        $client->shopping,
                         $client->last_purchase,
                     ];
 

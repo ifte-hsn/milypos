@@ -26,7 +26,7 @@ class Client extends MilyPosModel
         'zip',
         'dob',
         'country_id',
-        'total_purchase',
+        'shopping',
         'last_purchase',
     ];
 

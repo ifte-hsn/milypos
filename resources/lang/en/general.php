@@ -107,6 +107,7 @@ return [
     'selling_price'             => 'Selling Price',
     'settings'                  => 'Settings',
     'sex'                       => 'Sex',
+    'shopping'                  => 'Shopping',
     'show_current_categories'   => 'Show Current Categories',
     'show_current_clients'      => 'Show Current Clients',
     'show_current_products'     => 'Show Current Products',

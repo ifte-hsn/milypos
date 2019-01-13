@@ -118,11 +118,11 @@ class ClientPresenter
                 'formatter' => 'dateDisplayFormatter'
             ],
             [
-                'field' => 'total_purchase',
+                'field' => 'shopping',
                 'searchable' => true,
                 'sortable' => true,
                 'switchable' => true,
-                'title' => __('general.total_purchase'),
+                'title' => __('general.shopping'),
                 'visible' => false,
                 'formatter' => 'clientsLinkFormatter'
             ],

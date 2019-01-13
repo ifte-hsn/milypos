@@ -29,7 +29,7 @@ class CreateClientsTable extends Migration
             $table->string('zip', 10)->nullable()->default(null);
 
 
-            $table->integer('total_purchase')->nullable()->default(0);
+            $table->integer('shopping')->nullable()->default(0);
             $table->timestamp('last_purchase')->nullable();
 
             $table->date('dob')->nullable(); // date of birth
