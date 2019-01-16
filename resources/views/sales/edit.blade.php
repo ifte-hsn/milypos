@@ -50,7 +50,7 @@
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-key"></i></span>
                                     <input type="text" class="form-control" id="sales_code" name="sales_code"
-                                           value="{{ $sale->code }}"
+                                           value="{{ Input::old('code', $sale->code) }}"
                                            readonly>
                                     {!! $errors->first('code', '<span class="alert-msg">:message</span>') !!}
                                 </div><!-- input-group -->
@@ -92,6 +92,20 @@
 
                                 <tbody>
 
+                                @php
+                                    $products = json_decode($sale->products, true);
+                                @endphp
+
+                                @if($sale->id)
+                                    @foreach($products as $product)
+                                        <tr id="product-{{ $product['id'] }}">
+                                            <td><button class="btn btn-xs btn-danger remove-product" type="button" data-productid="{{ $product['id'] }}"><i class="fa fa-times"></i></button></td>
+                                            <td><span data-productname="{{ $product['name'] }}" data-productid="{{ $product['id'] }}" class="product-name">{{ $product['name'] }}</span></td>
+                                            <td><input type="number" class="form-control product-quantity" value="{{ $product['quantity'] }}" min="1" step="any" data-productstock="{{ $product['stock'] }}" data-newstock="{{ $product['stock'] }}"></td>
+                                            <td><input type="text" class="form-control product-price" value="{{ $product['total'] }}" data-unitprice="{{ $product['price'] }}" data-producttotal="{{ $product['total'] }}"></td>
+                                        </tr>
+                                    @endforeach
+                                @endif
                                 </tbody>
                             </table>
 
@@ -118,7 +132,7 @@
                                             <td style="width: 25%">
                                                 <div class="input-group {{ $errors->has('tax') ? 'has-error' : '' }}">
                                                     <input type="text" class="form-control" id="tax" name="tax"
-                                                           min="0" placeholder="0">
+                                                           min="0" placeholder="0" value="{{ Input::old('tax', $sale->tax) }}">
                                                     <span class="input-group-addon"><i class="fa fa-percent"></i></span>
                                                     {!! $errors->first('tax', '<span class="alert-msg">:message</span>') !!}
                                                 </div><!-- input-group -->
@@ -129,8 +143,8 @@
                                                     <span class="input-group-addon"><i
                                                                 class="ion ion-logo-usd"></i></span>
                                                     <input type="text" class="form-control sub-total" id="sub-total" min="1"
-                                                           placeholder="00000" data-subtotal="0" required readonly>
-                                                    <input type="hidden" class="sub-total" name="subtotal">
+                                                           placeholder="00000" data-subtotal="0" value="{{ Input::old('subtotal', $sale->subtotal) }}" required readonly>
+                                                    <input type="hidden" class="sub-total" name="subtotal" value="{{ Input::old('subtotal', $sale->subtotal) }}">
                                                     {!! $errors->first('subtotal', '<span class="alert-msg">:message</span>') !!}
                                                 </div><!-- input-group -->
                                             </td>
@@ -141,8 +155,8 @@
                                                                 class="ion ion-logo-usd"></i></span>
                                                     <input type="text" class="form-control total" id="total"
                                                            min="1"
-                                                           placeholder="00000" data-total="0" required readonly>
-                                                    <input type="hidden" name="total" class="total">
+                                                           placeholder="00000" data-total="0" required readonly value="{{ Input::old('total', $sale->total) }}">
+                                                    <input type="hidden" name="total" class="total" value="{{ Input::old('total', $sale->total) }}">
                                                     {!! $errors->first('total', '<span class="alert-msg">:message</span>') !!}
                                                 </div><!-- input-group -->
                                             </td>
@@ -162,9 +176,9 @@
                                 <div class="col-xs-4 method-select" style="padding-right: 0px;">
                                     <select name="payment_method" id="payment_method" class="form-control select2" required>
                                         <option value="">Select Payment Method</option>
-                                        <option value="cash">Cash</option>
-                                        <option value="TC">Credit Card</option>
-                                        <option value="TD">Debit Card</option>
+                                        <option value="cash" {{ $sale->payment_method == 'cash' ? 'selected="selected"' : '""' }}>Cash</option>
+                                        <option value="TC" {{ $sale->payment_method == 'TC-' ? 'selected="selected"' : '""' }}>Credit Card</option>
+                                        <option value="TD" {{ $sale->payment_method == 'TD-' ? 'selected="selected"' : '""' }}>Debit Card</option>
                                     </select>
                                     {!! $errors->first('payment_method', '<span class="alert-msg">:message</span>') !!}
                                 </div><!-- col-xs-4 -->

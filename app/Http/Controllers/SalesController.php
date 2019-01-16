@@ -137,10 +137,10 @@ class SalesController extends Controller
 
         if($request->input('payment_method') === 'TC') {
             $sale->payment_method = 'TC-'.$request->input('card_no');
-        } else if($request->input('payment_method')){
+        } else if($request->input('payment_method') === 'TD'){
             $sale->payment_method = 'TD-'.$request->input('card_no');
         } else {
-            $sale->payment_method = $request->input('payment_method');
+            $sale->payment_method = __('general.cash');
         }
 
 
@@ -204,5 +204,12 @@ class SalesController extends Controller
 
         $products = Product::all();
         return $products;
+    }
+
+    public function edit($id) {
+        $sale = Sale::findOrFail($id);
+        $clients = Client::all();
+
+        return view('sales.edit', compact('sale', 'clients'));
     }
 }

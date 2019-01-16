@@ -97,6 +97,7 @@ Route::middleware(['auth'])->group(function () {
         Route::post('products', 'SalesController@getProductById')->name('sales.product.byId');
         Route::get('products', 'SalesController@getProductList')->name('sales.products.list');
         Route::get('products/all', 'SalesController@getAllProducts')->name('sales.products.all');
+        Route::get('{id}/edit','SalesController@edit')->name('sales.edit');
     });
 
     /**
