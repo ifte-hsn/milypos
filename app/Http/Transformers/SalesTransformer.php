@@ -29,7 +29,7 @@ class SalesTransformer
             'seller' => ($sale->user->fullName) ? e($sale->user->fullName) : null,
             'client' => ($sale->client->fullName) ? e($sale->client->fullName) : null,
             'code' => $sale->code,
-            'products' => ($sale->products) ? e($sale->products) : null,
+//            'products' => ($sale->products) ? e($sale->products) : null,
             'tax' => e($sale->tax),
             'sub_total' => e($sale->subtotal),
             'total'=>e($sale->total),

@@ -78,6 +78,15 @@ class SalePresenter
                 'switchable' => true,
                 'title' => __('general.payment_method'),
                 'visible' => false,
+            ],
+            [
+                'field' => 'actions',
+                'searchable' => false,
+                'sortable' => false,
+                'switchable' => false,
+                'title' => __('general.actions'),
+                'visible' => true,
+                'formatter' => 'salesActionsFormatter'
             ]
         ];
 

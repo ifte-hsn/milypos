@@ -195,7 +195,7 @@ class ProductPresenter
                 'switchable' => false,
                 'title' => __('general.actions'),
                 'visible' => true,
-                'formatter' => 'salesActionsFormatter',
+                'formatter' => 'productTableOfPosActionsFormatter',
             ]
         ];
         return json_encode($layout);

@@ -85,7 +85,7 @@
         $('#bulkEdit').attr('disabled', 'disabled');
     });
 
-    function salesActionsFormatter() {
+    function productTableOfPosActionsFormatter() {
         return function (value, row) {
             if(row){
                 return '<button class="btn btn-primary add-product-button" type="button" data-productId="'+row.id+'">{{ __('general.add') }}</button>';
@@ -195,14 +195,15 @@
         'clients',
         'categories',
         'products',
-        'roles'
+        'roles',
+        'sales'
     ];
 
     for (var i in formatters) {
         window[formatters[i] + 'LinkFormatter'] = genericRowLinkFormatter(formatters[i]);
         window[formatters[i] + 'ActionsFormatter'] = genericActionsFormatter(formatters[i]);
     }
-    window['salesActionsFormatter'] = salesActionsFormatter();
+    window['productTableOfPosActionsFormatter'] = productTableOfPosActionsFormatter();
 
 
     function createdAtFormatter(value) {
