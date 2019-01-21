@@ -35,9 +35,16 @@
                             <div class="form-group">
                                 <div class="input-group {{ $errors->has('user_id') ? 'has-error' : '' }}">
                                     <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                                    <input type="text" class="form-control" id="seller"
-                                           value="{{ Auth::user()->fullName }}" readonly>
-                                    <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
+                                    @if($sale->id)
+                                        <input type="text" class="form-control" id="seller"
+                                               value="{{ $sale->user->fullName }}" readonly>
+                                        <input type="hidden" name="user_id" value="{{ Input::old('user_id', $sale->user_id) }}">
+                                    @else
+                                        <input type="text" class="form-control" id="seller"
+                                               value="{{ Auth::user()->fullName }}" readonly>
+                                        <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
+                                    @endif
+
                                     {!! $errors->first('user_id', '<span class="alert-msg">:message</span>') !!}
                                 </div><!-- input-group -->
                             </div><!-- form-group -->
@@ -69,9 +76,6 @@
                                             <option value="{{ $client->id }}" {{ $client->id == $sale->client_id ? 'selected="selected"' : '""' }}>{{ $client->fullName }}</option>
                                         @endforeach
                                     </select>
-                                    <span class="input-group-addon"><button type="button" class="btn btn-default btn-xs"
-                                                                            data-toggle="modal"
-                                                                            data-target="#modalAddClient">Add Client</button></span>
                                     {!! $errors->first('client_id', '<span class="alert-msg">:message</span>') !!}
                                 </div><!-- input-group -->
                             </div><!-- form-group -->
@@ -98,18 +102,24 @@
 
                                 @if($sale->id)
                                     @foreach($products as $product)
+
+                                        @php
+                                            $productItem =  \App\Models\Product::findOrFail($product['id'] );
+
+                                            $oldStock = $productItem->stock + $product['quantity'];
+                                        @endphp
                                         <tr id="product-{{ $product['id'] }}">
                                             <td><button class="btn btn-xs btn-danger remove-product" type="button" data-productid="{{ $product['id'] }}"><i class="fa fa-times"></i></button></td>
                                             <td><span data-productname="{{ $product['name'] }}" data-productid="{{ $product['id'] }}" class="product-name">{{ $product['name'] }}</span></td>
-                                            <td><input type="number" class="form-control product-quantity" value="{{ $product['quantity'] }}" min="1" step="any" data-productstock="{{ $product['stock'] }}" data-newstock="{{ $product['stock'] }}"></td>
-                                            <td><input type="text" class="form-control product-price" value="{{ $product['total'] }}" data-unitprice="{{ $product['price'] }}" data-producttotal="{{ $product['total'] }}"></td>
+                                            <td><input type="number" class="form-control product-quantity" value="{{ $product['quantity'] }}" min="1" step="any" data-productstock="{{ $oldStock }}" data-newstock="{{ $product['stock'] }}"></td>
+                                            <td><input type="text" class="form-control product-price" value="{{ $product['total'] }}" data-unitprice="{{ $productItem->selling_price }}" data-producttotal="{{ $product['total'] }}"></td>
                                         </tr>
                                     @endforeach
                                 @endif
                                 </tbody>
                             </table>
 
-                            <input type="hidden" id="products-list" name="products">
+                            <input type="hidden" id="products-list" name="products" value="{{ Input::old('products', $sale->products) }}">
 
                             <!-- hidden button to show only on small screen -->
                             <button class="btn btn-default hidden-lg" type="button" id="add-product-btn">Add Product</button>

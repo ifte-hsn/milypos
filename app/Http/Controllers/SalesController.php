@@ -85,6 +85,12 @@ class SalesController extends Controller
         return view('sales.edit', compact('sale', 'clients'));
     }
 
+    /**
+     * Save sale
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function store(Request $request) {
         $request->validate([
             'user_id' => 'required|numeric|exists:users,id',
@@ -148,6 +154,19 @@ class SalesController extends Controller
         return redirect()->back()->with('success', __('Sale complete!'));
     }
 
+    /**
+     * Show form for editing sales
+     *
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function edit($id) {
+        $sale = Sale::findOrFail($id);
+        $clients = Client::all();
+
+        return view('sales.edit', compact('sale', 'clients'));
+    }
+
     public function getProductById(Request $request) {
         $product = Product::findOrFail($request->input('product_id'));
         return $product;
@@ -196,6 +215,8 @@ class SalesController extends Controller
 
         return (new ProductsTransformer)->transformProductsForSale($products, $total);
     }
+
+
     /**
      * Get all products from database
      */
@@ -206,10 +227,5 @@ class SalesController extends Controller
         return $products;
     }
 
-    public function edit($id) {
-        $sale = Sale::findOrFail($id);
-        $clients = Client::all();
 
-        return view('sales.edit', compact('sale', 'clients'));
-    }
 }
