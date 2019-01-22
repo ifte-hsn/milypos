@@ -12,12 +12,25 @@ use App\Http\Transformers\SalesTransformer;
 
 class SalesController extends Controller
 {
+    /**'
+     * Show page for managing sales
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function manage()
     {
         $this->authorize('view_sales', Sale::class);
         return view('sales.index');
     }
 
+    /**
+     * Return list of sales
+     *
+     * @param Request $request
+     * @return mixed
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function getSalesList(Request $request)
     {
         $this->authorize('view_sales', Sale::class);
@@ -167,6 +180,124 @@ class SalesController extends Controller
         return view('sales.edit', compact('sale', 'clients'));
     }
 
+    public function update(Request $request, $id)
+    {
+        // Fetch sell by id from database
+        $sale = Sale::findOrFail($id);
+
+        // If user do not change any thing in the sale
+        // then there will no change in product list
+        // hence we do not need to update product list in sold item
+        if($request->input('products') == "") {
+            $productList = $sale->products;
+            $combineProduct = false;
+        } else {
+            $productList = $request->input('products');
+            $combineProduct = true;
+        }
+
+        /*
+        | -----------------------------------------------------------------
+        | Adjusting Product and Client before updateing sales
+        |------------------------------------------------------------------
+        | At first we need to update product stock and total quantity sold,
+        | and number of item purchased by client.
+        | For adjusting product stock we need to get the product by
+        | product id and than add quantity of previously sold
+        | with product stock.
+        |
+        | To update sold quantity, we need to subtract quantity
+        | previously sold quantity with product's current sales
+        |
+        */
+
+        if($combineProduct) {
+            // Previous Sold products in this sell
+            $oldProductList = json_decode($sale->products, true);
+            // Array to hold the previous quantity of total products purchased
+            // in this sell
+            $oldTotalProductPurchesed = array();
+
+            foreach ($oldProductList as $key => $value) {
+                array_push($oldTotalProductPurchesed, $value['quantity']);
+
+                // get products by id and update stock and sale
+                $product = Product::findOrFail($id);
+
+                // update soled quantity and stock
+                $product->sales = $product->sales - $value['quantity'];
+                $product->stock = $value['quantity'] + $product->stock;
+                $product->save();
+            }
+
+            /*=======================================================
+            Update client's last purchase and shopping count
+            ========================================================*/
+            $client = Client::findOrFail($request->input('client_id'));
+
+            $client->shopping = $client->shopping - array_sum($oldTotalProductPurchesed);
+            $client->save();
+
+
+
+            /*===============================================
+            Now its time to update
+            ================================================*/
+
+            /**===============================================
+             * Update the customer's purchase and reduce the
+             * stock and increase the sales of the product
+            ===============================================*/
+            $productList = json_decode($request->input('products'), true);
+            $totalProductPurchased = array();
+
+            foreach ($productList as $key => $value) {
+                array_push($totalProductPurchased, $value['quantity']);
+                $product = Product::findOrFail($value['id']);
+
+                // Calculate new sold quantity
+                $product->sales = $value['quantity'] + $product->sales;
+                $product->stock = $value['stock'];
+                $product->save();
+            }
+
+
+            /*=======================================================
+            Update client's last purchase and shopping count
+            ========================================================*/
+            $client = Client::findOrFail($request->input('client_id'));
+
+            $client->shopping = $client->shopping + array_sum($totalProductPurchased);
+            $client->save();
+
+            /*===============================================
+            Store Sale
+            ================================================*/
+            $sale->user_id = $request->input('user_id');
+            $sale->client_id = $request->input('client_id');
+            $sale->code = $request->input('sales_code');
+            $sale->products = $request->input('products');
+            $sale->tax = $request->input('tax');
+            $sale->subtotal = (float) $request->input('subtotal');
+            $sale->total = (float) $request->input('total');
+
+            if($request->input('payment_method') === 'TC') {
+                $sale->payment_method = 'TC-'.$request->input('card_no');
+            } else if($request->input('payment_method') === 'TD'){
+                $sale->payment_method = 'TD-'.$request->input('card_no');
+            } else {
+                $sale->payment_method = __('general.cash');
+            }
+            $sale->save();
+        }
+        return redirect()->route('sales.manage')->with('success', __('Sale complete!'));
+    }
+    /**
+     * Get product by id
+     *
+     * @param Request $request
+     * @return mixed
+     */
     public function getProductById(Request $request) {
         $product = Product::findOrFail($request->input('product_id'));
         return $product;
@@ -218,7 +349,7 @@ class SalesController extends Controller
 
 
     /**
-     * Get all products from database
+     * Get all products from database from database
      */
     public function getAllProducts(Request $request) {
         $this->authorize('create_sales', Product::class);

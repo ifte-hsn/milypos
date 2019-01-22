@@ -26,6 +26,10 @@
                 <form action="{{ ($sale) ? route('sales.update', ['sale'=> $sale->id]) : route('sales.store') }}"
                       autocomplete="off" role="form" method="post" class="sales-form">
                     @csrf
+
+                    @if($sale->id)
+                        @method('PUT')
+                    @endif
                     <div class="box-body">
                         <div class="box">
 
@@ -119,7 +123,7 @@
                                 </tbody>
                             </table>
 
-                            <input type="hidden" id="products-list" name="products" value="{{ Input::old('products', $sale->products) }}">
+                            <input type="hidden" id="products-list" name="products">
 
                             <!-- hidden button to show only on small screen -->
                             <button class="btn btn-default hidden-lg" type="button" id="add-product-btn">Add Product</button>
