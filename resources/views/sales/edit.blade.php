@@ -203,7 +203,7 @@
                     </div><!-- .box-footer -->
                 </form>
             </div><!-- box box-success -->
-        </div><!-- col-lg-5 col-xs-12
+        </div><!-- col-lg-5 col-xs-12 -->
 
         <!--**************************-->
         <!--    List Of Products      -->
