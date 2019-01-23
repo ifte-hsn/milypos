@@ -144,7 +144,7 @@
 
             if((row.available_actions) && (row.available_actions.print === true)) {
                 actions += '<a href="{{ url('/') }}/' + destination + '/' + row.id + '/print" '
-                    + 'class="btn btn-sm btn-info" data-tooltip="true" target="_blank"'
+                    + 'class="btn btn-sm btn-info" data-tooltip="true"'
                     + 'title="{{ __('general.print') }}">'
                     +'<i class="fa fa-print"></i></a>&nbsp';
             }

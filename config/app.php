@@ -226,6 +226,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Input' => Illuminate\Support\Facades\Input::class,
         'Image' => Intervention\Image\Facades\Image::class,
+        'PDF' => Elibyy\TCPDF\Facades\TCPDF::class
 
     ],
 
