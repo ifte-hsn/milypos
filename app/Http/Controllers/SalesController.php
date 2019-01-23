@@ -308,7 +308,56 @@ class SalesController extends Controller
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function destroy($id) {
-       // Update last purchase date of client
+        // Update last purchase date of client
+        // step 1: Get sale by id
+        $sale = Sale::findOrFail($id);
+        // step 2: Get all sale by client id. We can get this client_id from step 1.
+        $getAllSalesoFClient = Sale::where('client_id', $sale->client_id)->orderBy('id', 'asc')->get();
+        $purchasedDates = array();
+
+        foreach ($getAllSalesoFClient as $key => $value) {
+            array_push($purchasedDates, $value['created_at']);
+        }
+
+        $client = Client::findOrFail($sale->client_id);
+
+        // step 3: Update last purchase. Last purchase date will be the date before last sales date.
+        if(count($purchasedDates) > 1) {
+            if($sale->created_at > $purchasedDates[count($purchasedDates)-2]) {
+                $client->last_purchase = $purchasedDates[count($purchasedDates)-2];
+                $client->save();
+            } else {
+                $client->last_purchase = $purchasedDates[count($purchasedDates)-1];
+                $client->save();
+            }
+        } else {
+            $client->last_purchase = null;
+            $client->save();
+        }
+
+        // now process products
+        $productList = json_decode($sale->products, true);
+        $toalPurchesedProducts = array();
+
+        foreach ($productList as $key => $value) {
+            array_push($toalPurchesedProducts, $value['quantity']);
+
+            // get products by id and update stock and sale
+            $product = Product::findOrFail($id);
+
+            // update soled quantity and stock
+            $product->sales = $product->sales - $value['quantity'];
+            $product->stock = $value['quantity'] + $product->stock;
+            $product->save();
+        }
+
+
+        $client->shopping = $client->shopping - array_sum($toalPurchesedProducts);
+        $client->save();
+
+        $sale->delete();
+
+        return redirect()->route('sales.manage')->with('success', __('Sale deleted!'));
 
     }
 
