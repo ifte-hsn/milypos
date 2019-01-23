@@ -69,7 +69,6 @@ class SalesController extends Controller
         return (new SalesTransformer)->transformSales($sales, $total);
     }
 
-
     /**
      * Show form for new sales creation.
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
@@ -99,7 +98,7 @@ class SalesController extends Controller
     }
 
     /**
-     * Save sale
+     * Store a newly created sale in storage.
      *
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
@@ -133,15 +132,6 @@ class SalesController extends Controller
         }
 
 
-        /*=======================================================
-        Update client's last purchase and shopping count
-        ========================================================*/
-        $client = Client::findOrFail($request->input('client_id'));
-
-        $client->shopping = $client->shopping + array_sum($totalProductPurchased);
-        $client->last_purchase = Carbon::now();
-        $client->save();
-
         /*===============================================
         Store Sale
         ================================================*/
@@ -164,11 +154,21 @@ class SalesController extends Controller
 
 
         $sale->save();
+
+        /*=======================================================
+        Update client's last purchase and shopping count
+        ========================================================*/
+        $client = Client::findOrFail($request->input('client_id'));
+
+        $client->shopping = $client->shopping + array_sum($totalProductPurchased);
+        $client->last_purchase = $sale->created_at;
+        $client->save();
+
         return redirect()->back()->with('success', __('Sale complete!'));
     }
 
     /**
-     * Show form for editing sales
+     * Show the form for editing the specified sale.
      *
      * @param $id
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
@@ -180,6 +180,13 @@ class SalesController extends Controller
         return view('sales.edit', compact('sale', 'clients'));
     }
 
+    /**
+     * Update the specified sale in storage.
+     *
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function update(Request $request, $id)
     {
         // Fetch sell by id from database
@@ -198,7 +205,7 @@ class SalesController extends Controller
 
         /*
         | -----------------------------------------------------------------
-        | Adjusting Product and Client before updateing sales
+        | Adjusting Product and Client before updating sales
         |------------------------------------------------------------------
         | At first we need to update product stock and total quantity sold,
         | and number of item purchased by client.
@@ -292,6 +299,20 @@ class SalesController extends Controller
         }
         return redirect()->route('sales.manage')->with('success', __('Sale complete!'));
     }
+
+    /**
+     * Remove the specified sale from storage.
+     *
+     * @param  int $id
+     * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
+    public function destroy($id) {
+       // Update last purchase date of client
+
+    }
+
+
     /**
      * Get product by id
      *
