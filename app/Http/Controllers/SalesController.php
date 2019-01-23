@@ -6,9 +6,9 @@ use App\Http\Transformers\ProductsTransformer;
 use App\Models\Product;
 use App\Models\Sale;
 use App\Models\Client;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Transformers\SalesTransformer;
+
 
 class SalesController extends Controller
 {
@@ -37,7 +37,7 @@ class SalesController extends Controller
 
         $sales = Sale::select(['*']);
 
-        if(($request->has('deleted')) && ($request->input('deleted') == 'true')) {
+        if (($request->has('deleted')) && ($request->input('deleted') == 'true')) {
             $sales = $sales->GetDeleted();
         }
 
@@ -47,7 +47,7 @@ class SalesController extends Controller
 
         $order = $request->input('order') === 'asc' ? 'asc' : 'desc';
         $offset = request('offset', 0);
-        $limit = request('limit',  20);
+        $limit = request('limit', 20);
 
 
         switch ($request->input('sort')) {
@@ -85,7 +85,6 @@ class SalesController extends Controller
         $sale_code = Sale::orderBy('id', 'desc')->take(1)->get();
 
 
-
         // Add 1 to generate new code
         $new_sale_code = (isset($sale_code[0])) ? $sale_code[0]->code + 1 : 1;
 
@@ -103,21 +102,22 @@ class SalesController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
         $request->validate([
             'user_id' => 'required|numeric|exists:users,id',
             'client_id' => 'required|numeric|exists:clients,id',
             'sales_code' => 'required|unique:sales,code',
-            'tax'        => 'nullable|numeric',
-            'subtotal'   => 'required',
-            'total'     => 'required',
+            'tax' => 'nullable|numeric',
+            'subtotal' => 'required',
+            'total' => 'required',
             'payment_method' => 'required'
         ]);
 
         /**===============================================
          * Update the customer's purchase and reduce the
          * stock and increase the sales of the product
-         ===============================================*/
+         * ===============================================*/
         $productList = json_decode($request->input('products'), true);
         $totalProductPurchased = array();
 
@@ -126,7 +126,7 @@ class SalesController extends Controller
             $product = Product::findOrFail($value['id']);
 
             // Calculate new sold quantity
-            $product->sales = $value['quantity']+$product->sales;
+            $product->sales = $value['quantity'] + $product->sales;
             $product->stock = $value['stock'];
             $product->save();
         }
@@ -141,13 +141,13 @@ class SalesController extends Controller
         $sale->code = $request->input('sales_code');
         $sale->products = $request->input('products');
         $sale->tax = $request->input('tax');
-        $sale->subtotal = (float) $request->input('subtotal');
-        $sale->total = (float) $request->input('total');
+        $sale->subtotal = (float)$request->input('subtotal');
+        $sale->total = (float)$request->input('total');
 
-        if($request->input('payment_method') === 'TC') {
-            $sale->payment_method = 'TC-'.$request->input('card_no');
-        } else if($request->input('payment_method') === 'TD'){
-            $sale->payment_method = 'TD-'.$request->input('card_no');
+        if ($request->input('payment_method') === 'TC') {
+            $sale->payment_method = 'TC-' . $request->input('card_no');
+        } else if ($request->input('payment_method') === 'TD') {
+            $sale->payment_method = 'TD-' . $request->input('card_no');
         } else {
             $sale->payment_method = __('general.cash');
         }
@@ -173,7 +173,8 @@ class SalesController extends Controller
      * @param $id
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function edit($id) {
+    public function edit($id)
+    {
         $sale = Sale::findOrFail($id);
         $clients = Client::all();
 
@@ -195,7 +196,7 @@ class SalesController extends Controller
         // If user do not change any thing in the sale
         // then there will no change in product list
         // hence we do not need to update product list in sold item
-        if($request->input('products') == "") {
+        if ($request->input('products') == "") {
             $productList = $sale->products;
             $combineProduct = false;
         } else {
@@ -218,7 +219,7 @@ class SalesController extends Controller
         |
         */
 
-        if($combineProduct) {
+        if ($combineProduct) {
             // Previous Sold products in this sell
             $oldProductList = json_decode($sale->products, true);
             // Array to hold the previous quantity of total products purchased
@@ -229,7 +230,7 @@ class SalesController extends Controller
                 array_push($oldTotalProductPurchesed, $value['quantity']);
 
                 // get products by id and update stock and sale
-                $product = Product::findOrFail($id);
+                $product = Product::findOrFail($value['id']);
 
                 // update soled quantity and stock
                 $product->sales = $product->sales - $value['quantity'];
@@ -246,7 +247,6 @@ class SalesController extends Controller
             $client->save();
 
 
-
             /*===============================================
             Now its time to update
             ================================================*/
@@ -254,7 +254,7 @@ class SalesController extends Controller
             /**===============================================
              * Update the customer's purchase and reduce the
              * stock and increase the sales of the product
-            ===============================================*/
+             * ===============================================*/
             $productList = json_decode($request->input('products'), true);
             $totalProductPurchased = array();
 
@@ -285,13 +285,13 @@ class SalesController extends Controller
             $sale->code = $request->input('sales_code');
             $sale->products = $request->input('products');
             $sale->tax = $request->input('tax');
-            $sale->subtotal = (float) $request->input('subtotal');
-            $sale->total = (float) $request->input('total');
+            $sale->subtotal = (float)$request->input('subtotal');
+            $sale->total = (float)$request->input('total');
 
-            if($request->input('payment_method') === 'TC') {
-                $sale->payment_method = 'TC-'.$request->input('card_no');
-            } else if($request->input('payment_method') === 'TD'){
-                $sale->payment_method = 'TD-'.$request->input('card_no');
+            if ($request->input('payment_method') === 'TC') {
+                $sale->payment_method = 'TC-' . $request->input('card_no');
+            } else if ($request->input('payment_method') === 'TD') {
+                $sale->payment_method = 'TD-' . $request->input('card_no');
             } else {
                 $sale->payment_method = __('general.cash');
             }
@@ -307,7 +307,8 @@ class SalesController extends Controller
      * @return \Illuminate\Http\Response
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function destroy($id) {
+    public function destroy($id)
+    {
         // Update last purchase date of client
         // step 1: Get sale by id
         $sale = Sale::findOrFail($id);
@@ -322,12 +323,12 @@ class SalesController extends Controller
         $client = Client::findOrFail($sale->client_id);
 
         // step 3: Update last purchase. Last purchase date will be the date before last sales date.
-        if(count($purchasedDates) > 1) {
-            if($sale->created_at > $purchasedDates[count($purchasedDates)-2]) {
-                $client->last_purchase = $purchasedDates[count($purchasedDates)-2];
+        if (count($purchasedDates) > 1) {
+            if ($sale->created_at > $purchasedDates[count($purchasedDates) - 2]) {
+                $client->last_purchase = $purchasedDates[count($purchasedDates) - 2];
                 $client->save();
             } else {
-                $client->last_purchase = $purchasedDates[count($purchasedDates)-1];
+                $client->last_purchase = $purchasedDates[count($purchasedDates) - 1];
                 $client->save();
             }
         } else {
@@ -343,7 +344,7 @@ class SalesController extends Controller
             array_push($toalPurchesedProducts, $value['quantity']);
 
             // get products by id and update stock and sale
-            $product = Product::findOrFail($id);
+            $product = Product::findOrFail($value['id']);
 
             // update soled quantity and stock
             $product->sales = $product->sales - $value['quantity'];
@@ -368,7 +369,8 @@ class SalesController extends Controller
      * @param Request $request
      * @return mixed
      */
-    public function getProductById(Request $request) {
+    public function getProductById(Request $request)
+    {
         $product = Product::findOrFail($request->input('product_id'));
         return $product;
     }
@@ -421,12 +423,68 @@ class SalesController extends Controller
     /**
      * Get all products from database from database
      */
-    public function getAllProducts(Request $request) {
+    public function getAllProducts(Request $request)
+    {
         $this->authorize('create_sales', Product::class);
 
         $products = Product::all();
         return $products;
     }
 
+    /**
+     * Export sales as csv
+     *
+     * @return StreamedResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
+    public function exportAsCsv()
+    {
+        $this->authorize('export_sales', Sale::class);
+
+        $response = new StreamedResponse(function () {
+            // Open output steam
+            $handle = fopen('php://output', 'w');
+            Sale::orderBy('created_at', 'desc')->chunk(500, function ($sales) use ($handle) {
+                $headers = [
+                    // strtolower to prevent Excel from trying to open it as a SYSLK file
+                    strtolower(__('general.id')),
+                    __('general.seller'),
+                    __('general.customer'),
+                    __('general.code'),
+                    __('general.tax'),
+                    __('general.sub_total'),
+                    __('general.total'),
+                    __('general.payment_method'),
+                    __('general.created_at'),
+                ];
+
+                fputcsv($handle, $headers);
+
+                foreach ($sales as $sale) {
+
+
+                    $values = [
+                        $sale->id,
+                        $sale->user->fullName,
+                        $sale->client->fullName,
+                        $sale->code,
+                        $sale->tax,
+                        $sale->subtotal,
+                        $sale->total,
+                        $sale->payment_method
+                    ];
+
+                    fputcsv($handle, $values);
+                }
+            });
+
+            // Close the output stream
+            fclose($handle);
+        }, 200, [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => 'attachment; filename="sales-' . date('Y-m-d-his') . '.csv"',
+        ]);
+        return $response;
+    }
 
 }
