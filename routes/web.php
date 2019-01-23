@@ -98,6 +98,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('products', 'SalesController@getProductList')->name('sales.products.list');
         Route::get('products/all', 'SalesController@getAllProducts')->name('sales.products.all');
         Route::get('{id}/edit','SalesController@edit')->name('sales.edit');
+        Route::get('{id}/print','SalesController@print')->name('sales.edit');
     });
 
     /**

@@ -40,9 +40,9 @@ class SalesTransformer
 
         // TODO: Implement parmissinon wise actions
         $permissions_array['available_actions'] = [
+            'print' =>(Auth::user()->can('print_sale') && ($sale->deleted_at=='')) ? true : false,
             'update' => (Auth::user()->can('edit_sale') && ($sale->deleted_at==''))  ? true : false,
             'delete' =>(Auth::user()->can('delete_sale') && ($sale->deleted_at=='')) ? true : false,
-            'restore' => (Auth::user()->can('restore_sale') && ($sale->deleted_at!='')) ? true : false,
         ];
 
         $array += $permissions_array;

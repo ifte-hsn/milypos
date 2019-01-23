@@ -88,6 +88,7 @@ return [
     'phone'                     => 'Phone',
     'previous'                  => 'Previous',
     'price'                     => 'Price',
+    'print'                     => 'Print',
     'product'                   => 'Product',
     'products'                  => 'Products',
     'purchase_price'            => 'Purchase Price',

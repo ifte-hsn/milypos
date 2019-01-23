@@ -487,4 +487,7 @@ class SalesController extends Controller
         return $response;
     }
 
+    public function print($id) {
+
+    }
 }

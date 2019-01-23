@@ -142,6 +142,13 @@
                     +'<i class="fa fa-trash"></i></a>&nbsp';
             }
 
+            if((row.available_actions) && (row.available_actions.print === true)) {
+                actions += '<a href="{{ url('/') }}/' + destination + '/' + row.id + '/print" '
+                    + 'class="btn btn-sm btn-info" data-tooltip="true" target="_blank"'
+                    + 'title="{{ __('general.print') }}">'
+                    +'<i class="fa fa-print"></i></a>&nbsp';
+            }
+
             if((row.available_actions) && (row.available_actions.restore === true)) {
                 actions += '<a href="{{ url('/') }}/'
                                 + destination + '/' +row.id + '/restore" '
