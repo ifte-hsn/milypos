@@ -495,7 +495,7 @@ class SalesController extends Controller
         PDF::SetTitle('Sale-' . $sale->code);
         PDF::AddPage();
 
-        $logo = asset('images/login_logo_placeholder.png');
+        $logo = asset('images/login_logo.png');
         $client = $sale->client->fullName;
         $seller = $sale->user->fullName;
         $products = json_decode($sale->products, true);

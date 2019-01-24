@@ -17,6 +17,9 @@ class SettingsTableSeeder extends Seeder
 
         Setting::create([
             'site_name' => 'Mily POS',
+            'logo' => 'logo.png',
+            'login_logo' => 'login_logo.png',
+            'favicon' => 'favicon.png',
             'currency_id' => 1
         ]);
     }

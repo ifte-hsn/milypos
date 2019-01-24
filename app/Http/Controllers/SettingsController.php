@@ -55,7 +55,7 @@ class SettingsController extends Controller
         if ($request->hasFile('logo')) {
             $image = $request->file('logo');
             $file_name = "logo.".$image->getClientOriginalExtension();
-            $path = public_path('uploads');
+            $path = public_path('images');
 
             if ($image->getClientOriginalExtension()!='svg') {
                 Image::make($image->getRealPath())->resize(200, 50, function ($constraint) {
@@ -72,7 +72,7 @@ class SettingsController extends Controller
         if ($request->hasFile('favicon')) {
             $image = $request->file('favicon');
             $file_name = "favicon.".$image->getClientOriginalExtension();
-            $path = public_path('uploads');
+            $path = public_path('images');
 
             if ($image->getClientOriginalExtension()!='svg') {
                 Image::make($image->getRealPath())->resize(48, 48, function ($constraint) {
@@ -90,7 +90,7 @@ class SettingsController extends Controller
         if ($request->hasFile('login_logo')) {
             $image = $request->file('login_logo');
             $file_name = "login_logo.".$image->getClientOriginalExtension();
-            $path = public_path('uploads');
+            $path = public_path('images');
 
             if ($image->getClientOriginalExtension()!='svg') {
                 Image::make($image->getRealPath())->resize(200, 50, function ($constraint) {

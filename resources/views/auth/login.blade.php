@@ -5,15 +5,9 @@
         @csrf
         <div class="login-box">
 
-
             <div class="login-logo">
-                @if (($milyPosSettings) && ($milyPosSettings->login_logo!=''))
-                    <img src="{{ url('/') }}/uploads/{{ $milyPosSettings->login_logo }}"
-                         alt="{{ $milyPosSettings->site_name }}">
-                @else
-                    <img src="{{ asset("/images/login_logo_placeholder.png") }}"
-                         alt="{{ $milyPosSettings->site_name }}">
-                @endif
+                <img src="{{ url('/') }}/images/{{ $milyPosSettings->login_logo }}"
+                     alt="{{ $milyPosSettings->site_name }}">
             </div>
             <!-- /.login-logo -->
 

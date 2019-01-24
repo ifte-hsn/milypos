@@ -6,7 +6,8 @@
 
 @section('breadcrumb')
     <li><a href="{{ route('home') }}"><i class="fa fa-dashboard"></i> {{ __('general.home') }}</a></li>
-    <li class="active"><a href="{{ route('settings.index') }}"><i class="fa fa-wrench"></i> {{ __('general.settings') }}</a></li>
+    <li class="active"><a href="{{ route('settings.index') }}"><i class="fa fa-wrench"></i> {{ __('general.settings') }}
+        </a></li>
     <li class="active">{{ __('general.branding') }}</li>
 @endsection
 
@@ -54,13 +55,8 @@
                                 <label for="logo"
                                        class="control-label col-md-3 col-sm-3 col-xs-12">{{ __('general.logo') }} {!! (\App\Helpers\Helper::checkIfRequired($settings, 'logo')) ? '<span class="text-danger">*</span>':'' !!}</label>
                                 <div class="col-md-9 col-sm-9 col-xs-12">
-                                    @if ($settings->logo)
-                                        <img src="{{ url('/') }}/uploads/{{ $settings->logo }}" class="img-thumbnail"
-                                             id="imagePreview" style="width: 200px; height: 50px">
-                                    @else
-                                        <img src="{{ url('/') }}/images/logo_placeholder.png" class="img-thumbnail"
-                                             id="imagePreview" style="width: 200px; height: 50px">
-                                    @endif
+                                    <img src="{{ url('/') }}/images/{{ $settings->logo }}" class="img-thumbnail"
+                                         id="imagePreview" style="width: 200px; height: 50px">
                                 </div><!-- col-md-9 col-sm-9 col-xs-12 -->
                             </div><!-- .row -->
 
@@ -84,13 +80,9 @@
                                 <label for="login_logo"
                                        class="control-label col-md-3 col-sm-3 col-xs-12">{{ __('general.login_page_logo') }} {!! (\App\Helpers\Helper::checkIfRequired($settings, 'login_logo')) ? '<span class="text-danger">*</span>':'' !!}</label>
                                 <div class="col-md-9 col-sm-9 col-xs-12">
-                                    @if ($settings->login_logo)
-                                        <img src="{{ url('/') }}/uploads/{{ $settings->login_logo }}" class="img-thumbnail"
-                                             id="imagePreview" style="width: 200px; height: 50px">
-                                    @else
-                                        <img src="{{ url('/') }}/images/login_logo_placeholder.png" class="img-thumbnail"
-                                             id="imagePreview" style="width: 200px; height: 50px">
-                                    @endif
+                                    <img src="{{ url('/') }}/images/{{ $settings->login_logo }}"
+                                         class="img-thumbnail"
+                                         id="imagePreview" style="width: 200px; height: 50px">
                                 </div><!-- col-md-9 col-sm-9 col-xs-12 -->
                             </div><!-- .row -->
 
@@ -112,14 +104,8 @@
                                 <label for="favicon"
                                        class="control-label col-md-3 col-sm-3 col-xs-12">{{ __('general.favicon') }} {!! (\App\Helpers\Helper::checkIfRequired($settings, 'favicon')) ? '<span class="text-danger">*</span>':'' !!}</label>
                                 <div class="col-md-9 col-sm-9 col-xs-12">
-
-                                    @if ($settings->favicon)
-                                        <img src="{{ url('/') }}/uploads/{{ $settings->favicon }}" class="img-thumbnail"
-                                             id="imagePreview" width="28px" height="28px">
-                                    @else
-                                        <img src="{{ url('/') }}/images/favicon_placeholder.png" class="img-thumbnail"
-                                             id="imagePreview" width="28px" height="28px">
-                                    @endif
+                                    <img src="{{ url('/') }}/images/{{ $settings->favicon }}" class="img-thumbnail"
+                                         id="imagePreview" width="28px" height="28px">
 
                                 </div><!-- col-md-9 col-sm-9 col-xs-12 -->
                             </div><!-- .row -->
