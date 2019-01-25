@@ -1709,26 +1709,23 @@
 
 
 <div class="container">
-    <div class="row" style="padding: 20px">
-        <div class="col-md-3">
-            <div class="invoice-logo">
+    <table class="table">
+        <tr>
+            <td style="width:150px">
                 <img src="{{ asset('images/login_logo.png') }}" alt="{{ $milyPosSettings->site_name }}">
-            </div>
-        </div><!-- .col-md-3 -->
-        <div class="col-md-3">
-            <address>
+            </td>
+            <td style="background-color:white; width:140px">
                 Flat # 3A, House# 48, Road # 3, Block #G, Banasree, Rampura, Dhaka
-                <br><abbr title="Phone">P:</abbr> (123) 456-7890
+            </td>
+            <td style="background-color:white; width:140px">
+                <abbr title="Phone">P:</abbr> (123) 456-7890
                 <br><abbr title="Email">E:</abbr> ifte510@gmail.com
-            </address>
-
-        </div><!-- .col-md-3 -->
-        <div class="col-md-3" style="margin-top:-10px">
-            <div class="text-center text-danger">
-                <strong style="font-size: 30px;">Invoice No: <br>{{ $sale->code }}</strong>
-            </div>
-        </div>
-    </div><!-- .row -->
+            </td>
+            <td class="text-center" style="background-color:white; width:110px; text-align:center;">
+                <strong style="font-size: 20px">INVOICE # <br>{{ $sale->code }}</strong>
+            </td>
+        </tr>
+    </table>
     <hr>
 
     <div class="row">
