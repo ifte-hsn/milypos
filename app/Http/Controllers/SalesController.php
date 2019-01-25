@@ -18,7 +18,7 @@ class SalesController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function manage()
+    public function index()
     {
         $this->authorize('view_sales', Sale::class);
         return view('sales.index');
@@ -297,7 +297,7 @@ class SalesController extends Controller
             }
             $sale->save();
         }
-        return redirect()->route('sales.manage')->with('success', __('Sale complete!'));
+        return redirect()->route('sales.index')->with('success', __('Sale complete!'));
     }
 
     /**
@@ -358,7 +358,7 @@ class SalesController extends Controller
 
         $sale->delete();
 
-        return redirect()->route('sales.manage')->with('success', __('Sale deleted!'));
+        return redirect()->route('sales.index')->with('success', __('Sale deleted!'));
 
     }
 
@@ -412,6 +412,7 @@ class SalesController extends Controller
                 break;
         }
 
+        $products = $products->where('stock', '>', 0);
         $total = $products->count();
         $products = $products->skip($offset)->take($limit)->get();
 

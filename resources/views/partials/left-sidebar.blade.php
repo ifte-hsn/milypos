@@ -136,7 +136,7 @@
 
                 <ul class="treeview-menu">
                     <li {!! (Request::is('sales/manage*') ? 'class="active"':'') !!}>
-                        <a href="{{ route('sales.manage') }}"><i class="fa fa-circle-o"></i> {{ __('general.manage_sales') }}</a>
+                        <a href="{{ route('sales.index') }}"><i class="fa fa-circle-o"></i> {{ __('general.manage_sales') }}</a>
                     </li>
                     <li {!! (Request::is('sales/create*') ? 'class="active"':'') !!}>
                         <a href="{{ route('sales.create') }}"><i class="fa fa-circle-o"></i> {{ __('general.create_sale') }}</a>

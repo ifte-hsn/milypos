@@ -9,7 +9,7 @@
 
 @section('breadcrumb')
     <li><a href="{{ route('home') }}"><i class="fa fa-dashboard"></i> {{ __('general.home') }}</a></li>
-    <li><a href="{{ route('sales.manage') }}"><i class="fa fa-th"></i> {{ __('general.manage_sales')  }}</a></li>
+    <li><a href="{{ route('sales.index') }}"><i class="fa fa-th"></i> {{ __('general.manage_sales')  }}</a></li>
     @if($sale->id)
         <li class="active">{{ __('general.update_sale') }}</li>
     @else

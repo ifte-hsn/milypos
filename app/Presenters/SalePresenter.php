@@ -80,6 +80,14 @@ class SalePresenter
                 'visible' => false,
             ],
             [
+                'field' => 'created_at',
+                'searchable' => true,
+                'sortable' => true,
+                'title' => __('general.created_at'),
+                'visible' => true,
+                'formatter' => 'dateDisplayFormatter',
+            ],
+            [
                 'field' => 'actions',
                 'searchable' => false,
                 'sortable' => false,
