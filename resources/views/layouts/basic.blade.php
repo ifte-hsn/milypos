@@ -4,6 +4,8 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>
+        @section('title')
+        @show
         {{ ($milyPosSettings) && ($milyPosSettings->site_name) ? $milyPosSettings->site_name : 'Mily POS' }}
     </title>
     <!-- Tell the browser to be responsive to screen width -->
