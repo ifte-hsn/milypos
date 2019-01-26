@@ -496,4 +496,50 @@ class SalesController extends Controller
         $pdf = PDF::loadView('sales.invoice', compact('sale', 'products'));
         return $pdf->download('sale-invoice-'.$sale->code.'.pdf');
     }
+
+    public function report(Request $request) {
+
+        $startDate = null;
+        $endDate = null;
+        $salesArray = array();
+        $datesArray = array();
+        $sumMonthlyPayments = array();
+
+        if($request->input('startdate')){
+            $startDate = $request->input('startdate')." 00:00:00";
+            $endDate = $request->input('enddate')." 23:59:59";
+        }
+
+        $sales = null;
+
+        if($startDate == null) {
+            $sales = Sale::orderBy('id', 'asc')->get();
+        } else {
+            $sales = Sale::whereBetween('created_at', array($startDate, $endDate))->get();
+        }
+
+        foreach ($sales as $key => $value) {
+            // Capture only year and month from date
+            $date = substr($value['created_at'], 0, 7);
+
+            // Enter date in dates array
+            array_push($datesArray, $date);
+
+            // Capture sales
+            $salesArray = array($date => $value["total"]);
+
+            // Add the payments that occurred same month
+            foreach ($salesArray as $key => $value) {
+                if(!array_key_exists($key, $sumMonthlyPayments)) {
+                    $sumMonthlyPayments[$key] = $value;
+                } else {
+                    $sumMonthlyPayments[$key] += $value;
+                }
+            }
+
+            $uniqueDates = array_unique($datesArray);
+        }
+
+        return view('sales.report', compact('sales', 'uniqueDates', 'sumMonthlyPayments'));
+    }
 }

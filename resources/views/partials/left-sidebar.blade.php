@@ -142,7 +142,7 @@
                         <a href="{{ route('sales.create') }}"><i class="fa fa-circle-o"></i> {{ __('general.create_sale') }}</a>
                     </li>
                     <li {!! (Request::is('sales/report*') ? 'class="active"':'') !!}>
-                        <a href="#"><i class="fa fa-circle-o"></i> {{ __('general.sales_report') }}</a>
+                        <a href="{{ route('sales.report') }}"><i class="fa fa-circle-o"></i> {{ __('general.sales_report') }}</a>
                     </li>
                 </ul>
             </li>
