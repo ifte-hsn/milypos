@@ -504,6 +504,7 @@ class SalesController extends Controller
         $salesArray = array();
         $datesArray = array();
         $sumMonthlyPayments = array();
+        $uniqueDates = array();
 
         if($request->input('startdate')){
             $startDate = $request->input('startdate')." 00:00:00";
@@ -527,7 +528,6 @@ class SalesController extends Controller
 
             // Capture sales
             $salesArray = array($date => $value["total"]);
-
             // Add the payments that occurred same month
             foreach ($salesArray as $key => $value) {
                 if(!array_key_exists($key, $sumMonthlyPayments)) {
