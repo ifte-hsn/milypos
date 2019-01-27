@@ -25,6 +25,7 @@ mix.scripts([
     'resources/js/daterangepicker.js',
     'resources/js/raphael.min.js',
     'resources/js/morris.js',
+    'resources/js/Chart.js',
     'resources/js/adminlte.js',
     'resources/js/script.js',
 ], 'public/js/all.js')
