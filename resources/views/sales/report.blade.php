@@ -85,6 +85,20 @@
                     </div>
                     <!-- /.box -->
                 </div> <!-- col-md-6 col-xs-12 -->
+                <div class="col-md-6 col-xs-12">
+
+                    <!-- BAR CHART -->
+                    <div class="box box-success">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Bar Chart</h3>
+                        </div><!-- .box-header .with-border -->
+                        <div class="box-body chart-responsive">
+                            <div class="chart" id="seller-bar-chart" style="height: 300px;"></div>
+                        </div>
+                        <!-- .box-body .chart-responsive -->
+                    </div>
+                    <!-- .box .box-success -->
+                </div><!-- col-md-6 col-xs-12 -->
             </div><!-- .row -->
         </div><!-- box-body -->
 
@@ -211,45 +225,26 @@
         // - PIE CHART -
         // -------------
         // Get context with jQuery - using jQuery's .get() method.
+        @php
+            $chartColors = array("#dd4b39", "#00a65a", "#f39c12", "#00c0ef", "#605ca8", "#0073b7", "#333", "#333", "#ff851b", "#333");
+        @endphp
         var pieChartCanvas = $('#pieChart').get(0).getContext('2d');
         var pieChart = new Chart(pieChartCanvas);
         var PieData = [
+            @for($i=0; $i < 9; $i++)
             {
-                value: 700,
-                color: '#f56954',
-                highlight: '#f56954',
-                label: 'Chrome'
+                value: {{$topSoldProducts[$i]->sales}},
+                color: '{{ $chartColors[$i] }}',
+                highlight: '{{ $chartColors[$i] }}',
+                label: '{{$topSoldProducts[$i]->name}}'
             },
+            @endfor
             {
-                value: 500,
-                color: '#00a65a',
-                highlight: '#00a65a',
-                label: 'IE'
+                value: {{$topSoldProducts[9]->sales}},
+                color: '{{ $chartColors[9] }}',
+                highlight: '{{ $chartColors[9] }}',
+                label: '{{$topSoldProducts[9]->name}}'
             },
-            {
-                value: 400,
-                color: '#f39c12',
-                highlight: '#f39c12',
-                label: 'FireFox'
-            },
-            {
-                value: 600,
-                color: '#00c0ef',
-                highlight: '#00c0ef',
-                label: 'Safari'
-            },
-            {
-                value: 300,
-                color: '#3c8dbc',
-                highlight: '#3c8dbc',
-                label: 'Opera'
-            },
-            {
-                value: 100,
-                color: '#d2d6de',
-                highlight: '#d2d6de',
-                label: 'Navigator'
-            }
         ];
         var pieOptions = {
             // Boolean - Whether we should show a stroke on each segment
@@ -275,7 +270,7 @@
             // String - A legend template
             legendTemplate: '<ul class=\'<%=name.toLowerCase()%>-legend\'><% for (var i=0; i<segments.length; i++){%><li><span style=\'background-color:<%=segments[i].fillColor%>\'></span><%if(segments[i].label){%><%=segments[i].label%><%}%></li><%}%></ul>',
     // String - A tooltip template
-    tooltipTemplate      : '<%=value %> <%=label%> users'
+    tooltipTemplate      : '<%=value %> <%=label%>'
   };
   // Create pie or douhnut chart
   // You can switch between pie and douhnut using the method below.
@@ -284,5 +279,24 @@
   // - END PIE CHART -
   // -----------------
 
+//BAR CHART
+    var bar = new Morris.Bar({
+      element: 'seller-bar-chart',
+      resize: true,
+      data: [
+        {y: '2006', a: 100, b: 90},
+        {y: '2007', a: 75, b: 65},
+        {y: '2008', a: 50, b: 40},
+        {y: '2009', a: 75, b: 65},
+        {y: '2010', a: 50, b: 40},
+        {y: '2011', a: 75, b: 65},
+        {y: '2012', a: 100, b: 90}
+      ],
+      barColors: ['#00a65a', '#f56954'],
+      xkey: 'y',
+      ykeys: ['a', 'b'],
+      labels: ['CPU', 'DISK'],
+      hideHover: 'auto'
+    });
     </script>
 @endsection
