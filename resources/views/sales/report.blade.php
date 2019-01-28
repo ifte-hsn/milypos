@@ -42,7 +42,7 @@
                 <div class="col-md-6 col-xs-12">
                     <div class="box box-default">
                         <div class="box-header with-border">
-                            <h3 class="box-title">Browser Usage</h3>
+                            <h3 class="box-title">Most selling products</h3>
                         </div>
                         <!-- /.box-header -->
                         <div class="box-body">
@@ -56,12 +56,9 @@
                                 <!-- /.col -->
                                 <div class="col-md-4">
                                     <ul class="chart-legend clearfix">
-                                        <li><i class="fa fa-circle-o text-red"></i> Chrome</li>
-                                        <li><i class="fa fa-circle-o text-green"></i> IE</li>
-                                        <li><i class="fa fa-circle-o text-yellow"></i> FireFox</li>
-                                        <li><i class="fa fa-circle-o text-aqua"></i> Safari</li>
-                                        <li><i class="fa fa-circle-o text-light-blue"></i> Opera</li>
-                                        <li><i class="fa fa-circle-o text-gray"></i> Navigator</li>
+                                        @for($i=0; $i<10; $i++)
+                                            <li><i class="fa fa-circle-o text-{{ $colors[$i] }}"></i> {{ $topSoldProducts[$i]->name }}</li>
+                                        @endfor
                                     </ul>
                                 </div>
                                 <!-- /.col -->
@@ -71,14 +68,17 @@
                         <!-- /.box-body -->
                         <div class="box-footer no-padding">
                             <ul class="nav nav-pills nav-stacked">
-                                <li><a href="#">United States of America
-                                        <span class="pull-right text-red"><i
-                                                    class="fa fa-angle-down"></i> 12%</span></a></li>
-                                <li><a href="#">India <span class="pull-right text-green"><i class="fa fa-angle-up"></i> 4%</span></a>
-                                </li>
-                                <li><a href="#">China
-                                        <span class="pull-right text-yellow"><i class="fa fa-angle-left"></i> 0%</span></a>
-                                </li>
+                                @for($i = 0; $i <5; $i++)
+                                    <li><a href="#">
+
+                                            @if($topSoldProducts[$i]->image)
+                                                <img src="{{ asset('/uploads/products/'.$topSoldProducts[$i]->image) }}" alt="{{ $topSoldProducts[$i]->name }}" class="img-thumbnail" width="60px" style="margin-right:10px">
+                                            @else
+                                                <img src="{{ asset('/images/products_placeholder.png') }}" alt="{{ $topSoldProducts[$i]->name }}" class="img-thumbnail" width="60px" style="margin-right:10px">
+                                            @endif
+                                            {{ $topSoldProducts[$i]->name }}
+                                            <span class="pull-right text-{{ $colors[$i] }}">{{ ceil($topSoldProducts[$i]->sales*100/$totalSale) }}</span></a></li>
+                                @endfor
                             </ul>
                         </div>
                         <!-- /.footer -->

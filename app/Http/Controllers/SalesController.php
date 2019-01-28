@@ -540,6 +540,10 @@ class SalesController extends Controller
             $uniqueDates = array_unique($datesArray);
         }
 
-        return view('sales.report', compact('sales', 'uniqueDates', 'sumMonthlyPayments'));
+        $topSoldProducts = Product::orderBy('sales', 'desc')->take(10)->get();
+        $colors = array("red","green","yellow","aqua","purple","blue","cyan","magenta","orange","gold");
+        $totalSale = Product::sum('sales');
+
+        return view('sales.report', compact('sales', 'uniqueDates', 'sumMonthlyPayments', 'topSoldProducts', 'colors', 'totalSale'));
     }
 }
