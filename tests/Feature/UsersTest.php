@@ -2,39 +2,82 @@
 
 namespace Tests\Feature;
 
+use App\Models\Setting;
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class UsersTest extends TestCase
 {
     use DatabaseMigrations;
 
+    private $user;
+    private $role;
+
     public function setUp()
     {
         parent::setUp();
-        $this->super_admin_role = Role::create(['name' => 'Super Admin']);
-        $this->admin_role = Role::create(['name' => 'Admin']);
+
+        Setting::create([
+            'site_name' => 'Mily POS',
+            'logo' => 'logo.png',
+            'login_logo' => 'login_logo.png',
+            'favicon' => 'favicon.png',
+            'currency_id' => 1
+        ]);
+
+        $this->user = factory(User::class)->create();
+        $this->role = Role::create(['name' => 'Super Admin']);
+        $this->user->assignRole($this->role);
+    }
+
+
+    /** @test */
+    public function unauthenticated_user_redirect_to_login_page() {
+        $this->get('/')->assertRedirect(route('login'));
     }
 
     /** @test */
-    public function user_can_login_to_the_system()
+    public function when_user_loged_in_user_is_redirect_to_dashboard()
     {
-        $user = factory(User::class)->create();
-        $this->actingAs($user)
+
+        $this->actingAs($this->user)
             ->get('/')
             ->assertSee('dashboard');
     }
 
     /** @test */
-    public function a_user_with_without_add_user_permission_can_not_access_create_new_user_page() {
-        $user = factory(User::class)->create();
-        $this->actingAs($user)
-            ->get('/users/create')
-            ->assertStatus(403);
+    public function site_header_shows_authenticated_users_fullname() {
+        $this->actingAs($this->user)
+            ->get('/')
+            ->assertSee($this->user->fullName);
+    }
+
+    /** @test */
+    public function an_authenticated_user_can_see_user_list() {
+        $this->actingAs($this->user)
+            ->get(route('users.list'))
+            ->assertJsonStructure(["total","rows"])
+            ->assertJson([
+                "total" => 1,
+                "rows" => [
+                    [
+                        "id" => $this->user->id,
+                        "name" => $this->user->fullName,
+                        "first_name" => $this->user->first_name,
+                        "last_name" => $this->user->last_name,
+                        "phone" => $this->user->phone,
+                        "address" => $this->user->address,
+                        "city" => $this->user->city,
+                        "state" => $this->user->state,
+                        "country" => $this->user->country,
+                        "zip" => $this->user->zip,
+                        "email" => $this->user->email,
+                        "activated" => $this->user->activated,
+                        "website" => $this->user->website,
+                    ]
+                ]
+            ]);
     }
 }
