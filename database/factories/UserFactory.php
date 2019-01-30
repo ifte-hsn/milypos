@@ -25,7 +25,7 @@ $factory->define(App\Models\User::class, function (Faker $faker) {
         'last_name' => $faker->lastName,
         'employee_num' => $faker->randomNumber(),
         'phone' => $faker->phoneNumber(),
-        'website' => $faker->domainName(),
+        'website' => 'http://'.$faker->domainName(),
         'address' => $faker->address,
         'city' => $faker->city,
         'activated' => $faker->biasedNumberBetween($min = 0, $max = 1),
