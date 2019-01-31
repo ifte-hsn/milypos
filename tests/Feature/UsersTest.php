@@ -2,31 +2,19 @@
 
 namespace Tests\Feature;
 
-use App\Models\Setting;
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Spatie\Permission\Models\Role;
-use Tests\TestCase;
+use Tests\BaseTest;
 
-class UsersTest extends TestCase
+class UsersTest extends BaseTest
 {
-    use DatabaseMigrations;
-
     private $user;
     private $role;
 
     public function setUp()
     {
         parent::setUp();
-
-        Setting::create([
-            'site_name' => 'Mily POS',
-            'logo' => 'logo.png',
-            'login_logo' => 'login_logo.png',
-            'favicon' => 'favicon.png',
-            'currency_id' => 1
-        ]);
-
         $this->user = factory(User::class)->create();
         $this->role = Role::create(['name' => 'Super Admin']);
         $this->user->assignRole($this->role);
@@ -58,7 +46,6 @@ class UsersTest extends TestCase
     public function an_authenticated_user_can_see_user_list() {
         $this->actingAs($this->user)
             ->get(route('users.list'))
-            ->assertJsonStructure(["total","rows"])
             ->assertJson([
                 "total" => 1,
                 "rows" => [
