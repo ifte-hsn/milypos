@@ -53,7 +53,7 @@ class User extends Authenticatable
      */
 
     protected $rules = [
-        'first_name'              => 'required|string|min:1',
+        'first_name'              => 'required|string|min:3',
         'email'                   => 'required|email|nullable|unique',
         'password'                => 'required|min:6',
         'website'                => 'nullable|url'
@@ -98,6 +98,7 @@ class User extends Authenticatable
     {
         return $this->first_name . " " . $this->last_name;
     }
+
 
     /**
      * Run additional advanced searches
