@@ -204,7 +204,7 @@ class UsersController extends Controller
 
         $request->validate([
             'first_name'              => 'required|string|min:1',
-            'password'                => 'required|min:6',
+            'password'                => 'nullable|min:6',
             'country_id' => 'nullable|integer|exists:countries,id',
         ]);
 
