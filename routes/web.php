@@ -11,10 +11,16 @@
 */
 
 Route::middleware(['auth'])->group(function () {
+
+
+
     Route::get('/', function () {
         return view('dashboard');
     })->name('home');
 
+    Route::get('/home', function () {
+        return redirect()->route('home');
+    });
 
     /**
      * Categories Routes
