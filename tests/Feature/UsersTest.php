@@ -16,6 +16,11 @@ class UsersTest extends BaseTest
     {
         parent::setUp();
         $this->user = factory(User::class)->create();
+
+        // Only super admin can access all the features
+        // so for the time being we will assign Super Admin
+        // Role to the user. To test other role and their
+        // permissions we have separate test.
         $this->role = Role::create(['name' => 'Super Admin']);
         $this->user->assignRole($this->role);
     }
@@ -52,6 +57,5 @@ class UsersTest extends BaseTest
                 ]
             ]);
     }
-
 
 }
