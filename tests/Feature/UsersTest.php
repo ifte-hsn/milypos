@@ -20,21 +20,6 @@ class UsersTest extends BaseTest
         $this->user->assignRole($this->role);
     }
 
-
-    /** @test */
-    public function unauthenticated_user_redirect_to_login_page() {
-        $this->get('/')->assertRedirect(route('login'));
-    }
-
-    /** @test */
-    public function when_user_loged_in_user_is_redirect_to_dashboard()
-    {
-
-        $this->actingAs($this->user)
-            ->get('/')
-            ->assertSee('dashboard');
-    }
-
     /** @test */
     public function site_header_shows_authenticated_users_fullname() {
         $this->actingAs($this->user)
@@ -67,4 +52,6 @@ class UsersTest extends BaseTest
                 ]
             ]);
     }
+
+
 }
