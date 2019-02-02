@@ -15,7 +15,7 @@ $factory->define(Client::class, function (Faker $faker) {
         'zip' => $faker->postcode,
         'shopping' => $faker->randomNumber(),
         'last_purchase' => $faker->dateTime($max = 'now', $timezone = null),
-        'dob' => $faker->dateTime($max = 'now', $timezone = null),
+        'dob' => $faker->date('Y-m-d', now()),
         'sex' => 'Female'
     ];
 });
