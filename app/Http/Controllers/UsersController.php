@@ -40,25 +40,7 @@ class UsersController extends Controller
         $this->authorize('view_user', User::class);
 
 
-        $users = User::select([
-            'users.activated',
-            'users.address',
-            'users.avatar',
-            'users.city',
-            'users.country_id',
-            'users.website',
-            'users.created_at',
-            'users.deleted_at',
-            'users.email',
-            'users.first_name',
-            'users.last_name',
-            'users.id',
-            'users.last_login',
-            'users.phone',
-            'users.state',
-            'users.sex',
-            'users.updated_at'
-        ]);
+        $users = User::select(['*']);
 
         if(($request->has('deleted')) && ($request->input('deleted') == 'true')) {
             $users = $users->GetDeleted();
@@ -90,6 +72,9 @@ class UsersController extends Controller
         return (new UsersTransformer)->transformUsers($users, $total);
     }
 
+    public function show($id){
+        return User::findOrFail($id);
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -313,7 +298,7 @@ class UsersController extends Controller
      * @return StreamedResponse
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function exportAsCsv () 
+    public function exportAsCsv()
     {
 
         $this->authorize('export_users', User::class);
