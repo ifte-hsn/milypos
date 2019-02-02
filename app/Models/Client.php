@@ -33,7 +33,7 @@ class Client extends MilyPosModel
     protected $presenter = 'App\Presenters\ClientsPresenter';
 
     protected $rules = [
-        'first_name' => 'required|string|min:1',
+        'first_name' => 'required|string|min:3',
         'email' => 'required|email|nullable|unique',
     ];
 
