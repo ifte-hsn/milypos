@@ -32,6 +32,8 @@ class ClientsTransformer
         $array = [
             'id' => (int) $client->id,
             'name'=> $client->fullName,
+            'first_name' => $client->first_name,
+            'last_name' => $client->last_name,
             'phone' => ($client->phone) ? e($client->phone) : null,
             'address' => ($client->address) ? e($client->address) : null,
             'city' => ($client->city) ? e($client->city) : null,
