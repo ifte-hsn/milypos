@@ -4,9 +4,9 @@ namespace Tests\Unit;
 
 use App\Models\Country;
 use App\Models\User;
-use Tests\BaseTest;
+use Tests\TestCase;
 
-class UserTest extends BaseTest
+class UserTest extends TestCase
 {
     /** @test */
     public function a_user_has_has_full_name(){

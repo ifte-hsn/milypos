@@ -2,27 +2,16 @@
 
 namespace Tests\Feature\Auth;
 
-use App\Models\Setting;
 use App\Models\User;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
 
 class LoginTest extends TestCase
 {
-    use DatabaseMigrations;
 
     public function setUp()
     {
         parent::setUp();
-
-        Setting::create([
-            'site_name' => 'Mily POS',
-            'logo' => 'logo.png',
-            'login_logo' => 'login_logo.png',
-            'favicon' => 'favicon.png',
-            'currency_id' => 1
-        ]);
     }
 
     /** @test */
