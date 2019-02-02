@@ -50,7 +50,7 @@ Route::middleware(['auth'])->group(function () {
         Route::post('bulkedit', 'ClientsController@postBulkEdit')->name('clients.bulkedit'); // need to check if we really need this
         Route::get('create', 'ClientsController@create')->name('clients.create');
         Route::get('export', 'ClientsController@exportAsCsv')->name('clients.csv.export');
-        Route::get('getUsersList', 'ClientsController@getClientList')->name('clients.list');
+        Route::get('getClientsList', 'ClientsController@getClientList')->name('clients.list');
         Route::get('{id}/restore', 'ClientsController@getRestore')->name('clients.restore');
         Route::delete('{id}', 'ClientsController@destroy')->name('clients.destroy');
         Route::match(['put', 'patch'], '{id}','ClientsController@update')->name('clients.update');
