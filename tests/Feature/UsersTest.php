@@ -19,7 +19,7 @@ class UsersTest extends TestCase
         parent::setUp();
 
 
-        $this->user = factory(User::class)->create();
+        $this->user = factory(User::class)->create(['activated'=>1]);
 
         // Only super admin can access all the features
         // so for the time being we will assign Super Admin
@@ -146,14 +146,14 @@ class UsersTest extends TestCase
     public function email_address_must_be_unique() {
 
         $email = $this->faker->unique()->safeEmail;
-        $user1 = User::create([
+        $user1 = factory(User::class)->make([
             'first_name' => $this->faker->firstName,
             'email' => $email,
             'password' => bcrypt('secret'),
         ]);
 
 
-        $user2 = User::create([
+        $user2 = factory(User::class)->make([
             'first_name' => $this->faker->firstName,
             'email' => $email,
             'password' => bcrypt('secret'),
@@ -161,20 +161,36 @@ class UsersTest extends TestCase
 
         $this->actingAs($this->user)
             ->from(route('users.create'))
-            ->post(route('users.store'), $user1->toArray());
+            ->post(route('users.store'),[
+                'email' => $user1['email'],
+                'password' => $user1['password'],
+                'first_name' => $user1['first_name'],
+                'activated' => 1
+            ]);
 
-        $this->assertDatabaseHas('users',$user1->toArray());
-
-        $this->actingAs($this->user)
-            ->from(route('users.create'))
-            ->post(route('users.store'), $user2->toArray())
+        $this->assertDatabaseHas('users',[
+            'email' => $email,
+            'first_name' => $user1['first_name']
+        ]);
+//
+        $this->from(route('users.create'))
+            ->post(route('users.store'), [
+                'email' => $user2['email'],
+                'password' => $user2['password'],
+                'first_name' => $user2['first_name'],
+                'activated' => 1
+            ])
             ->assertRedirect(route('users.create'));
+
 
         $this->assertTrue(session()->hasOldInput('first_name'));
         $this->assertTrue(session()->hasOldInput('email'));
         $this->assertFalse(session()->hasOldInput('password'));
 
-        $this->assertDatabaseMissing('users',$user2->toArray());
+        $this->assertDatabaseMissing('users',[
+            'email' => $email,
+            'first_name' => $user2['first_name']
+        ]);
     }
 
     /** @test */
@@ -279,4 +295,57 @@ class UsersTest extends TestCase
 
     }
 
+    /** @test */
+    public function it_can_bulk_delete_users() {
+        $users = factory(User::class, 10)->create();
+        $ids=[];
+
+        for($i=0; $i<5; $i++){
+            array_push($ids, $users[$i]->id);
+        }
+
+        $this->actingAs($this->user)
+            ->post(route('users.bulkSave'),['ids'=>$ids]);
+
+        $this->get(route('users.list'))
+            ->assertJson(['total'=>6]);
+
+
+        $url = route('users.list').'?deleted=true';
+
+        $this->get($url)
+            ->assertJson(
+                [
+                    "total" => 5,
+                ]
+            );
+
+    }
+
+    /** @test */
+    public function it_can_bulk_delete_users_but_not_super_admin() {
+        $users = factory(User::class, 10)->create();
+        $ids=[1];
+
+        for($i=0; $i<5; $i++){
+            array_push($ids, $users[$i]->id);
+        }
+
+        $this->actingAs($this->user)
+            ->post(route('users.bulkSave'),['ids'=>$ids]);
+
+        $this->get(route('users.list'))
+            ->assertJson(['total'=>6]);
+
+
+        $url = route('users.list').'?deleted=true';
+
+        $this->get($url)
+            ->assertJson(
+                [
+                    "total" => 5,
+                ]
+            );
+
+    }
 }
