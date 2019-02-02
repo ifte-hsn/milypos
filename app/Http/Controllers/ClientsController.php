@@ -94,7 +94,8 @@ class ClientsController extends Controller
 
         $request->validate([
             'first_name'              => 'required|string|min:1',
-            'country_id' => 'nullable|integer|exists:countries,id',
+            'email'                   => 'required|email|unique:clients',
+            'country_id'              => 'nullable|integer|exists:countries,id',
         ]);
 
 
