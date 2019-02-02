@@ -10,8 +10,6 @@ use Tests\BaseTest;
 class LoginTest extends BaseTest
 {
 
-    use DatabaseMigrations;
-
     /** @test */
     public function user_can_view_a_login_form() {
         $response = $this->get('/login');
@@ -29,16 +27,12 @@ class LoginTest extends BaseTest
 
     /** @test */
     public function a_user_can_login_with_correct_credential(){
-        $user = factory(User::class)->create([
-            'password' => bcrypt($password = 'habludablu')
-        ]);
-
-       $response =  $this->post('/login', [
+        $user = factory(User::class)->create();
+        $response = $this->post('/login', [
             'email' => $user->email,
-            'password' => "habludablu"
-        ]);
-
-        $response->assertRedirect(route('home'));
+            'password' => 'secret'
+        ])->assertRedirect(route('home'));
+//        $response->assertStatus(302);
         $this->assertAuthenticatedAs($user);
     }
 
