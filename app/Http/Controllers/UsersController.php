@@ -163,7 +163,10 @@ class UsersController extends Controller
     public function edit($id)
     {
 
-        $this->authorize('edit_user', User::class);
+        if(Auth::user()->id != $id)
+        {
+            $this->authorize('edit_user', User::class);
+        }
 
 
         if($user =  User::findOrFail($id)) {
@@ -185,7 +188,10 @@ class UsersController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->authorize('edit_user', User::class);
+        if(Auth::user()->id != $id)
+        {
+            $this->authorize('edit_user', User::class);
+        }
 
         $request->validate([
             'first_name'              => 'required|string|min:1',
