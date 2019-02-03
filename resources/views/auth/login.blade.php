@@ -53,7 +53,7 @@
             <!-- /.login-box-body -->
             <div class="box-footer">
                 <button type="submit"
-                        class="btn btn-primary btn-lg btn-block btn-flat">{{ __('general.login') }}</button>
+                        id="submit-button" class="btn btn-primary btn-lg btn-block btn-flat">{{ __('general.login') }}</button>
             </div>
         </div>
         <!-- /.login-box -->
