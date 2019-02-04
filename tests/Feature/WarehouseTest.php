@@ -51,10 +51,9 @@ class WarehouseTest extends TestCase
         $unauthorized_user->assignRole($role);
 
         // create permission other than view_warehouse
-        $permission = Permission::create(['name'=>'view_user']);
+        $permission = Permission::create(['name' => 'view_user']);
         $permission->assignRole($role);
         $role->givePermissionTo($permission);
-
 
 
         $this->actingAs($unauthorized_user)->get(route('warehouses.index'))
@@ -70,7 +69,7 @@ class WarehouseTest extends TestCase
         $authorized_user->assignRole($role);
 
         // create permission for viewing warehouse
-        $permission = Permission::create(['name'=>'view_warehouse']);
+        $permission = Permission::create(['name' => 'view_warehouse']);
         $permission->assignRole($role);
         $role->givePermissionTo($permission);
 
@@ -88,29 +87,26 @@ class WarehouseTest extends TestCase
         $authorized_user->assignRole($role);
 
         // create permission for viewing warehouse
-        $permission = Permission::create(['name'=>'view_warehouse']);
+        $permission = Permission::create(['name' => 'view_warehouse']);
         $permission->assignRole($role);
         $role->givePermissionTo($permission);
 
+
         $warehouse = factory(Warehouse::class)->create();
+        $warehouse->contactPersons()->saveMany([$authorized_user]);
 
         $this->actingAs($authorized_user)->get(route('warehouses.list'))
             ->assertJson([
-                'total' => '1',
+                'total' => 1,
                 "rows" => [
-//                        "id" => $warehouse->id,
-//                        "code" => $warehouse->code,
-//                        "name" => $warehouse->name,
-//                        "phone" => $warehouse->phone,
-//                        "email" => $warehouse->email,
-//                        "address" => $warehouse->address,
-
-                        'id' => '1',
-                        'code' => '222',
-                        'name' => 'Warehouse 2',
-                        'phone' => '22-22-2',
-                        'email' => 'test@emxample.com',
-                        'address' => 'Dhaka, Bangladesh',
+                    [
+                        'id' => $warehouse->id,
+                        'code' => $warehouse->code,
+                        'name' => $warehouse->name,
+                        'phone' => $warehouse->phone,
+                        'email' => $warehouse->email,
+                        'address' => $warehouse->address,
+                    ]
                 ]
             ]);
     }

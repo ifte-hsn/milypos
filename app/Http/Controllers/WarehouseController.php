@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Transformers\WarehouseTransformer;
 use App\Models\Warehouse;
 use Illuminate\Http\Request;
 
@@ -19,20 +20,57 @@ class WarehouseController extends Controller
         return view('warehouses.index');
     }
 
-    public function getWarehouseList() {
-        $response = [
-            'total'=> '1',
-            'rows' => [
-                'id' => '1',
-                'code' => '222',
-                'name' => 'Warehouse 2',
-                'phone' => '22-22-2',
-                'email' => 'test@emxample.com',
-                'address' => 'Dhaka, Bangladesh',
-            ]
-        ];
+    public function getWarehouseList(Request $request) {
+        $warehouse = Warehouse::select(['*']);
 
-        return json_encode($response);
+        if(($request->has('deleted')) && ($request->input('deleted') == 'true')) {
+            $warehouse = $warehouse->GetDeleted();
+        }
+
+        if ($request->has('search') && $request->input('search') != '') {
+            $warehouse = $warehouse->TextSearch($request->input('search'));
+        }
+
+        $order = $request->input('order') === 'asc' ? 'asc' : 'desc';
+        $offset = request('offset', 0);
+        $limit = request('limit',  20);
+
+
+        switch ($request->input('sort')) {
+            default:
+                $allowed_columns = [
+                    'name', 'email', 'phone'
+                ];
+
+                $sort = in_array($request->get('sort'), $allowed_columns) ? $request->get('sort') : 'name';
+                $warehouse = $warehouse->orderBy($sort, $order);
+                break;
+        }
+
+        $total = $warehouse->count();
+        $warehouse = $warehouse->skip($offset)->take($limit)->get();
+        return (new WarehouseTransformer)->transformWarehouses($warehouse, $total);
+//
+//        $response = [
+//            'total'=> '1',
+//            'rows' => [
+//                'id' => '1',
+//                'code' => '222',
+//                'name' => 'Warehouse 2',
+//                'phone' => '22-22-2',
+//                'email' => 'test@emxample.com',
+//                'address' => 'Dhaka, Bangladesh',
+//                'contact_person' => [
+//                    'name' => 'Iftekhar Hossain',
+//                    'email' => 'ifte.hsn@gmail.com',
+//                    'phone' => '0939444224',
+//                    'role' => 'Warehouse Manager',
+//                    'slug' => 'http://something.com'
+//                ]
+//            ]
+//        ];
+//
+//        return json_encode($response);
     }
 
     /**

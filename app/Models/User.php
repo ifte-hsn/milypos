@@ -39,7 +39,7 @@ class User extends Authenticatable
         'state',
         'zip',
         'sex',
-        'last_login'
+        'last_login',
     ];
 
     protected $casts = [
@@ -117,6 +117,10 @@ class User extends Authenticatable
     public function country()
     {
         return $this->belongsTo('App\Models\Country');
+    }
+
+    public function warehouse() {
+        return $this->belongsTo('App\Models\Warehouse');
     }
 
 }

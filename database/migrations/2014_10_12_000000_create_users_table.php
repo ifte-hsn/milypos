@@ -38,6 +38,7 @@ class CreateUsersTable extends Migration
 
 
             $table->integer('country_id')->unsigned()->nullable();
+            $table->integer('warehouse_id')->unsigned()->nullable();
 
             $table->rememberToken();
             $table->timestamps();

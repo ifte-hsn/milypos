@@ -20,6 +20,9 @@ class CreateWarehousesTable extends Migration
             $table->string('email')->unique();
             $table->string('phone')->unique();
             $table->string('address');
+
+            $table->softDeletes();
+
             $table->timestamps();
         });
     }
