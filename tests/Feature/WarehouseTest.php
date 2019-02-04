@@ -98,14 +98,19 @@ class WarehouseTest extends TestCase
             ->assertJson([
                 'total' => '1',
                 "rows" => [
-                    [
-                        "id" => $warehouse->id,
-                        "code" => $warehouse->code,
-                        "name" => $warehouse->name,
-                        "phone" => $warehouse->phone,
-                        "email" => $warehouse->email,
-                        "address" => $warehouse->address,
-                    ]
+//                        "id" => $warehouse->id,
+//                        "code" => $warehouse->code,
+//                        "name" => $warehouse->name,
+//                        "phone" => $warehouse->phone,
+//                        "email" => $warehouse->email,
+//                        "address" => $warehouse->address,
+
+                        'id' => '1',
+                        'code' => '222',
+                        'name' => 'Warehouse 2',
+                        'phone' => '22-22-2',
+                        'email' => 'test@emxample.com',
+                        'address' => 'Dhaka, Bangladesh',
                 ]
             ]);
     }

@@ -120,6 +120,14 @@ Route::middleware(['auth'])->group(function () {
     });
 
     /**
+     * Warehouse Routes
+     */
+    Route::group(['prefix'=>'warehouses'], function () {
+        Route::get('/', 'WarehouseController@index')->name('warehouses.index');
+        Route::get('getWarehousesList', 'WarehouseController@getWarehouseList')->name('warehouses.list');
+    });
+
+    /**
      * Users Routes
      */
     Route::prefix('users')->group(function () {
@@ -134,6 +142,7 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('{id}', 'UsersController@destroy')->name('users.destroy');
         Route::match(['put', 'patch'], '{id}','UsersController@update')->name('users.update');
         Route::get('{id}/edit','UsersController@edit')->name('users.edit');
+        Route::get('{id}','UsersController@show')->name('users.show');
     });
 
 });
