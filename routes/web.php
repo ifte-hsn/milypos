@@ -124,6 +124,9 @@ Route::middleware(['auth'])->group(function () {
      */
     Route::group(['prefix'=>'warehouses'], function () {
         Route::get('/', 'WarehouseController@index')->name('warehouses.index');
+        Route::post('bulkedit', 'WarehouseController@postBulkEdit')->name('warehouses.bulkedit');
+        Route::get('create', 'WarehouseController@create')->name('warehouses.create');
+        Route::get('export', 'WarehouseController@exportAsCsv')->name('warehouses.csv.export');
         Route::get('getWarehousesList', 'WarehouseController@getWarehouseList')->name('warehouses.list');
     });
 

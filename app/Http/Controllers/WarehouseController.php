@@ -50,27 +50,6 @@ class WarehouseController extends Controller
         $total = $warehouse->count();
         $warehouse = $warehouse->skip($offset)->take($limit)->get();
         return (new WarehouseTransformer)->transformWarehouses($warehouse, $total);
-//
-//        $response = [
-//            'total'=> '1',
-//            'rows' => [
-//                'id' => '1',
-//                'code' => '222',
-//                'name' => 'Warehouse 2',
-//                'phone' => '22-22-2',
-//                'email' => 'test@emxample.com',
-//                'address' => 'Dhaka, Bangladesh',
-//                'contact_person' => [
-//                    'name' => 'Iftekhar Hossain',
-//                    'email' => 'ifte.hsn@gmail.com',
-//                    'phone' => '0939444224',
-//                    'role' => 'Warehouse Manager',
-//                    'slug' => 'http://something.com'
-//                ]
-//            ]
-//        ];
-//
-//        return json_encode($response);
     }
 
     /**

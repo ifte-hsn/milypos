@@ -198,12 +198,13 @@
     }
 
     var formatters = [
-        'users',
-        'clients',
         'categories',
+        'clients',
         'products',
         'roles',
-        'sales'
+        'sales',
+        'warehouses',
+        'users'
     ];
 
     for (var i in formatters) {
