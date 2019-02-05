@@ -29,8 +29,7 @@ class WarehouseTest extends TestCase
         // so for the time being we will assign Super Admin
         // Role to the user. To test other role and their
         // permissions we have separate test.
-        $this->super_admin_role = Role::create(['name' => 'Super Admin']);
-        $this->super_admin->assignRole($this->super_admin_role);
+        $this->super_admin->assignRole(Role::findByName('Super Admin'));
         $this->faker = FakerFactory::create();
     }
 
@@ -47,11 +46,11 @@ class WarehouseTest extends TestCase
 
         // create an unauthorized_user
         $unauthorized_user = factory(User::class)->create(['activated' => true]);
-        $role = Role::create(['name' => 'Admin']);
+        $role = Role::findByName('Admin');
         $unauthorized_user->assignRole($role);
 
         // create permission other than view_warehouse
-        $permission = Permission::create(['name' => 'view_user']);
+        $permission = Permission::findByName('view_user');
         $permission->assignRole($role);
         $role->givePermissionTo($permission);
 
@@ -65,11 +64,11 @@ class WarehouseTest extends TestCase
     {
         // create an unauthorized_user
         $authorized_user = factory(User::class)->create(['activated' => true]);
-        $role = Role::create(['name' => 'Admin']);
+        $role = Role::findByName('Admin');
         $authorized_user->assignRole($role);
 
         // create permission for viewing warehouse
-        $permission = Permission::create(['name' => 'view_warehouse']);
+        $permission = Permission::findByName('view_warehouse');
         $permission->assignRole($role);
         $role->givePermissionTo($permission);
 
@@ -83,11 +82,11 @@ class WarehouseTest extends TestCase
     {
         // create an unauthorized_user
         $authorized_user = factory(User::class)->create(['activated' => true]);
-        $role = Role::create(['name' => 'Admin']);
+        $role = Role::findByName('Admin');
         $authorized_user->assignRole($role);
 
         // create permission for viewing warehouse
-        $permission = Permission::create(['name' => 'view_warehouse']);
+        $permission = Permission::findByName('view_warehouse');
         $permission->assignRole($role);
         $role->givePermissionTo($permission);
 

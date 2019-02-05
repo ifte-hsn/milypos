@@ -15,13 +15,16 @@ abstract class TestCase extends BaseTestCase
     {
         parent::setUp();
 
-        Setting::create([
-            'site_name' => 'Mily POS',
-            'logo' => 'logo.png',
-            'login_logo' => 'login_logo.png',
-            'favicon' => 'favicon.png',
-            'currency_id' => 1
-        ]);
+        $settings = new \SettingsTableSeeder();
+        $settings->run();
+
+
+        $permissions = new \PermissionsTableSeeder();
+        $permissions->run();
+
+
+        $roles = new \RolesTableSeeder();
+        $roles->run();
     }
 
 }

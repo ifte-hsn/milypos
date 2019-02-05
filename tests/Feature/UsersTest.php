@@ -25,8 +25,7 @@ class UsersTest extends TestCase
         // so for the time being we will assign Super Admin
         // Role to the user. To test other role and their
         // permissions we have separate test.
-        $this->role = Role::create(['name' => 'Super Admin']);
-        $this->user->assignRole($this->role);
+        $this->user->assignRole(Role::findByName('Super Admin'));
         $this->faker = FakerFactory::create();
     }
 
