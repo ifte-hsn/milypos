@@ -67,6 +67,10 @@ class PermissionsTableSeeder extends Seeder
         Permission::create(['name' => 'delete_role']);
         Permission::create(['name' => 'restore_role']);
 
+
+        // Warehouse
+        Permission::create(['name' => 'view_warehouse']);
+
         // Settings
         Permission::create(['name'=>'update_settings']);
 
