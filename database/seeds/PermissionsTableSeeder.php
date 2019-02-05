@@ -70,6 +70,7 @@ class PermissionsTableSeeder extends Seeder
 
         // Warehouse
         Permission::create(['name' => 'view_warehouse']);
+        Permission::create(['name' => 'create_warehouse']);
 
         // Settings
         Permission::create(['name'=>'update_settings']);

@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Transformers\WarehouseTransformer;
+use DB;
+use App\Models\User;
 use App\Models\Warehouse;
 use Illuminate\Http\Request;
+use App\Http\Transformers\WarehouseTransformer;
 
 class WarehouseController extends Controller
 {
@@ -56,10 +58,16 @@ class WarehouseController extends Controller
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function create()
     {
-        //
+        $this->authorize('add_warehouse', User::class);
+        $warehouse = new Warehouse();
+        $roles = DB::table('roles')->get();
+        $user = User::all();
+
+        return view('warehouses.edit', compact('warehouse','roles', 'user'));
     }
 
     /**

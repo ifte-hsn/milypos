@@ -6,6 +6,7 @@ return [
     'active'                    => 'Active',
     'add'                       => 'Add',
     'add_role'                  => 'Add Role',
+    'add_warehouse'             => 'Add New Warehouse',
     'additional_footer_text'    => 'Additional Footer Text',
     'address'                   => 'Address',
     'avatar'                    => 'Avatar',

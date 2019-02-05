@@ -109,4 +109,38 @@ class WarehouseTest extends TestCase
                 ]
             ]);
     }
+
+
+    /** @test */
+    public function unauthorized_user_cannot_see_ware_house_create_page () {
+        $unauthorized_user = factory(User::class)->create(['activated' => true]);
+        $role = Role::findByName('Admin');
+        $unauthorized_user->assignRole($role);
+
+        // create permission other than view_warehouse
+        $permission = Permission::findByName('view_user');
+        $permission->assignRole($role);
+        $role->givePermissionTo($permission);
+
+        $this->actingAs($unauthorized_user)
+            ->get(route('warehouses.create'))
+            ->assertStatus(403);
+    }
+
+
+    /** @test */
+    public function authorized_user_cannot_see_warehouse_create_page () {
+        $authorized_user = factory(User::class)->create(['activated' => true]);
+        $role = Role::findByName('Admin');
+        $authorized_user->assignRole($role);
+
+        // create permission other than view_warehouse
+        $permission = Permission::findByName('create_warehouse');
+        $permission->assignRole($role);
+        $role->givePermissionTo($permission);
+
+        $this->actingAs($authorized_user)
+            ->get(route('warehouses.create'))
+            ->assertViewIs('warehouses.create');
+    }
 }

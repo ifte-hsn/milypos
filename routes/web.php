@@ -128,6 +128,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('create', 'WarehouseController@create')->name('warehouses.create');
         Route::get('export', 'WarehouseController@exportAsCsv')->name('warehouses.csv.export');
         Route::get('getWarehousesList', 'WarehouseController@getWarehouseList')->name('warehouses.list');
+        Route::match(['put', 'patch'], '{id}','WarehouseController@update')->name('warehouses.update');
     });
 
     /**

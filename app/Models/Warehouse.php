@@ -23,9 +23,9 @@ class Warehouse extends MilyPosModel
     protected $presenter = 'App\Presenters\WarehousePresenter';
 
     protected $rules = [
-//        'code' => 'required|string|min:1',
-//        'email' => 'required|email|unique',
-//        'name' => 'required|string|unique|min:3',
+        'code' => 'required|string|min:1',
+        'email' => 'required|email|unique',
+        'name' => 'required|string|unique|min:3',
     ];
     protected $dates = ['deleted_at'];
 
