@@ -12,7 +12,7 @@ class CategoriesTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('categories')->delete();
+        Category::truncate();
 
         Category::create(['name'=>'Mobiles']);
         Category::create(['name'=>'Tablets']);

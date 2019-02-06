@@ -13,7 +13,7 @@ class SettingsTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('settings')->delete();
+        Setting::truncate();
 
         Setting::create([
             'site_name' => 'Mily POS',

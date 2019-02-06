@@ -12,7 +12,9 @@ class CurrenciesTableSeeder extends Seeder
      */
     public function run()
     {
-        $data = array(
+        Currency::truncate();
+
+        $datas = array(
             [ "id" => "1", "country" => "Albania", "currency" => "Leke", "code" => "ALL", "symbol" => "Lek",
                 "thousand_separator" => ",", "decimal_separator" => ".", "created_at" => NULL , "updated_at" => NULL ],
             [ "id" => "2", "country" => "America", "currency" => "Dollars", "code" => "USD", "symbol" => '$',
@@ -282,7 +284,17 @@ class CurrenciesTableSeeder extends Seeder
             ["id" => "134", "country" => "Bangladesh", "currency" => "Taka", "code" => "BDT", "symbol" => "৳", "thousand_separator" => ",", "decimal_separator" => ".", "created_at" => NULL , "updated_at" => NULL ]
         );
 
-        Currency::insert($data);
+        foreach ($datas as $data){
+            Currency::create([
+                'country' => $data['country'],
+                'currency' => $data['currency'],
+                'code' => $data['code'],
+                'symbol' => $data['symbol'],
+                'thousand_separator' => $data['thousand_separator'],
+                'decimal_separator' => $data['decimal_separator'],
+            ]);
+        }
+
 
         Currency::insert(["country" => "Algerie", "currency" => "Algerian dinar", "code" => "DZD", "symbol" => "د.ج", "thousand_separator" => " ", "decimal_separator" => ".", "created_at" => NULL , "updated_at" => NULL ]);
 

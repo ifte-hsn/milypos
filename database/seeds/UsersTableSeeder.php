@@ -15,7 +15,7 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('users')->delete();
+        User::truncate();
 
         $superAdminUser = User::create([
             'first_name' => 'Iftekhar',

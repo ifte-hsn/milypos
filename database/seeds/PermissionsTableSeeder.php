@@ -12,10 +12,10 @@ class PermissionsTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('permissions')->delete();
-        DB::table('model_has_permissions')->delete();
-        DB::table('model_has_roles')->delete();
-        DB::table('role_has_permissions')->delete();
+        Permission::truncate();
+        DB::table('model_has_permissions')->truncate();
+        DB::table('model_has_roles')->truncate();
+        DB::table('role_has_permissions')->truncate();
 
         /**
          * Create Permission
