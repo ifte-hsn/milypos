@@ -135,7 +135,7 @@ class WarehouseTest extends TestCase
         $authorized_user->assignRole($role);
 
         // create permission other than view_warehouse
-        $permission = Permission::findByName('create_warehouse');
+        $permission = Permission::findByName('add_warehouse');
         $permission->assignRole($role);
         $role->givePermissionTo($permission);
 
