@@ -18,11 +18,13 @@ class WarehouseController extends Controller
      */
     public function index()
     {
-        $this->authorize('view_warehouse', Warehouse::class);
+        $this->authorize('warehouse.view', Warehouse::class);
         return view('warehouses.index');
     }
 
     public function getWarehouseList(Request $request) {
+        $this->authorize('warehouse.view', Warehouse::class);
+
         $warehouse = Warehouse::select(['*']);
 
         if(($request->has('deleted')) && ($request->input('deleted') == 'true')) {
@@ -62,7 +64,7 @@ class WarehouseController extends Controller
      */
     public function create()
     {
-        $this->authorize('add_warehouse', User::class);
+        $this->authorize('warehouse.add', User::class);
         $warehouse = new Warehouse();
         $roles = DB::table('roles')->get();
         $user = User::all();

@@ -19,11 +19,11 @@
         <div class="box-header with-border clearfix">
             <div class="pull-right">
 
-                @can('add_warehouse')
+                @can('warehouse.add')
                     <a href="{{ route('warehouses.create') }}" class="btn btn-info"><i class="fa fa-plus"></i> {{ __('general.create_new') }}</a>
                 @endcan
 
-                @can('view_warehouse')
+                @can('warehouse.view')
                     @if (Input::get('status')=='deleted')
                         <a href="{{ route('warehouses.index') }}" class="btn btn-default"><i class="fa fa-building"></i> {{ __('general.show_current_warehouses') }}</a>
                     @else
@@ -31,7 +31,7 @@
                     @endif
                 @endcan
 
-                @can('export_warehouses')
+                @can('warehouse.export')
                     <a href="{{ route('warehouses.csv.export') }}" class="btn btn-default"><i class="fa fa-download"></i> {{ __('general.export') }}</a>
                 @endcan
 
@@ -43,13 +43,11 @@
                 @csrf
                 @if(Input::get('status') != 'deleted')
 
-                    @can('bulk_delete_warehouses')
+                    @can('warehouses.bulk_delete')
 
                         <div id="toolbar">
                             <select name="bulk_actions" class="form-control select2" width="200px;">
-                                @can('bulk_delete_users')
-                                    <option value="delete">{{ __('general.bulk_checkin_and_delete') }}</option>
-                                @endcan
+                                <option value="delete">{{ __('general.bulk_checkin_and_delete') }}</option>
                             </select>
                             <button class="btn btn-default" id="bulkEdit" disabled>{{ __('general.go') }}</button>
 
@@ -57,7 +55,7 @@
                     @endif
                 @endcan
 
-                @can('view_warehouse')
+                @can('warehouse.view')
                     <table
                             data-click-to-select="true"
                             data-columns="{{ \App\Presenters\WarehousePresenter::dataTableLayout() }}"
