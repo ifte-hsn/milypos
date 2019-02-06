@@ -13,18 +13,6 @@ class LoginTest extends DuskTestCase
 {
     use DatabaseMigrations;
 
-    public function setUp()
-    {
-        parent::setUp();
-        Setting::create([
-            'site_name' => 'Mily POS',
-            'logo' => 'logo.png',
-            'login_logo' => 'login_logo.png',
-            'favicon' => 'favicon.png',
-            'currency_id' => 1
-        ]);
-    }
-
     /** @test */
     public function unauthenticated_user_see_login_page()
     {

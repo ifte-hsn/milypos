@@ -11,6 +11,22 @@ abstract class DuskTestCase extends BaseTestCase
 {
     use CreatesApplication;
 
+    public function setUp()
+    {
+        parent::setUp();
+
+        $settings = new \SettingsTableSeeder();
+        $settings->run();
+
+
+        $permissions = new \PermissionsTableSeeder();
+        $permissions->run();
+
+
+        $roles = new \RolesTableSeeder();
+        $roles->run();
+    }
+
     /**
      * Prepare for Dusk test execution.
      *
