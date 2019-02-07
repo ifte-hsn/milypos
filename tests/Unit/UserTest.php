@@ -76,7 +76,7 @@ class UserTest extends TestCase
     public function a_user_is_belongs_to_a_country()
     {
         $user = factory(User::class)->create();
-        $country = Country::create(['name'=> 'Bangladesh']);
+        $country = Country::whereName('Bangladesh')->first();
         $user->country = $country;
         $this->assertInstanceOf('App\Models\Country', $user->country);
     }

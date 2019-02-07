@@ -11,7 +11,6 @@ class UsersTest extends TestCase
 {
 
     private $user;
-    private $role;
     private $faker;
 
     public function setUp()
@@ -53,7 +52,7 @@ class UsersTest extends TestCase
                         "address" => $this->user->address,
                         "city" => $this->user->city,
                         "state" => $this->user->state,
-                        "country" => $this->user->country,
+                        "country" => $this->user->country->name,
                         "zip" => $this->user->zip,
                         "activated" => $this->user->activated,
                         "website" => $this->user->website,
@@ -229,7 +228,7 @@ class UsersTest extends TestCase
                             "address" => $users[3]->address,
                             "city" => $users[3]->city,
                             "state" => $users[3]->state,
-                            "country" => $users[3]->country,
+                            "country" => $users[3]->country->name,
                             "zip" => $users[3]->zip,
                             "activated" => $users[3]->activated,
                             "website" => $users[3]->website,
@@ -262,7 +261,7 @@ class UsersTest extends TestCase
                         "address" => $user->address,
                         "city" => $user->city,
                         "state" => $user->state,
-                        "country" => $user->country,
+                        "country" => $user->country->name,
                         "zip" => $user->zip,
                         "activated" => $user->activated,
                         "website" => $user->website,

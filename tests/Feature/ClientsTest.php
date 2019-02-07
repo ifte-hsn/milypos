@@ -194,7 +194,7 @@ class ClientsTest extends TestCase
                             "address" => $clients[3]->address,
                             "city" => $clients[3]->city,
                             "state" => $clients[3]->state,
-                            "country" => $clients[3]->country,
+                            "country" => $clients[3]->country->name,
                             "zip" => $clients[3]->zip,
                         ]
                     ]
@@ -227,7 +227,7 @@ class ClientsTest extends TestCase
                         "address" => $client->address,
                         "city" => $client->city,
                         "state" => $client->state,
-                        "country" => $client->country,
+                        "country" => $client->country->name,
                         "zip" => $client->zip,
                     ]
                 ]
