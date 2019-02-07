@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\User;
+use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Faker\Factory as FakerFactory;
 use Tests\TestCase;
@@ -33,6 +34,38 @@ class UsersTest extends TestCase
         $this->actingAs($this->user)
             ->get('/')
             ->assertSee($this->user->fullName);
+    }
+
+    /** @test */
+    public function unauthenticated_user_redirect_to_login_page_when_try_to_see_user_index_page() {
+        $this->get(route('users.index'))
+            ->assertRedirect('login');
+    }
+
+    /** @test */
+    public function user_can_not_see_user_index_page_if_he_is_not_authorized_to_view_user() {
+        $unauthorized_user = factory(User::class)->create(['activated' => 1]);
+        $role = Role::findByName('Admin');
+        $unauthorized_user->assignRole($role);
+
+        $this->actingAs($unauthorized_user)
+            ->get(route('users.index'))
+            ->assertStatus(403);
+    }
+
+    /** @test */
+    public function user_can_see_user_index_page_if_he_is_authorized_to_view_user() {
+        $unauthorized_user = factory(User::class)->create(['activated' => 1]);
+        $role = Role::findByName('Admin');
+
+        $permission = Permission::findByName('view_user');
+        $permission->assignRole($role);
+
+        $unauthorized_user->assignRole($role);
+
+        $this->actingAs($unauthorized_user)
+            ->get(route('users.index'))
+            ->assertViewIs('users.index');
     }
 
     /** @test */
