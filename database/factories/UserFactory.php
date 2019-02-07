@@ -32,6 +32,7 @@ $factory->define(App\Models\User::class, function (Faker $faker) {
         'state' =>  $faker->state(),
         'zip' => $faker->postcode,
         'activated' => $faker->biasedNumberBetween($min = 0, $max = 1),
-        'sex' => 'Male'
+        'sex' => 'Male',
+        'country_id' => $faker->biasedNumberBetween($min = 0, $max = 109),
     ];
 });

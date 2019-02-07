@@ -16,6 +16,7 @@ $factory->define(Client::class, function (Faker $faker) {
         'shopping' => $faker->randomNumber(),
         'last_purchase' => $faker->dateTime($max = 'now', $timezone = null),
         'dob' => $faker->date('Y-m-d', now()),
-        'sex' => 'Female'
+        'sex' => 'Female',
+        'country_id' => $faker->biasedNumberBetween($min = 0, $max = 109),
     ];
 });
