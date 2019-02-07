@@ -15,13 +15,17 @@ abstract class TestCase extends BaseTestCase
     {
         parent::setUp();
 
+        $countries = new \CountriesTableSeeder();
+        $countries->run();
+
+        $currencies = new \CurrenciesTableSeeder();
+        $currencies->run();
+
         $settings = new \SettingsTableSeeder();
         $settings->run();
 
-
         $permissions = new \PermissionsTableSeeder();
         $permissions->run();
-
 
         $roles = new \RolesTableSeeder();
         $roles->run();
