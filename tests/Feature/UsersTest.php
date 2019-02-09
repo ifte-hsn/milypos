@@ -64,12 +64,64 @@ class UsersTest extends TestCase
         $unauthorized_user->assignRole($role);
 
         $this->actingAs($unauthorized_user)
-            ->get(route('users.index'))
-            ->assertViewIs('users.index');
+            ->get(route('users.index'))->assertViewIs('users.index');
     }
 
     /** @test */
-    public function an_authenticated_user_can_see_user_list() {
+    public function unauthenticated_user_redirect_to_login_page_when_try_to_see_user_list(){
+        $this->get(route('users.list'))
+            ->assertRedirect('login');
+    }
+
+    /** @test */
+    public function if_the_user_is_unauthorized_to_view_user_will_get_403_status_when_trying_to_view_user_list() {
+        $user = factory(User::class)->create(['activated' => 1]);
+        $role = Role::findByName('Admin');
+        $user->assignRole($role);
+
+        $permission = Permission::findByName('view_client');
+        $role->givePermissionTo($permission);
+
+        $this->actingAs($user)
+            ->get(route('users.list'))
+            ->assertStatus(403);
+    }
+
+    public function if_the_user_is_authorized_to_view_user_will_able_to_view_user_list_then_trying_to_view_user_list() {
+        $user = factory(User::class)->create(['activated' => 1]);
+        $role = Role::findByName('Admin');
+        $user->assignRole($role);
+
+        $permission = Permission::findByName('view_user');
+        $role->givePermissionTo($permission);
+
+        $this->actingAs($user)
+            ->get(route('users.list'))
+            ->assertJson([
+                "total" => 1,
+                "rows" => [
+                    [
+                        "id" => $user->id,
+                        "email" => $user->email,
+                        "name" => $user->fullName,
+                        "first_name" => $user->first_name,
+                        "last_name" => $user->last_name,
+                        "phone" => $user->phone,
+                        "address" => $user->address,
+                        "city" => $user->city,
+                        "state" => $user->state,
+                        "country" => $user->country->name,
+                        "zip" => $user->zip,
+                        "activated" => $user->activated,
+                        "website" => $user->website,
+                    ]
+                ]
+            ]);
+
+    }
+
+    /** @test */
+    public function super_admin_can_see_user_list() {
         $this->actingAs($this->user)
             ->get(route('users.list'))
             ->assertJson([
@@ -93,6 +145,224 @@ class UsersTest extends TestCase
                 ]
             ]);
     }
+
+
+    /** @test */
+    public function unauthenticated_user_will_redirect_to_login_page_if_he_tries_to_go_user_create_page() {
+        $this->get(route('users.create'))
+            ->assertRedirect('login');
+    }
+
+    /** @test */
+    public function if_user_is_unauthorized_to_create_new_user_then_he_will_get_403_status_when_he_tries_to_visit_user_create_page() {
+        $user = factory(User::class)->create(['activated' => 1]);
+        $role = Role::findByName('Admin');
+
+        $permissin = Permission::findByName('view_user');
+        $role->givePermissionTo($permissin);
+
+        $user->assignRole($role);
+
+        $this->actingAs($user)
+            ->get(route('users.create'))
+            ->assertStatus(403);
+    }
+
+    /** @test */
+    public function if_a_user_is_authorized_to_create_new_user_then_he_is_able_to_create_new_user() {
+        $user = factory(User::class)->create(['activated' => 1]);
+        $role = Role::findByName('Admin');
+
+        $permissin = Permission::findByName('add_user');
+        $role->givePermissionTo($permissin);
+
+        $user->assignRole($role);
+
+        $new_user = factory(User::class)->make(['activated' => 1]);
+
+        $this->actingAs($user)
+            ->from(route('users.create'))
+            ->post(route('users.store'),[
+                'email' => $new_user->email,
+                'email_verified_at' => $new_user->email_verified_at,
+                'password' => 'secret',
+                'remember_token' => $new_user->remember_token,
+                'last_login' => $new_user->last_login,
+                'first_name' => $new_user->first_name,
+                'last_name' => $new_user->last_name,
+                'employee_num' => $new_user->employee_num,
+                'phone' => $new_user->phone,
+                'fax' => $new_user->fax,
+                'website' => $new_user->website,
+                'address' => $new_user->address,
+                'city' => $new_user->city,
+                'state' =>  $new_user->state,
+                'zip' => $new_user->zip,
+                'activated' => $new_user->activated,
+                'sex' => $new_user->sex
+            ])->assertStatus(302);
+
+        $this->assertDatabaseHas('users',[
+            'email' => $new_user->email,
+            'first_name' => $new_user->first_name,
+            'last_name' => $new_user->last_name,
+            'phone' => $new_user->phone,
+            'fax' => $new_user->fax,
+            'website' => $new_user->website,
+            'address' => $new_user->address,
+            'city' => $new_user->city,
+            'state' =>  $new_user->state,
+            'zip' => $new_user->zip,
+            'activated' => $new_user->activated,
+            'sex' => $new_user->sex
+        ]);
+    }
+
+
+    /** @test */
+    public function super_user_can_create_new_user() {
+        $user = factory(User::class)->create(['activated' => 1]);
+        $role = Role::findByName('Super Admin');
+
+        $user->assignRole($role);
+
+        $new_user = factory(User::class)->make(['activated' => 1]);
+
+        $this->actingAs($user)
+            ->from(route('users.create'))
+            ->post(route('users.store'),[
+                'email' => $new_user->email,
+                'email_verified_at' => $new_user->email_verified_at,
+                'password' => 'secret',
+                'remember_token' => $new_user->remember_token,
+                'last_login' => $new_user->last_login,
+                'first_name' => $new_user->first_name,
+                'last_name' => $new_user->last_name,
+                'employee_num' => $new_user->employee_num,
+                'phone' => $new_user->phone,
+                'fax' => $new_user->fax,
+                'website' => $new_user->website,
+                'address' => $new_user->address,
+                'city' => $new_user->city,
+                'state' =>  $new_user->state,
+                'zip' => $new_user->zip,
+                'activated' => $new_user->activated,
+                'sex' => $new_user->sex
+            ])->assertStatus(302);
+
+        $this->assertDatabaseHas('users',[
+            'email' => $new_user->email,
+            'first_name' => $new_user->first_name,
+            'last_name' => $new_user->last_name,
+            'phone' => $new_user->phone,
+            'fax' => $new_user->fax,
+            'website' => $new_user->website,
+            'address' => $new_user->address,
+            'city' => $new_user->city,
+            'state' =>  $new_user->state,
+            'zip' => $new_user->zip,
+            'activated' => $new_user->activated,
+            'sex' => $new_user->sex
+        ]);
+    }
+
+    /** @test */
+    public function unauthorized_user_redirect_to_login_page_if_user_tries_to_go_user_edit_page() {
+        $user = factory(User::class)->create();
+        $this->get(route('users.edit', ['user' => $user->id]))
+            ->assertRedirect('login');
+    }
+
+    /** @test */
+    public function if_user_is_unauthorized_to_update_user_will_get_403_status_when_try_to_view_user_edit_page () {
+        $user = factory(User::class)->create(['activated' => 1]);
+        $role = Role::findByName('Admin');
+        $permission = Permission::findByName('view_user');
+        $role->givePermissionTo($permission);
+
+        $user->assignRole($role);
+
+        $another_user = factory(User::class)->create();
+
+        $this->actingAs($user)
+            ->get(route('users.edit', ['user' => $another_user->id]))
+            ->assertStatus(403);
+    }
+
+    /** @test */
+    public function if_user_is_authorized_to_update_user_will_be_able_to_see_user_edit_page () {
+        $user = factory(User::class)->create(['activated' => 1]);
+        $role = Role::findByName('Admin');
+        $permission = Permission::findByName('edit_user');
+        $role->givePermissionTo($permission);
+
+        $user->assignRole($role);
+
+        $another_user = factory(User::class)->create();
+        $this->actingAs($user)
+            ->get(route('users.edit', ['user'=>$another_user->id]))
+            ->assertViewIs('users.edit');
+    }
+
+    /** @test */
+    public function if_user_is_authorized_to_update_user_then_he_is_able_to_update_the_user() {
+
+        $user = factory(User::class)->create(['activated' => 1]);
+        $role = Role::findByName('Admin');
+        $permission = Permission::findByName('edit_user');
+        $role->givePermissionTo($permission);
+
+        $new_user = factory(User::class)->make();
+
+        $this->actingAs($user)
+            ->from(route('users.edit', ['users'=>$user->id]))
+            ->put(route('users.update', ['user'=>$user->id]), $new_user->toArray());
+
+        $updated_user = User::findOrFail($user->id);
+
+        $this->assertEquals($new_user->first_name, $updated_user->first_name);
+    }
+
+
+    /** @test */
+    public function super_admin_can_update_user() {
+        $users = factory(User::class, 10)->create();
+
+        $id = $users[3]->id;
+        $user = User::findOrFail($id);
+
+        $user->first_name = $this->faker->firstName;
+
+        $this->actingAs($this->user)
+            ->put(route('users.update', ['user'=> $user->id]), $user->toArray());
+
+        $updated_user = User::findOrFail($id);
+
+        $this->assertEquals($user->first_name, $updated_user->first_name);
+    }
+
+    /** @test */
+    public function unauthenticated_user_redirect_to_login_page_when_they_try_to_delete_an_user_entry() {
+        $users = factory(User::class, 10)->create();
+
+        $this->delete(route('users.destroy', ['user'=> $users[3]]))
+            ->assertRedirect('login');
+    }
+
+    /** @test */
+    public function if_a_user_is_not_authorized_to_delete_entry_then_they_will_get_403_status() {
+        $user = factory(User::class)->create(['activated' => 1]);
+        $role = Role::findByName('Admin');
+        $permission = Permission::findByName('view_user');
+        $role->givePermissionTo($permission);
+
+        $user->assignRole($role);
+
+        $this->actingAs($user)
+            ->delete(route('users.destroy', ['user'=> $user->id]))
+            ->assertStatus(403);
+    }
+
 
     /** @test */
     public function user_cannot_be_created_without_first_name() {
@@ -305,25 +575,6 @@ class UsersTest extends TestCase
         $this->get(route('users.restore', ['user'=>$user->id]));
 
         $this->get(route('users.list'))->assertJson(['total' => '2']);
-    }
-
-    /** @test */
-    public function it_can_update_user_info() {
-        $users = factory(User::class, 10)->create();
-
-
-        $id = $users[3]->id;
-        $user = User::findOrFail($id);
-
-        $user->first_name = $this->faker->firstName;
-
-        $this->actingAs($this->user)
-            ->put(route('users.update', ['user'=> $user->id]), $user->toArray());
-
-        $updated_user = User::findOrFail($id);
-
-        $this->assertEquals($user->first_name, $updated_user->first_name);
-
     }
 
     /** @test */
