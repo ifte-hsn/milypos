@@ -72,10 +72,6 @@ class UsersController extends Controller
         return (new UsersTransformer)->transformUsers($users, $total);
     }
 
-    public function show($id){
-        return User::findOrFail($id);
-    }
-
     /**
      * Show the form for creating a new resource.
      *
