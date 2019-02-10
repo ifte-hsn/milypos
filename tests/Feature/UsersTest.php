@@ -19,7 +19,7 @@ class UsersTest extends TestCase
         parent::setUp();
 
 
-        $this->user = factory(User::class)->create(['activated'=>1]);
+        $this->user = factory(User::class)->create(['activated' => 1]);
 
         // Only super admin can access all the features
         // so for the time being we will assign Super Admin
@@ -30,20 +30,23 @@ class UsersTest extends TestCase
     }
 
     /** @test */
-    public function site_header_shows_authenticated_users_fullname() {
+    public function site_header_shows_authenticated_users_fullname()
+    {
         $this->actingAs($this->user)
             ->get('/')
             ->assertSee($this->user->fullName);
     }
 
     /** @test */
-    public function unauthenticated_user_redirect_to_login_page_when_try_to_see_user_index_page() {
+    public function unauthenticated_user_redirect_to_login_page_when_try_to_see_user_index_page()
+    {
         $this->get(route('users.index'))
             ->assertRedirect('login');
     }
 
     /** @test */
-    public function user_can_not_see_user_index_page_if_he_is_not_authorized_to_view_user() {
+    public function user_can_not_see_user_index_page_if_he_is_not_authorized_to_view_user()
+    {
         $unauthorized_user = factory(User::class)->create(['activated' => 1]);
         $role = Role::findByName('Admin');
         $unauthorized_user->assignRole($role);
@@ -54,7 +57,8 @@ class UsersTest extends TestCase
     }
 
     /** @test */
-    public function user_can_see_user_index_page_if_he_is_authorized_to_view_user() {
+    public function user_can_see_user_index_page_if_he_is_authorized_to_view_user()
+    {
         $unauthorized_user = factory(User::class)->create(['activated' => 1]);
         $role = Role::findByName('Admin');
 
@@ -68,13 +72,15 @@ class UsersTest extends TestCase
     }
 
     /** @test */
-    public function unauthenticated_user_redirect_to_login_page_when_try_to_see_user_list(){
+    public function unauthenticated_user_redirect_to_login_page_when_try_to_see_user_list()
+    {
         $this->get(route('users.list'))
             ->assertRedirect('login');
     }
 
     /** @test */
-    public function if_the_user_is_unauthorized_to_view_user_will_get_403_status_when_trying_to_view_user_list() {
+    public function if_the_user_is_unauthorized_to_view_user_will_get_403_status_when_trying_to_view_user_list()
+    {
         $user = factory(User::class)->create(['activated' => 1]);
         $role = Role::findByName('Admin');
         $user->assignRole($role);
@@ -87,7 +93,8 @@ class UsersTest extends TestCase
             ->assertStatus(403);
     }
 
-    public function if_the_user_is_authorized_to_view_user_will_able_to_view_user_list_then_trying_to_view_user_list() {
+    public function if_the_user_is_authorized_to_view_user_will_able_to_view_user_list_then_trying_to_view_user_list()
+    {
         $user = factory(User::class)->create(['activated' => 1]);
         $role = Role::findByName('Admin');
         $user->assignRole($role);
@@ -121,7 +128,8 @@ class UsersTest extends TestCase
     }
 
     /** @test */
-    public function super_admin_can_see_user_list() {
+    public function super_admin_can_see_user_list()
+    {
         $this->actingAs($this->user)
             ->get(route('users.list'))
             ->assertJson([
@@ -148,13 +156,15 @@ class UsersTest extends TestCase
 
 
     /** @test */
-    public function unauthenticated_user_will_redirect_to_login_page_if_he_tries_to_go_user_create_page() {
+    public function unauthenticated_user_will_redirect_to_login_page_if_he_tries_to_go_user_create_page()
+    {
         $this->get(route('users.create'))
             ->assertRedirect('login');
     }
 
     /** @test */
-    public function if_user_is_unauthorized_to_create_new_user_then_he_will_get_403_status_when_he_tries_to_visit_user_create_page() {
+    public function if_user_is_unauthorized_to_create_new_user_then_he_will_get_403_status_when_he_tries_to_visit_user_create_page()
+    {
         $user = factory(User::class)->create(['activated' => 1]);
         $role = Role::findByName('Admin');
 
@@ -169,7 +179,8 @@ class UsersTest extends TestCase
     }
 
     /** @test */
-    public function if_a_user_is_authorized_to_create_new_user_then_he_is_able_to_create_new_user() {
+    public function if_a_user_is_authorized_to_create_new_user_then_he_is_able_to_create_new_user()
+    {
         $user = factory(User::class)->create(['activated' => 1]);
         $role = Role::findByName('Admin');
 
@@ -182,7 +193,7 @@ class UsersTest extends TestCase
 
         $this->actingAs($user)
             ->from(route('users.create'))
-            ->post(route('users.store'),[
+            ->post(route('users.store'), [
                 'email' => $new_user->email,
                 'email_verified_at' => $new_user->email_verified_at,
                 'password' => 'secret',
@@ -196,13 +207,13 @@ class UsersTest extends TestCase
                 'website' => $new_user->website,
                 'address' => $new_user->address,
                 'city' => $new_user->city,
-                'state' =>  $new_user->state,
+                'state' => $new_user->state,
                 'zip' => $new_user->zip,
                 'activated' => $new_user->activated,
                 'sex' => $new_user->sex
             ])->assertStatus(302);
 
-        $this->assertDatabaseHas('users',[
+        $this->assertDatabaseHas('users', [
             'email' => $new_user->email,
             'first_name' => $new_user->first_name,
             'last_name' => $new_user->last_name,
@@ -211,7 +222,7 @@ class UsersTest extends TestCase
             'website' => $new_user->website,
             'address' => $new_user->address,
             'city' => $new_user->city,
-            'state' =>  $new_user->state,
+            'state' => $new_user->state,
             'zip' => $new_user->zip,
             'activated' => $new_user->activated,
             'sex' => $new_user->sex
@@ -220,7 +231,8 @@ class UsersTest extends TestCase
 
 
     /** @test */
-    public function super_user_can_create_new_user() {
+    public function super_user_can_create_new_user()
+    {
         $user = factory(User::class)->create(['activated' => 1]);
         $role = Role::findByName('Super Admin');
 
@@ -230,7 +242,7 @@ class UsersTest extends TestCase
 
         $this->actingAs($user)
             ->from(route('users.create'))
-            ->post(route('users.store'),[
+            ->post(route('users.store'), [
                 'email' => $new_user->email,
                 'email_verified_at' => $new_user->email_verified_at,
                 'password' => 'secret',
@@ -244,13 +256,13 @@ class UsersTest extends TestCase
                 'website' => $new_user->website,
                 'address' => $new_user->address,
                 'city' => $new_user->city,
-                'state' =>  $new_user->state,
+                'state' => $new_user->state,
                 'zip' => $new_user->zip,
                 'activated' => $new_user->activated,
                 'sex' => $new_user->sex
             ])->assertStatus(302);
 
-        $this->assertDatabaseHas('users',[
+        $this->assertDatabaseHas('users', [
             'email' => $new_user->email,
             'first_name' => $new_user->first_name,
             'last_name' => $new_user->last_name,
@@ -259,7 +271,7 @@ class UsersTest extends TestCase
             'website' => $new_user->website,
             'address' => $new_user->address,
             'city' => $new_user->city,
-            'state' =>  $new_user->state,
+            'state' => $new_user->state,
             'zip' => $new_user->zip,
             'activated' => $new_user->activated,
             'sex' => $new_user->sex
@@ -267,14 +279,16 @@ class UsersTest extends TestCase
     }
 
     /** @test */
-    public function unauthorized_user_redirect_to_login_page_if_user_tries_to_go_user_edit_page() {
+    public function unauthorized_user_redirect_to_login_page_if_user_tries_to_go_user_edit_page()
+    {
         $user = factory(User::class)->create();
         $this->get(route('users.edit', ['user' => $user->id]))
             ->assertRedirect('login');
     }
 
     /** @test */
-    public function if_user_is_unauthorized_to_update_user_will_get_403_status_when_try_to_view_user_edit_page () {
+    public function if_user_is_unauthorized_to_update_user_will_get_403_status_when_try_to_view_user_edit_page()
+    {
         $user = factory(User::class)->create(['activated' => 1]);
         $role = Role::findByName('Admin');
         $permission = Permission::findByName('view_user');
@@ -290,7 +304,8 @@ class UsersTest extends TestCase
     }
 
     /** @test */
-    public function if_user_is_authorized_to_update_user_will_be_able_to_see_user_edit_page () {
+    public function if_user_is_authorized_to_update_user_will_be_able_to_see_user_edit_page()
+    {
         $user = factory(User::class)->create(['activated' => 1]);
         $role = Role::findByName('Admin');
         $permission = Permission::findByName('edit_user');
@@ -300,12 +315,13 @@ class UsersTest extends TestCase
 
         $another_user = factory(User::class)->create();
         $this->actingAs($user)
-            ->get(route('users.edit', ['user'=>$another_user->id]))
+            ->get(route('users.edit', ['user' => $another_user->id]))
             ->assertViewIs('users.edit');
     }
 
     /** @test */
-    public function if_user_is_authorized_to_update_user_then_he_is_able_to_update_the_user() {
+    public function if_user_is_authorized_to_update_user_then_he_is_able_to_update_the_user()
+    {
 
         $user = factory(User::class)->create(['activated' => 1]);
         $role = Role::findByName('Admin');
@@ -315,8 +331,8 @@ class UsersTest extends TestCase
         $new_user = factory(User::class)->make();
 
         $this->actingAs($user)
-            ->from(route('users.edit', ['users'=>$user->id]))
-            ->put(route('users.update', ['user'=>$user->id]), $new_user->toArray());
+            ->from(route('users.edit', ['users' => $user->id]))
+            ->put(route('users.update', ['user' => $user->id]), $new_user->toArray());
 
         $updated_user = User::findOrFail($user->id);
 
@@ -325,7 +341,8 @@ class UsersTest extends TestCase
 
 
     /** @test */
-    public function super_admin_can_update_user() {
+    public function super_admin_can_update_user()
+    {
         $users = factory(User::class, 10)->create();
 
         $id = $users[3]->id;
@@ -334,7 +351,7 @@ class UsersTest extends TestCase
         $user->first_name = $this->faker->firstName;
 
         $this->actingAs($this->user)
-            ->put(route('users.update', ['user'=> $user->id]), $user->toArray());
+            ->put(route('users.update', ['user' => $user->id]), $user->toArray());
 
         $updated_user = User::findOrFail($id);
 
@@ -342,45 +359,24 @@ class UsersTest extends TestCase
     }
 
     /** @test */
-    public function unauthenticated_user_redirect_to_login_page_when_they_try_to_delete_an_user_entry() {
-        $users = factory(User::class, 10)->create();
-
-        $this->delete(route('users.destroy', ['user'=> $users[3]]))
-            ->assertRedirect('login');
-    }
-
-    /** @test */
-    public function if_a_user_is_not_authorized_to_delete_entry_then_they_will_get_403_status() {
-        $user = factory(User::class)->create(['activated' => 1]);
-        $role = Role::findByName('Admin');
-        $permission = Permission::findByName('view_user');
-        $role->givePermissionTo($permission);
-
-        $user->assignRole($role);
-
-        $this->actingAs($user)
-            ->delete(route('users.destroy', ['user'=> $user->id]))
-            ->assertStatus(403);
-    }
-
-
-    /** @test */
-    public function user_cannot_be_created_without_first_name() {
+    public function user_cannot_be_created_without_first_name()
+    {
         $this->actingAs($this->user)
             ->from(route('users.create'))
             ->post(route('users.store'), [
                 'email' => 'john@email.com',
                 'password' => 'secret',
             ])
-        ->assertRedirect(route('users.create'))
-        ->assertSessionHasErrors('first_name');
+            ->assertRedirect(route('users.create'))
+            ->assertSessionHasErrors('first_name');
 
         $this->assertTrue(session()->hasOldInput('email'));
         $this->assertFalse(session()->hasOldInput('password'));
     }
 
     /** @test */
-    public function user_cannot_be_created_without_password() {
+    public function user_cannot_be_created_without_password()
+    {
         $this->actingAs($this->user)
             ->from(route('users.create'))
             ->post(route('users.store'), [
@@ -396,7 +392,8 @@ class UsersTest extends TestCase
     }
 
     /** @test */
-    public function user_cannot_be_created_without_email() {
+    public function user_cannot_be_created_without_email()
+    {
         $this->actingAs($this->user)
             ->from(route('users.create'))
             ->post(route('users.store'), [
@@ -411,32 +408,33 @@ class UsersTest extends TestCase
     }
 
     /** @test */
-    public function create_a_valid_user() {
+    public function create_a_valid_user()
+    {
 
         $user = factory(User::class)->make();
 
         $this->actingAs($this->user)
-            ->post(route('users.store'),[
-            'email' => $user->email,
-            'email_verified_at' => $user->email_verified_at,
-            'password' => 'secret',
-            'remember_token' => $user->remember_token,
-            'last_login' => $user->last_login,
-            'first_name' => $user->first_name,
-            'last_name' => $user->last_name,
-            'employee_num' => $user->employee_num,
-            'phone' => $user->phone,
-            'fax' => $user->fax,
-            'website' => $user->website,
-            'address' => $user->address,
-            'city' => $user->city,
-            'state' =>  $user->state,
-            'zip' => $user->zip,
-            'activated' => $user->activated,
-            'sex' => $user->sex
-        ])->assertStatus(302);
+            ->post(route('users.store'), [
+                'email' => $user->email,
+                'email_verified_at' => $user->email_verified_at,
+                'password' => 'secret',
+                'remember_token' => $user->remember_token,
+                'last_login' => $user->last_login,
+                'first_name' => $user->first_name,
+                'last_name' => $user->last_name,
+                'employee_num' => $user->employee_num,
+                'phone' => $user->phone,
+                'fax' => $user->fax,
+                'website' => $user->website,
+                'address' => $user->address,
+                'city' => $user->city,
+                'state' => $user->state,
+                'zip' => $user->zip,
+                'activated' => $user->activated,
+                'sex' => $user->sex
+            ])->assertStatus(302);
 
-        $this->assertDatabaseHas('users',[
+        $this->assertDatabaseHas('users', [
             'email' => $user['email'],
             'first_name' => $user['first_name'],
             'last_name' => $user['last_name']
@@ -444,7 +442,8 @@ class UsersTest extends TestCase
     }
 
     /** @test */
-    public function email_address_must_be_unique() {
+    public function email_address_must_be_unique()
+    {
 
         $email = $this->faker->unique()->safeEmail;
         $user1 = factory(User::class)->make([
@@ -462,14 +461,14 @@ class UsersTest extends TestCase
 
         $this->actingAs($this->user)
             ->from(route('users.create'))
-            ->post(route('users.store'),[
+            ->post(route('users.store'), [
                 'email' => $user1['email'],
                 'password' => $user1['password'],
                 'first_name' => $user1['first_name'],
                 'activated' => 1
             ]);
 
-        $this->assertDatabaseHas('users',[
+        $this->assertDatabaseHas('users', [
             'email' => $email,
             'first_name' => $user1['first_name']
         ]);
@@ -488,33 +487,68 @@ class UsersTest extends TestCase
         $this->assertTrue(session()->hasOldInput('email'));
         $this->assertFalse(session()->hasOldInput('password'));
 
-        $this->assertDatabaseMissing('users',[
+        $this->assertDatabaseMissing('users', [
             'email' => $email,
             'first_name' => $user2['first_name']
         ]);
     }
 
     /** @test */
-    public function user_can_be_deleted() {
+    public function user_can_be_deleted()
+    {
         $user = factory(User::class)->create();
 
         $this->actingAs($this->user)
-            ->delete(route('users.destroy', ['user'=>$user->id]));
+            ->delete(route('users.destroy', ['user' => $user->id]));
 
         $this->get(route('users.list'))
-            ->assertJson(["total"=>1]);
+            ->assertJson(["total" => 1]);
     }
 
     /** @test */
-    public function it_can_show_deleted_users() {
+    public function unauthenticated_user_redirect_to_login_page_when_they_try_to_delete_an_user_entry()
+    {
         $users = factory(User::class, 10)->create();
 
-        $id = $users[3]->id;
+        $this->delete(route('users.destroy', ['user' => $users[3]]))
+            ->assertRedirect('login');
+    }
 
-        $url = route('users.list').'?deleted=true';
+    /** @test */
+    public function if_a_user_is_not_authorized_to_delete_entry_then_they_will_get_403_status()
+    {
+        $user = factory(User::class)->create(['activated' => 1]);
+        $role = Role::findByName('Admin');
+        $permission = Permission::findByName('view_user');
+        $role->givePermissionTo($permission);
 
-        $this->actingAs($this->user)
-            ->delete(route('users.destroy',['user'=>$id]));
+        $user->assignRole($role);
+
+        $this->actingAs($user)
+            ->delete(route('users.destroy', ['user' => $user->id]))
+            ->assertStatus(403);
+    }
+
+    /** @test */
+    public function if_a_user_is_authorized_to_delete_user_enty_then_he_will_able_to_delete_user()
+    {
+        $users = factory(User::class, 10)->create(['activated' => 1]);
+        $role = Role::findByName('Admin');
+        $permission = Permission::findByName('delete_user');
+        $role->givePermissionTo($permission);
+
+        $users[0]->assignRole($role);
+
+        $this->actingAs($users[0])
+            ->delete(route('users.destroy', ['user' => $users[3]->id]));
+
+        $url = route('users.list') . '?deleted=true';
+
+        // Give permission to view user;
+        // without view user permission
+        // the user will not able to
+        // see deleted user
+        $role->givePermissionTo(Permission::findByName('view_user'));
 
         $this->get($url)
             ->assertJson(
@@ -542,13 +576,122 @@ class UsersTest extends TestCase
     }
 
     /** @test */
-    public function deleted_user_can_be_restored() {
+    public function it_can_show_deleted_users()
+    {
+        $users = factory(User::class, 10)->create();
+
+        $id = $users[3]->id;
+
+        $url = route('users.list') . '?deleted=true';
+
+        $this->actingAs($this->user)
+            ->delete(route('users.destroy', ['user' => $id]));
+
+        $this->get($url)
+            ->assertJson(
+                [
+                    "total" => 1,
+                    "rows" => [
+                        [
+                            "id" => $users[3]->id,
+                            "email" => $users[3]->email,
+                            "name" => $users[3]->fullName,
+                            "first_name" => $users[3]->first_name,
+                            "last_name" => $users[3]->last_name,
+                            "phone" => $users[3]->phone,
+                            "address" => $users[3]->address,
+                            "city" => $users[3]->city,
+                            "state" => $users[3]->state,
+                            "country" => $users[3]->country->name,
+                            "zip" => $users[3]->zip,
+                            "activated" => $users[3]->activated,
+                            "website" => $users[3]->website,
+                        ]
+                    ]
+                ]
+            );
+    }
+
+    /** @test */
+    public function if_a_user_is_not_authenticated_then_he_will_redirect_to_login_page_when_he_try_to_restore_user()
+    {
+        $user = factory(User::class)->create(['activated' => 1]);
+
+        $this->get(route('users.restore', ['user' => $user->id]))
+            ->assertRedirect('login');
+    }
+
+    /** @test */
+    public function if_the_user_is_unauthorized_to_restore_he_will_get_403_status_when_he_try_to_restore_deleted_user()
+    {
+        $user = factory(User::class)->create(['activated' => 1]);
+        $role = Role::findByName('Admin');
+        $permission = Permission::findByName('view_user');
+        $role->givePermissionTo($permission);
+
+        $users = factory(User::class, 10)->create();
+
+        $users[4]->delete();
+
+        $this->actingAs($user)
+            ->get(route('users.restore', ['user' => $users[4]->id]))->assertStatus(403);
+    }
+
+    /** @test */
+    public function if_a_user_is_authorized_then_he_will_be_able_to_restore_user()
+    {
+        $user = factory(User::class)->create(['activated' => 1]);
+        $role = Role::findByName('Admin');
+        $permission = Permission::findByName('restore_user');
+        $role->givePermissionTo($permission);
+        $user->assignRole($role);
+
+        $user_to_delete = factory(User::class)->create(['activated' => 1]);
+
+        $user_to_delete->delete();
+
+        $url = route('users.list') . '?deleted=true';
+
+        $role->givePermissionTo(Permission::findByName('view_user'));
+
+        $this->actingAs($user)
+            ->get($url)
+            ->assertJson([
+                "total" => 1,
+                "rows" => [
+                    [
+                        "id" => $user_to_delete->id,
+                        "email" => $user_to_delete->email,
+                        "name" => $user_to_delete->fullName,
+                        "first_name" => $user_to_delete->first_name,
+                        "last_name" => $user_to_delete->last_name,
+                        "phone" => $user_to_delete->phone,
+                        "address" => $user_to_delete->address,
+                        "city" => $user_to_delete->city,
+                        "state" => $user_to_delete->state,
+                        "country" => $user_to_delete->country->name,
+                        "zip" => $user_to_delete->zip,
+                        "activated" => $user_to_delete->activated,
+                        "website" => $user_to_delete->website,
+                    ]
+                ]
+            ]);
+
+        $this->get(route('users.restore', ['user' => $user_to_delete->id]));
+
+        $this->get(route('users.list'))->assertJson(['total' => '3']);
+
+    }
+
+    /** @test */
+    public function deleted_user_can_be_restored()
+    {
         $user = factory(User::class)->create();
 
         $this->actingAs($this->user)
-            ->delete(route('users.destroy', ['user'=>$user->id]));
+            ->delete(route('users.destroy', ['user' => $user->id]));
 
-        $url = route('users.list').'?deleted=true';
+        $url = route('users.list') . '?deleted=true';
 
         $this->get($url)
             ->assertJson([
@@ -572,28 +715,29 @@ class UsersTest extends TestCase
                 ]
             ]);
 
-        $this->get(route('users.restore', ['user'=>$user->id]));
+        $this->get(route('users.restore', ['user' => $user->id]));
 
         $this->get(route('users.list'))->assertJson(['total' => '2']);
     }
 
     /** @test */
-    public function it_can_bulk_delete_users() {
+    public function it_can_bulk_delete_users()
+    {
         $users = factory(User::class, 10)->create();
-        $ids=[];
+        $ids = [];
 
-        for($i=0; $i<5; $i++){
+        for ($i = 0; $i < 5; $i++) {
             array_push($ids, $users[$i]->id);
         }
 
         $this->actingAs($this->user)
-            ->post(route('users.bulkSave'),['ids'=>$ids]);
+            ->post(route('users.bulkSave'), ['ids' => $ids]);
 
         $this->get(route('users.list'))
-            ->assertJson(['total'=>6]);
+            ->assertJson(['total' => 6]);
 
 
-        $url = route('users.list').'?deleted=true';
+        $url = route('users.list') . '?deleted=true';
 
         $this->get($url)
             ->assertJson(
@@ -605,22 +749,23 @@ class UsersTest extends TestCase
     }
 
     /** @test */
-    public function it_can_bulk_delete_users_but_not_super_admin() {
+    public function it_can_bulk_delete_users_but_not_super_admin()
+    {
         $users = factory(User::class, 10)->create();
-        $ids=[1];
+        $ids = [1];
 
-        for($i=0; $i<5; $i++){
+        for ($i = 0; $i < 5; $i++) {
             array_push($ids, $users[$i]->id);
         }
 
         $this->actingAs($this->user)
-            ->post(route('users.bulkSave'),['ids'=>$ids]);
+            ->post(route('users.bulkSave'), ['ids' => $ids]);
 
         $this->get(route('users.list'))
-            ->assertJson(['total'=>6]);
+            ->assertJson(['total' => 6]);
 
 
-        $url = route('users.list').'?deleted=true';
+        $url = route('users.list') . '?deleted=true';
 
         $this->get($url)
             ->assertJson(
