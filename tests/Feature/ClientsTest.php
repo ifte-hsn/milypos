@@ -32,7 +32,7 @@ class ClientsTest extends TestCase
 
 
     /** @test */
-    public function unauthenticated_user_redirects_to_login_page_when_he_tries_to_access_cleint_index_page()
+    public function unauthenticated_user_redirects_to_login_page_when_he_tries_to_access_client_index_page()
     {
 
         $this->get(route('clients.index'))
@@ -40,7 +40,7 @@ class ClientsTest extends TestCase
     }
 
     /** @test */
-    public function user_can_not_see_client_index_page_if_he_is_not_authorized_to_view_user()
+    public function user_can_not_see_client_index_page_if_he_is_not_authorized_to_view_client()
     {
         $unauthorized_user = factory(User::class)->create(['activated' => 1]);
         $role = Role::findByName('Admin');
@@ -55,15 +55,15 @@ class ClientsTest extends TestCase
     /** @test */
     public function user_can_see_client_index_page_if_he_is_authorized_to_view_client()
     {
-        $unauthorized_user = factory(User::class)->create(['activated' => 1]);
+        $authorized_user = factory(User::class)->create(['activated' => 1]);
         $role = Role::findByName('Admin');
 
         $permission = Permission::findByName('view_client');
         $permission->assignRole($role);
 
-        $unauthorized_user->assignRole($role);
+        $authorized_user->assignRole($role);
 
-        $this->actingAs($unauthorized_user)
+        $this->actingAs($authorized_user)
             ->get(route('clients.index'))->assertViewIs('clients.index');
     }
 
@@ -90,7 +90,7 @@ class ClientsTest extends TestCase
     }
 
     /** @test */
-    public function if_the_user_is_authorized_to_view_client_will_able_to_view_client_list_when_trying_to_client_user_list()
+    public function if_the_user_is_authorized_to_view_client_will_be_able_to_view_client_list()
     {
         $user = factory(User::class)->create(['activated' => 1]);
         $role = Role::findByName('Admin');
@@ -168,8 +168,8 @@ class ClientsTest extends TestCase
         $user = factory(User::class)->create(['activated' => 1]);
         $role = Role::findByName('Admin');
 
-        $permissin = Permission::findByName('view_user');
-        $role->givePermissionTo($permissin);
+        $permission = Permission::findByName('view_user');
+        $role->givePermissionTo($permission);
 
         $user->assignRole($role);
 
@@ -267,11 +267,84 @@ class ClientsTest extends TestCase
     }
 
     /** @test */
-    public function unauthorized_user_redirect_to_login_page_if_user_tries_to_go_user_edit_page()
+    public function unauthorized_user_redirect_to_login_page_if_user_tries_to_go_client_edit_page()
     {
-        $user = factory(User::class)->create();
-        $this->get(route('users.edit', ['user' => $user->id]))
+        $client = factory(Client::class)->create();
+        $this->get(route('clients.edit', ['client' => $client->id]))
             ->assertRedirect('login');
     }
 
+    /** @test */
+    public function if_user_is_unauthorized_to_update_client_will_get_403_status_when_try_to_view_client_edit_page()
+    {
+        $user = factory(User::class)->create(['activated' => 1]);
+        $role = Role::findByName('Admin');
+        $permission = Permission::findByName('view_user');
+        $role->givePermissionTo($permission);
+
+        $user->assignRole($role);
+
+        $client = factory(Client::class)->create();
+
+        $this->actingAs($user)
+            ->get(route('clients.edit', ['client' => $client->id]))
+            ->assertStatus(403);
+    }
+
+    /** @test */
+    public function if_user_is_authorized_to_update_client_will_be_able_to_see_client_edit_page()
+    {
+        $user = factory(User::class)->create(['activated' => 1]);
+        $role = Role::findByName('Admin');
+        $permission = Permission::findByName('edit_client');
+        $role->givePermissionTo($permission);
+
+        $user->assignRole($role);
+
+        $client = factory(Client::class)->create();
+        $this->actingAs($user)
+            ->get(route('clients.edit', ['client' => $client->id]))
+            ->assertViewIs('clients.edit');
+    }
+
+    /** @test */
+    public function if_user_is_authorized_to_update_client_then_he_will_be_able_to_update_clients()
+    {
+        $user = factory(User::class)->create(['activated' => 1]);
+        $role = Role::findByName('Admin');
+        $permission = Permission::findByName('edit_client');
+        $role->givePermissionTo($permission);
+
+        $user->assignRole($role);
+
+        $clients = factory(Client::class, 10)->create();
+
+        // Get the client which we will update
+        $client = $clients[5];
+        $client->first_name = 'John Doe';
+
+        $this->actingAs($user)
+            ->from(route('clients.edit', ['client' => $client->id]))
+            ->put(route('clients.update', ['client'=>$client->id]), $client->toArray());
+
+        $updated_client = Client::findOrFail($clients[5]->id);
+
+        $this->assertEquals($updated_client->first_name, $client->first_name);
+    }
+
+    /** @test */
+    public function super_admin_can_update_client()
+    {
+        $clients = factory(Client::class, 10)->create();
+
+        $client = $clients[3];
+        $first_name = $this->faker->firstName;
+        $client->first_name = $first_name;
+
+        $this->actingAs($this->superAdmin)
+            ->put(route('clients.update', ['client' => $client->id]), $client->toArray());
+
+        $updated_client = Client::findOrFail($client->id);
+        $this->assertEquals($first_name, $updated_client->first_name);
+    }
 }

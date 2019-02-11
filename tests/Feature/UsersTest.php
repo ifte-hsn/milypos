@@ -231,7 +231,7 @@ class UsersTest extends TestCase
 
 
     /** @test */
-    public function super_user_can_create_new_user()
+    public function super_admin_can_create_new_user()
     {
         $user = factory(User::class)->create(['activated' => 1]);
         $role = Role::findByName('Super Admin');
@@ -328,15 +328,13 @@ class UsersTest extends TestCase
         $permission = Permission::findByName('edit_user');
         $role->givePermissionTo($permission);
 
-        $new_user = factory(User::class)->make();
-
+        $new_user = factory(User::class)->create(['activated' => 1]);
         $this->actingAs($user)
-            ->from(route('users.edit', ['users' => $user->id]))
-            ->put(route('users.update', ['user' => $user->id]), $new_user->toArray());
+            ->from(route('users.edit', ['user' => $new_user->id]))
+            ->put(route('users.update', ['user' => $new_user->id]), factory(User::class)->make(['activated' => 1])->toArray());
 
-        $updated_user = User::findOrFail($user->id);
-
-        $this->assertEquals($new_user->first_name, $updated_user->first_name);
+        $updated_user = User::findOrFail($new_user->id);
+        $this->assertEquals($updated_user->first_name, $new_user->first_name);
     }
 
 
