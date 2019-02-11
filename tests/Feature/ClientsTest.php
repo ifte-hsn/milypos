@@ -5,14 +5,14 @@ namespace Tests\Feature;
 
 use App\Models\Client;
 use App\Models\User;
+use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Faker\Factory as FakerFactory;
 use Tests\TestCase;
 
 class ClientsTest extends TestCase
 {
-    private $user;
-    private $role;
+    private $superAdmin;
     private $faker;
 
     public function setUp()
@@ -20,200 +20,89 @@ class ClientsTest extends TestCase
         parent::setUp();
 
 
-        $this->user = factory(User::class)->create(['activated' => 1]);
+        $this->superAdmin = factory(User::class)->create(['activated' => 1]);
 
         // Only super admin can access all the features
         // so for the time being we will assign Super Admin
         // Role to the user. To test other role and their
         // permissions we have separate test.
-        $this->user->assignRole(Role::findByName('Super Admin'));
+        $this->superAdmin->assignRole(Role::findByName('Super Admin'));
         $this->faker = FakerFactory::create();
     }
 
+
     /** @test */
-    public function an_authenticated_user_can_see_user_list()
+    public function unauthenticated_user_redirects_to_login_page_when_he_tries_to_access_cleint_index_page()
     {
-        $client = factory(Client::class)->create();
 
-        $this->actingAs($this->user)
-            ->get(route('clients.list'))
-            ->assertJson([
-                'total' => '1',
-                "rows" => [
-                    [
-                        "id" => $client->id,
-                        "email" => $client->email,
-                        "name" => $client->fullName,
-                        "first_name" => $client->first_name,
-                        "last_name" => $client->last_name,
-                        "sex" => $client->sex,
-                        "phone" => $client->phone,
-                        "address" => $client->address,
-                        "city" => $client->city,
-                        "state" => $client->state,
-                        "zip" => $client->zip,
-                        "shopping" => $client->shopping,
-                    ]
-                ]
-            ]);
+        $this->get(route('clients.index'))
+            ->assertRedirect('login');
     }
 
     /** @test */
-    public function client_cannot_be_created_without_first_name() {
-        $this->actingAs($this->user)
-            ->from(route('clients.create'))
-            ->post(route('clients.store'), [
-                'email' => 'john@email.com'
-            ])
-            ->assertRedirect(route('clients.create'))
-            ->assertSessionHasErrors('first_name');
+    public function user_can_not_see_client_index_page_if_he_is_not_authorized_to_view_user()
+    {
+        $unauthorized_user = factory(User::class)->create(['activated' => 1]);
+        $role = Role::findByName('Admin');
+        $unauthorized_user->assignRole($role);
 
-        $this->assertTrue(session()->hasOldInput('email'));
-    }
-
-    /** @test */
-    public function client_cannot_be_created_without_email() {
-        $this->actingAs($this->user)
-            ->from(route('clients.create'))
-            ->post(route('clients.store'), [
-                'first_name' => 'John Doe',
-            ])
-            ->assertRedirect(route('clients.create'))
-            ->assertSessionHasErrors('email');
-
-        $this->assertTrue(session()->hasOldInput('first_name'));
+        $this->actingAs($unauthorized_user)
+            ->get(route('clients.index'))
+            ->assertStatus(403);
     }
 
 
     /** @test */
-    public function create_a_valid_client() {
+    public function user_can_see_client_index_page_if_he_is_authorized_to_view_client()
+    {
+        $unauthorized_user = factory(User::class)->create(['activated' => 1]);
+        $role = Role::findByName('Admin');
 
-        $client = factory(Client::class)->make();
+        $permission = Permission::findByName('view_client');
+        $permission->assignRole($role);
 
-        $this->actingAs($this->user)
-            ->post(route('clients.store'),[
-                'email' => $client->email,
-                'first_name' => $client->first_name,
-                'last_name' => $client->last_name,
-                'phone' => $client->phone,
-                'address' => $client->address,
-                'city' => $client->city,
-                'state' =>  $client->state,
-                'zip' => $client->zip,
-                'sex' => $client->sex,
-                'last_purchase' => $client->last_purchase,
-                'shopping' => $client->shopping,
-                'dob' => $client->dob,
-            ])->assertStatus(302);
+        $unauthorized_user->assignRole($role);
 
-        $this->assertDatabaseHas('clients',[
-            'email' => $client['email'],
-            'first_name' => $client['first_name'],
-            'last_name' => $client['last_name']
-        ]);
+        $this->actingAs($unauthorized_user)
+            ->get(route('clients.index'))->assertViewIs('clients.index');
     }
 
     /** @test */
-    public function email_address_must_be_unique() {
-
-        $email = $this->faker->unique()->safeEmail;
-        $client1 = factory(User::class)->make([
-            'first_name' => $this->faker->firstName,
-            'email' => $email,
-        ]);
-
-
-        $client2 = factory(User::class)->make([
-            'first_name' => $this->faker->firstName,
-            'email' => $email,
-        ]);
-
-        $this->actingAs($this->user)
-            ->from(route('clients.create'))
-            ->post(route('clients.store'),[
-                'email' => $client1['email'],
-                'first_name' => $client1['first_name'],
-            ]);
-
-        $this->assertDatabaseHas('clients',[
-            'email' => $email,
-            'first_name' => $client1['first_name']
-        ]);
-//
-        $this->from(route('clients.create'))
-            ->post(route('clients.store'), [
-                'email' => $client2['email'],
-                'first_name' => $client2['first_name'],
-            ])
-            ->assertRedirect(route('clients.create'));
-
-
-        $this->assertTrue(session()->hasOldInput('first_name'));
-        $this->assertTrue(session()->hasOldInput('email'));
-
-        $this->assertDatabaseMissing('clients',[
-            'email' => $email,
-            'first_name' => $client2['first_name']
-        ]);
-    }
-
-    /** @test */
-    public function a_client_can_be_deleted() {
-        $client = factory(Client::class)->create();
-
-        $this->actingAs($this->user)
-            ->delete(route('clients.destroy', ['client'=>$client->id]));
-
+    public function unauthenticated_user_redirect_to_login_page_when_try_to_see_clients_list()
+    {
         $this->get(route('clients.list'))
-            ->assertJson(["total"=>0]);
+            ->assertRedirect('login');
     }
 
     /** @test */
-    public function it_can_show_deleted_clients() {
-        $clients = factory(Client::class, 10)->create();
+    public function if_the_user_is_unauthorized_to_view_client_will_get_403_status_when_trying_to_view_client_list()
+    {
+        $user = factory(User::class)->create(['activated' => 1]);
+        $role = Role::findByName('Admin');
+        $user->assignRole($role);
 
-        $id = $clients[3]->id;
+        $permission = Permission::findByName('view_user');
+        $role->givePermissionTo($permission);
 
-        $url = route('clients.list').'?deleted=true';
-
-        $this->actingAs($this->user)
-            ->delete(route('clients.destroy',['client'=>$id]));
-
-        $this->get($url)
-            ->assertJson(
-                [
-                    "total" => 1,
-                    "rows" => [
-                        [
-                            "id" => $clients[3]->id,
-                            "email" => $clients[3]->email,
-                            "name" => $clients[3]->fullName,
-                            "first_name" => $clients[3]->first_name,
-                            "last_name" => $clients[3]->last_name,
-                            "phone" => $clients[3]->phone,
-                            "address" => $clients[3]->address,
-                            "city" => $clients[3]->city,
-                            "state" => $clients[3]->state,
-                            "country" => $clients[3]->country->name,
-                            "zip" => $clients[3]->zip,
-                        ]
-                    ]
-                ]
-            );
+        $this->actingAs($user)
+            ->get(route('clients.list'))
+            ->assertStatus(403);
     }
 
     /** @test */
-    public function deleted_client_can_be_restored() {
-        $clients = factory(Client::class, 4)->create();
+    public function if_the_user_is_authorized_to_view_client_will_able_to_view_client_list_when_trying_to_client_user_list()
+    {
+        $user = factory(User::class)->create(['activated' => 1]);
+        $role = Role::findByName('Admin');
+        $user->assignRole($role);
 
-        $client = $clients[2];
+        $permission = Permission::findByName('view_client');
+        $role->givePermissionTo($permission);
 
-        $this->actingAs($this->user)
-            ->delete(route('clients.destroy', ['client'=>$client->id]));
+        $client = factory(Client::class)->create();
 
-        $url = route('clients.list').'?deleted=true';
-
-        $this->get($url)
+        $this->actingAs($user)
+            ->get(route('clients.list'))
             ->assertJson([
                 "total" => 1,
                 "rows" => [
@@ -229,63 +118,160 @@ class ClientsTest extends TestCase
                         "state" => $client->state,
                         "country" => $client->country->name,
                         "zip" => $client->zip,
+                        'sex' => $client->sex,
+                        'shopping' => $client->shopping,
                     ]
                 ]
             ]);
-
-        $this->get(route('clients.list'))->assertJson(['total' => '3']);
-
-        $this->get(route('clients.restore', ['client'=>$client->id]));
-
-        $this->get(route('clients.list'))->assertJson(['total' => '4']);
     }
 
 
     /** @test */
-    public function it_can_update_client_info() {
-        $clients = factory(Client::class, 10)->create();
+    public function super_admin_can_see_client_list()
+    {
+        $client = factory(Client::class)->create();
 
-
-        $id = $clients[3]->id;
-        $client = Client::findOrFail($id);
-
-        $client->first_name = $this->faker->firstName;
-
-        $this->actingAs($this->user)
-            ->put(route('clients.update', ['client'=> $client->id]), $client->toArray());
-
-        $updated_user = Client::findOrFail($id);
-
-        $this->assertEquals($client->first_name, $updated_user->first_name);
-
-    }
-
-
-    /** @test */
-    public function it_can_bulk_delete_clients() {
-        $clients = factory(Client::class, 10)->create();
-        $ids=[];
-
-        for($i=0; $i<6; $i++){
-            array_push($ids, $clients[$i]->id);
-        }
-
-        $this->actingAs($this->user)
-            ->post(route('clients.bulkSave'),['ids'=>$ids]);
-
-        $this->get(route('clients.list'))
-            ->assertJson(['total'=>4]);
-
-
-        $url = route('clients.list').'?deleted=true';
-
-        $this->get($url)
-            ->assertJson(
-                [
-                    "total" => 6,
+        $this->actingAs($this->superAdmin)
+            ->get(route('clients.list'))
+            ->assertJson([
+                "total" => 1,
+                "rows" => [
+                    [
+                        "id" => $client->id,
+                        "email" => $client->email,
+                        "name" => $client->fullName,
+                        "first_name" => $client->first_name,
+                        "last_name" => $client->last_name,
+                        "phone" => $client->phone,
+                        "address" => $client->address,
+                        "city" => $client->city,
+                        "state" => $client->state,
+                        "country" => $client->country->name,
+                        "zip" => $client->zip,
+                        'sex' => $client->sex,
+                        'shopping' => $client->shopping,
+                    ]
                 ]
-            );
+            ]);
+    }
 
+    /** @test */
+    public function unauthenticated_user_will_redirect_to_login_page_if_he_tries_to_go_client_create_page()
+    {
+        $this->get(route('clients.create'))
+            ->assertRedirect('login');
+    }
+
+    /** @test */
+    public function if_user_is_unauthorized_to_create_new_client_then_he_will_get_403_status_when_he_tries_to_visit_client_create_page()
+    {
+        $user = factory(User::class)->create(['activated' => 1]);
+        $role = Role::findByName('Admin');
+
+        $permissin = Permission::findByName('view_user');
+        $role->givePermissionTo($permissin);
+
+        $user->assignRole($role);
+
+        $this->actingAs($user)
+            ->get(route('clients.create'))
+            ->assertStatus(403);
+    }
+
+
+    /** @test */
+    public function if_a_user_is_authorized_to_create_new_client_then_he_is_able_to_create_new_client()
+    {
+        $user = factory(User::class)->create(['activated' => 1]);
+        $role = Role::findByName('Admin');
+
+        $permission = Permission::findByName('add_client');
+        $role->givePermissionTo($permission);
+
+        $user->assignRole($role);
+
+        $client = factory(Client::class)->make();
+
+        $this->actingAs($user)
+            ->from(route('clients.create'))
+            ->post(route('clients.store'), [
+                'email' => $client->email,
+                'first_name' => $client->first_name,
+                'last_name' => $client->last_name,
+                'sex' => $client->sex,
+                'phone' => $client->phone,
+                'address' => $client->address,
+                'city' => $client->city,
+                'state' => $client->state,
+                'zip' => $client->zip,
+                'shopping' => $client->shopping,
+                'last_purchase' => $client->last_purchase,
+                'dob' => $client->dob,
+                'country' => $client->country->id,
+            ])->assertStatus(302);
+
+        $this->assertDatabaseHas('clients', [
+            'email' => $client->email,
+            'first_name' => $client->first_name,
+            'last_name' => $client->last_name,
+            'sex' => $client->sex,
+            'phone' => $client->phone,
+            'address' => $client->address,
+            'city' => $client->city,
+            'state' => $client->state,
+            'zip' => $client->zip,
+            'country_id' => $client->country->id,
+        ]);
+    }
+
+    /** @test */
+    public function super_user_can_create_new_client()
+    {
+        $user = factory(User::class)->create(['activated' => 1]);
+        $role = Role::findByName('Super Admin');
+
+        $user->assignRole($role);
+
+        $client = factory(Client::class)->make();
+
+        $this->actingAs($user)
+            ->from(route('clients.create'))
+            ->post(route('clients.store'), [
+                'email' => $client->email,
+                'first_name' => $client->first_name,
+                'last_name' => $client->last_name,
+                'sex' => $client->sex,
+                'phone' => $client->phone,
+                'address' => $client->address,
+                'city' => $client->city,
+                'state' => $client->state,
+                'zip' => $client->zip,
+                'shopping' => $client->shopping,
+                'last_purchase' => $client->last_purchase,
+                'dob' => $client->dob,
+                'country' => $client->country->id,
+            ])->assertStatus(302);
+
+        $this->assertDatabaseHas('clients', [
+            'email' => $client->email,
+            'first_name' => $client->first_name,
+            'last_name' => $client->last_name,
+            'sex' => $client->sex,
+            'phone' => $client->phone,
+            'address' => $client->address,
+            'city' => $client->city,
+            'state' => $client->state,
+            'zip' => $client->zip,
+            'country_id' => $client->country->id,
+        ]);
+    }
+
+    /** @test */
+    public function unauthorized_user_redirect_to_login_page_if_user_tries_to_go_user_edit_page()
+    {
+        $user = factory(User::class)->create();
+        $this->get(route('users.edit', ['user' => $user->id]))
+            ->assertRedirect('login');
     }
 
 }

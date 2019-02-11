@@ -11,7 +11,7 @@ use Tests\TestCase;
 class UsersTest extends TestCase
 {
 
-    private $user;
+    private $superAdmin;
     private $faker;
 
     public function setUp()
@@ -19,22 +19,22 @@ class UsersTest extends TestCase
         parent::setUp();
 
 
-        $this->user = factory(User::class)->create(['activated' => 1]);
+        $this->superAdmin = factory(User::class)->create(['activated' => 1]);
 
         // Only super admin can access all the features
         // so for the time being we will assign Super Admin
         // Role to the user. To test other role and their
         // permissions we have separate test.
-        $this->user->assignRole(Role::findByName('Super Admin'));
+        $this->superAdmin->assignRole(Role::findByName('Super Admin'));
         $this->faker = FakerFactory::create();
     }
 
     /** @test */
     public function site_header_shows_authenticated_users_fullname()
     {
-        $this->actingAs($this->user)
+        $this->actingAs($this->superAdmin)
             ->get('/')
-            ->assertSee($this->user->fullName);
+            ->assertSee($this->superAdmin->fullName);
     }
 
     /** @test */
@@ -93,7 +93,7 @@ class UsersTest extends TestCase
             ->assertStatus(403);
     }
 
-    public function if_the_user_is_authorized_to_view_user_will_able_to_view_user_list_then_trying_to_view_user_list()
+    public function if_the_user_is_authorized_to_view_user_will_able_to_view_user_list_when_trying_to_view_user_list()
     {
         $user = factory(User::class)->create(['activated' => 1]);
         $role = Role::findByName('Admin');
@@ -130,25 +130,25 @@ class UsersTest extends TestCase
     /** @test */
     public function super_admin_can_see_user_list()
     {
-        $this->actingAs($this->user)
+        $this->actingAs($this->superAdmin)
             ->get(route('users.list'))
             ->assertJson([
                 "total" => 1,
                 "rows" => [
                     [
-                        "id" => $this->user->id,
-                        "email" => $this->user->email,
-                        "name" => $this->user->fullName,
-                        "first_name" => $this->user->first_name,
-                        "last_name" => $this->user->last_name,
-                        "phone" => $this->user->phone,
-                        "address" => $this->user->address,
-                        "city" => $this->user->city,
-                        "state" => $this->user->state,
-                        "country" => $this->user->country->name,
-                        "zip" => $this->user->zip,
-                        "activated" => $this->user->activated,
-                        "website" => $this->user->website,
+                        "id" => $this->superAdmin->id,
+                        "email" => $this->superAdmin->email,
+                        "name" => $this->superAdmin->fullName,
+                        "first_name" => $this->superAdmin->first_name,
+                        "last_name" => $this->superAdmin->last_name,
+                        "phone" => $this->superAdmin->phone,
+                        "address" => $this->superAdmin->address,
+                        "city" => $this->superAdmin->city,
+                        "state" => $this->superAdmin->state,
+                        "country" => $this->superAdmin->country->name,
+                        "zip" => $this->superAdmin->zip,
+                        "activated" => $this->superAdmin->activated,
+                        "website" => $this->superAdmin->website,
                     ]
                 ]
             ]);
@@ -350,7 +350,7 @@ class UsersTest extends TestCase
 
         $user->first_name = $this->faker->firstName;
 
-        $this->actingAs($this->user)
+        $this->actingAs($this->superAdmin)
             ->put(route('users.update', ['user' => $user->id]), $user->toArray());
 
         $updated_user = User::findOrFail($id);
@@ -361,7 +361,7 @@ class UsersTest extends TestCase
     /** @test */
     public function user_cannot_be_created_without_first_name()
     {
-        $this->actingAs($this->user)
+        $this->actingAs($this->superAdmin)
             ->from(route('users.create'))
             ->post(route('users.store'), [
                 'email' => 'john@email.com',
@@ -377,7 +377,7 @@ class UsersTest extends TestCase
     /** @test */
     public function user_cannot_be_created_without_password()
     {
-        $this->actingAs($this->user)
+        $this->actingAs($this->superAdmin)
             ->from(route('users.create'))
             ->post(route('users.store'), [
                 'first_name' => 'John Doe',
@@ -394,7 +394,7 @@ class UsersTest extends TestCase
     /** @test */
     public function user_cannot_be_created_without_email()
     {
-        $this->actingAs($this->user)
+        $this->actingAs($this->superAdmin)
             ->from(route('users.create'))
             ->post(route('users.store'), [
                 'first_name' => 'John Doe',
@@ -413,7 +413,7 @@ class UsersTest extends TestCase
 
         $user = factory(User::class)->make();
 
-        $this->actingAs($this->user)
+        $this->actingAs($this->superAdmin)
             ->post(route('users.store'), [
                 'email' => $user->email,
                 'email_verified_at' => $user->email_verified_at,
@@ -459,7 +459,7 @@ class UsersTest extends TestCase
             'password' => bcrypt('secret'),
         ]);
 
-        $this->actingAs($this->user)
+        $this->actingAs($this->superAdmin)
             ->from(route('users.create'))
             ->post(route('users.store'), [
                 'email' => $user1['email'],
@@ -498,7 +498,7 @@ class UsersTest extends TestCase
     {
         $user = factory(User::class)->create();
 
-        $this->actingAs($this->user)
+        $this->actingAs($this->superAdmin)
             ->delete(route('users.destroy', ['user' => $user->id]));
 
         $this->get(route('users.list'))
@@ -584,7 +584,7 @@ class UsersTest extends TestCase
 
         $url = route('users.list') . '?deleted=true';
 
-        $this->actingAs($this->user)
+        $this->actingAs($this->superAdmin)
             ->delete(route('users.destroy', ['user' => $id]));
 
         $this->get($url)
@@ -688,7 +688,7 @@ class UsersTest extends TestCase
     {
         $user = factory(User::class)->create();
 
-        $this->actingAs($this->user)
+        $this->actingAs($this->superAdmin)
             ->delete(route('users.destroy', ['user' => $user->id]));
 
         $url = route('users.list') . '?deleted=true';
@@ -730,7 +730,7 @@ class UsersTest extends TestCase
             array_push($ids, $users[$i]->id);
         }
 
-        $this->actingAs($this->user)
+        $this->actingAs($this->superAdmin)
             ->post(route('users.bulkSave'), ['ids' => $ids]);
 
         $this->get(route('users.list'))
@@ -758,7 +758,7 @@ class UsersTest extends TestCase
             array_push($ids, $users[$i]->id);
         }
 
-        $this->actingAs($this->user)
+        $this->actingAs($this->superAdmin)
             ->post(route('users.bulkSave'), ['ids' => $ids]);
 
         $this->get(route('users.list'))
