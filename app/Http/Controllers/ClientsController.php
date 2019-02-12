@@ -98,7 +98,6 @@ class ClientsController extends Controller
             'country_id'              => 'nullable|integer|exists:countries,id',
         ]);
 
-
         $client = new Client();
 
         $client->email = $request->input('email');
@@ -281,7 +280,7 @@ class ClientsController extends Controller
      */
     public function getRestore($id = null)
     {
-        $this->authorize('restore_clint', Client::class);
+        $this->authorize('restore_client', Client::class);
 
         if(!$client = Client::onlyTrashed()->find($id)) {
             return redirect()->route('clients.index')->with('error', __('clients/message.client_not_found', ['id'=>$id]));
