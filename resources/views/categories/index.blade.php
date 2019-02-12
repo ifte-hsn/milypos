@@ -20,25 +20,25 @@
             <div class="pull-right">
 
                 @can('add_category')
-                    <a href="{{ route('category.create') }}" class="btn btn-info"><i class="fa fa-plus"></i> {{ __('general.create_new') }}</a>
+                    <a href="{{ route('categories.create') }}" class="btn btn-info"><i class="fa fa-plus"></i> {{ __('general.create_new') }}</a>
                 @endcan
 
                 @can('view_category')
                     @if (Input::get('status')=='deleted')
-                        <a href="{{ route('category.index') }}" class="btn btn-default"><i class="fa fa-th"></i> {{ __('general.show_current_categories') }}</a>
+                        <a href="{{ route('categories.index') }}" class="btn btn-default"><i class="fa fa-th"></i> {{ __('general.show_current_categories') }}</a>
                     @else
-                        <a href="{{ route('category.index', ['status' => 'deleted']) }}" class="btn btn-default"><i class="fa fa-trash"></i> {{ __('general.show_deleted_categories') }}</a>
+                        <a href="{{ route('categories.index', ['status' => 'deleted']) }}" class="btn btn-default"><i class="fa fa-trash"></i> {{ __('general.show_deleted_categories') }}</a>
                     @endif
                 @endcan
 
                 @can('export_categoreis')
-                    <a href="{{ route('category.csv.export') }}" class="btn btn-default"><i class="fa fa-download"></i> {{ __('general.export') }}</a>
+                    <a href="{{ route('categories.csv.export') }}" class="btn btn-default"><i class="fa fa-download"></i> {{ __('general.export') }}</a>
                 @endcan
 
             </div><!-- pull-right -->
         </div>
         <div class="box-body">
-            <form action="{{ route('category.bulkedit') }}" class="form-inline" method="POST" id="bulkForm">
+            <form action="{{ route('categories.bulkedit') }}" class="form-inline" method="POST" id="bulkForm">
                 @csrf
                 @if(Input::get('status') != 'deleted')
 

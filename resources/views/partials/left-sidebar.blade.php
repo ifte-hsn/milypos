@@ -102,7 +102,7 @@
                 ]) || Auth::user()->hasRole('Super Admin')
             )
                 <li {!! (Request::is('categories*') ? 'class="active"':'') !!}>
-                    <a href="{{ route('category.index') }}">
+                    <a href="{{ route('categories.index') }}">
                         <i class="fa fa-th"></i>
                         <span>{{ __('menu.categories') }}</span>
                     </a>

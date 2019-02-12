@@ -126,7 +126,7 @@ class CategoriesController extends Controller
 
         try {
             if ($category->save()) {
-                return redirect()->route('category.index')->with('success', __('categories/message.create.success'));
+                return redirect()->route('categories.index')->with('success', __('categories/message.create.success'));
             }
         } catch (\Exception $e) {
             return redirect()->back()->with('error', __('categories/message.error.create'));
@@ -147,7 +147,7 @@ class CategoriesController extends Controller
     {
         $this->authorize('view_category', Category::class);
 
-        return Redirect::route('category.edit', ['id' => $id]);
+        return Redirect::route('categories.edit', ['id' => $id]);
     }
 
     /**
@@ -166,7 +166,7 @@ class CategoriesController extends Controller
         }
 
         $error = __('categories/message.category_not_found', compact('id'));
-        return redirect()->route('category.index')->with('error', $error);
+        return redirect()->route('categories.index')->with('error', $error);
     }
 
     /**
@@ -189,7 +189,7 @@ class CategoriesController extends Controller
         try{
             $category = Category::findOrFail($id);
         } catch(ModelNotFoundException $ex) {
-            return redirect()->route('category.index')
+            return redirect()->route('categories.index')
                 ->with('error', __('categories/message.category_not_found', compact('id')));
         }
 
@@ -226,7 +226,7 @@ class CategoriesController extends Controller
 
         try {
             if ($category->save()) {
-                return redirect()->route('category.index')->with('success', __('categories/message.create.success'));
+                return redirect()->route('categories.index')->with('success', __('categories/message.create.success'));
             }
         } catch (\Exception $e) {
             return redirect()->back()->with('error', __('categories/message.error.update'));
@@ -252,12 +252,12 @@ class CategoriesController extends Controller
             // Prepare the success message
             $success = __('categories/message.success.delete');
 
-            return redirect()->route('category.index')->with('success', $success);
+            return redirect()->route('categories.index')->with('success', $success);
         } catch (ModelNotFoundException $e) {
             // Prepare the error message
             $error = __('categories/message.category_not_found', compact('id'));
             // Redirect to the user management page
-            return redirect()->route('category.index')->with('error', $error);
+            return redirect()->route('categories.index')->with('error', $error);
         }
     }
 
@@ -272,14 +272,14 @@ class CategoriesController extends Controller
         $this->authorize('restore_category', Category::class);
 
         if(!$category = Category::onlyTrashed()->find($id)) {
-            return redirect()->route('category.index')->with('error', __('category/message.category_not_found', ['id'=>$id]));
+            return redirect()->route('categories.index')->with('error', __('category/message.category_not_found', ['id'=>$id]));
         }
 
         if ($category->withTrashed()->where('id', $id)->restore()) {
-            return redirect()->route('category.index')->with('success', __('category/message.success.restored'));
+            return redirect()->route('categories.index')->with('success', __('category/message.success.restored'));
         }
 
-        return redirect()->route('category.index')->with('error', __('category/message.error.could_not_restore'));
+        return redirect()->route('categories.index')->with('error', __('category/message.error.could_not_restore'));
     }
 
     /**
@@ -315,7 +315,7 @@ class CategoriesController extends Controller
         $this->authorize('bulk_delete_categories', Category::class);
 
         if (!$request->has('ids') || count($request->input('ids')) == 0 ) {
-            return redirect()->route('category.index')->with('error', __('categories/message.no_category_selected'));
+            return redirect()->route('categories.index')->with('error', __('categories/message.no_category_selected'));
         } else {
             $categories_raw_array = Input::get('ids');
 
@@ -325,7 +325,7 @@ class CategoriesController extends Controller
                 $category->delete();
             }
 
-            return redirect()->route('category.index')->with('success', __('categories/message.success.selected_user_deleted'));
+            return redirect()->route('categories.index')->with('success', __('categories/message.success.selected_user_deleted'));
         }
     }
 

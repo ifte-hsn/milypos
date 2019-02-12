@@ -26,18 +26,18 @@ Route::middleware(['auth'])->group(function () {
      * Categories Routes
      */
     Route::prefix('categories')->group(function () {
-        Route::get('/', 'CategoriesController@index')->name('category.index');
-        Route::post('/', 'CategoriesController@store')->name('category.store');
-        Route::post('bulkSave', 'CategoriesController@postBulkSave')->name('category.bulkSave');
-        Route::post('bulkedit', 'CategoriesController@postBulkEdit')->name('category.bulkedit'); // need to check if we really need this
-        Route::get('create', 'CategoriesController@create')->name('category.create');
-        Route::get('export', 'CategoriesController@exportAsCsv')->name('category.csv.export');
+        Route::get('/', 'CategoriesController@index')->name('categories.index');
+        Route::post('/', 'CategoriesController@store')->name('categories.store');
+        Route::post('bulkSave', 'CategoriesController@postBulkSave')->name('categories.bulkSave');
+        Route::post('bulkedit', 'CategoriesController@postBulkEdit')->name('categories.bulkedit'); // need to check if we really need this
+        Route::get('create', 'CategoriesController@create')->name('categories.create');
+        Route::get('export', 'CategoriesController@exportAsCsv')->name('categories.csv.export');
         Route::get('getCategoriesList', 'CategoriesController@getCategoriesList')->name('categories.list');
-        Route::get('{id}/restore', 'CategoriesController@restore')->name('category.restore');
-        Route::delete('{id}', 'CategoriesController@destroy')->name('category.destroy');
-        Route::match(['put', 'patch'], '{id}', 'CategoriesController@update')->name('category.update');
-        Route::get('{id}/edit', 'CategoriesController@edit')->name('category.edit');
-        Route::get('{id}', 'CategoriesController@show')->name('category.show');
+        Route::get('{id}/restore', 'CategoriesController@restore')->name('categories.restore');
+        Route::delete('{id}', 'CategoriesController@destroy')->name('categories.destroy');
+        Route::match(['put', 'patch'], '{id}', 'CategoriesController@update')->name('categories.update');
+        Route::get('{id}/edit', 'CategoriesController@edit')->name('categories.edit');
+        Route::get('{id}', 'CategoriesController@show')->name('categories.show');
     });
 
     /**

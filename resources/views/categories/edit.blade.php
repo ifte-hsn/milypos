@@ -9,7 +9,7 @@
 
 @section('breadcrumb')
     <li><a href="{{ route('home') }}"><i class="fa fa-dashboard"></i> {{ __('general.home') }}</a></li>
-    <li><a href="{{ route('category.index') }}"><i class="fa fa-th"></i> {{ __('general.categories')  }}</a></li>
+    <li><a href="{{ route('categories.index') }}"><i class="fa fa-th"></i> {{ __('general.categories')  }}</a></li>
     @if($category->id)
         <li class="active">{{ __('general.update_category') }}</li>
     @else
@@ -22,7 +22,7 @@
     <div class="box box-primary">
         <div class="box-body">
             <form method="post" autocomplete="off"
-                  action="{{ ($category) ? route('category.update', ['category'=> $category->id]) : route('category.store') }}"
+                  action="{{ ($category) ? route('categories', ['category'=> $category->id]) : route('categories.store') }}"
                   class="form-horizontal form-label-left" enctype="multipart/form-data">
                 @csrf
                 @if($category->id)

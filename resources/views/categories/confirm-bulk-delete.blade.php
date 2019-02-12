@@ -6,13 +6,13 @@
 
 @section('breadcrumb')
     <li><a href="{{ route('home') }}"><i class="fa fa-dashboard"></i> {{ __('general.home') }}</a></li>
-    <li><a href="{{ route('category.index') }}"><i class="fa fa-th"></i> {{ __('general.categories') }}</a></li>
+    <li><a href="{{ route('categories.index') }}"><i class="fa fa-th"></i> {{ __('general.categories') }}</a></li>
     <li class="active">{{ __('general.bulk_checkin_and_delete') }}</li>
 @endsection
 
 @section('content')
     <div class="box box-danger">
-        <form action="{{ route('category.bulkSave') }}" class="form-horizontal" method="POST" id="bulkForm">
+        <form action="{{ route('categories.bulkSave') }}" class="form-horizontal" method="POST" id="bulkForm">
             <div class="box-body">
 
                 @csrf
