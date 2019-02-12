@@ -104,19 +104,19 @@ class UsersTest extends TestCase
                 "total" => 1,
                 "rows" => [
                     [
-                        "id" => $this->superAdmin->id,
-                        "email" => $this->superAdmin->email,
-                        "name" => $this->superAdmin->fullName,
-                        "first_name" => $this->superAdmin->first_name,
-                        "last_name" => $this->superAdmin->last_name,
-                        "phone" => $this->superAdmin->phone,
-                        "address" => $this->superAdmin->address,
-                        "city" => $this->superAdmin->city,
-                        "state" => $this->superAdmin->state,
-                        "country" => $this->superAdmin->country->name,
-                        "zip" => $this->superAdmin->zip,
-                        "activated" => $this->superAdmin->activated,
-                        "website" => $this->superAdmin->website,
+                        "id" => html_entity_decode($this->superAdmin->id),
+                        "email" => html_entity_decode($this->superAdmin->email),
+                        "name" => html_entity_decode($this->superAdmin->fullName),
+                        "first_name" => html_entity_decode($this->superAdmin->first_name),
+                        "last_name" => html_entity_decode($this->superAdmin->last_name),
+                        "phone" => html_entity_decode($this->superAdmin->phone),
+                        "address" => html_entity_decode($this->superAdmin->address),
+                        "city" => html_entity_decode($this->superAdmin->city),
+                        "state" => html_entity_decode($this->superAdmin->state),
+                        "country" => html_entity_decode($this->superAdmin->country->name),
+                        "zip" => html_entity_decode($this->superAdmin->zip),
+                        "activated" => html_entity_decode($this->superAdmin->activated),
+                        "website" => html_entity_decode($this->superAdmin->website),
                     ]
                 ]
             ]);
@@ -172,17 +172,17 @@ class UsersTest extends TestCase
 
         $this->assertDatabaseHas('users', [
             'email' => $new_user->email,
-            'first_name' => $new_user->first_name,
-            'last_name' => $new_user->last_name,
-            'phone' => $new_user->phone,
-            'fax' => $new_user->fax,
-            'website' => $new_user->website,
-            'address' => $new_user->address,
-            'city' => $new_user->city,
-            'state' => $new_user->state,
-            'zip' => $new_user->zip,
-            'activated' => $new_user->activated,
-            'sex' => $new_user->sex
+            'first_name' => html_entity_decode($new_user->first_name),
+            'last_name' => html_entity_decode($new_user->last_name),
+            'phone' => html_entity_decode($new_user->phone),
+            'fax' => html_entity_decode($new_user->fax),
+            'website' => html_entity_decode($new_user->website),
+            'address' => html_entity_decode($new_user->address),
+            'city' => html_entity_decode($new_user->city),
+            'state' => html_entity_decode($new_user->state),
+            'zip' => html_entity_decode($new_user->zip),
+            'activated' => html_entity_decode($new_user->activated),
+            'sex' => html_entity_decode($new_user->sex)
         ]);
     }
 
@@ -215,18 +215,18 @@ class UsersTest extends TestCase
             ])->assertStatus(302);
 
         $this->assertDatabaseHas('users', [
-            'email' => $new_user->email,
-            'first_name' => $new_user->first_name,
-            'last_name' => $new_user->last_name,
-            'phone' => $new_user->phone,
-            'fax' => $new_user->fax,
-            'website' => $new_user->website,
-            'address' => $new_user->address,
-            'city' => $new_user->city,
-            'state' => $new_user->state,
-            'zip' => $new_user->zip,
-            'activated' => $new_user->activated,
-            'sex' => $new_user->sex
+            'email' => html_entity_decode($new_user->email),
+            'first_name' => html_entity_decode($new_user->first_name),
+            'last_name' => html_entity_decode($new_user->last_name),
+            'phone' => html_entity_decode($new_user->phone),
+            'fax' => html_entity_decode($new_user->fax),
+            'website' => html_entity_decode($new_user->website),
+            'address' => html_entity_decode($new_user->address),
+            'city' => html_entity_decode($new_user->city),
+            'state' => html_entity_decode($new_user->state),
+            'zip' => html_entity_decode($new_user->zip),
+            'activated' => html_entity_decode($new_user->activated),
+            'sex' => html_entity_decode($new_user->sex)
         ]);
     }
 
@@ -377,8 +377,8 @@ class UsersTest extends TestCase
 
         $this->assertDatabaseHas('users', [
             'email' => $user['email'],
-            'first_name' => $user['first_name'],
-            'last_name' => $user['last_name']
+            'first_name' => html_entity_decode($user['first_name']),
+            'last_name' => html_entity_decode($user['last_name'])
         ]);
     }
 
@@ -411,7 +411,7 @@ class UsersTest extends TestCase
 
         $this->assertDatabaseHas('users', [
             'email' => $email,
-            'first_name' => $user1['first_name']
+            'first_name' => html_entity_decode($user1['first_name'])
         ]);
 //
         $this->from(route('users.create'))
@@ -430,7 +430,7 @@ class UsersTest extends TestCase
 
         $this->assertDatabaseMissing('users', [
             'email' => $email,
-            'first_name' => $user2['first_name']
+            'first_name' => html_entity_decode($user2['first_name'])
         ]);
     }
 
@@ -493,17 +493,17 @@ class UsersTest extends TestCase
                         [
                             "id" => $users[3]->id,
                             "email" => $users[3]->email,
-                            "name" => $users[3]->fullName,
-                            "first_name" => $users[3]->first_name,
-                            "last_name" => $users[3]->last_name,
-                            "phone" => $users[3]->phone,
-                            "address" => $users[3]->address,
-                            "city" => $users[3]->city,
-                            "state" => $users[3]->state,
-                            "country" => $users[3]->country->name,
-                            "zip" => $users[3]->zip,
-                            "activated" => $users[3]->activated,
-                            "website" => $users[3]->website,
+                            "name" => html_entity_decode($users[3]->fullName),
+                            "first_name" => html_entity_decode($users[3]->first_name),
+                            "last_name" => html_entity_decode($users[3]->last_name),
+                            "phone" => html_entity_decode($users[3]->phone),
+                            "address" => html_entity_decode($users[3]->address),
+                            "city" => html_entity_decode($users[3]->city),
+                            "state" => html_entity_decode($users[3]->state),
+                            "country" => html_entity_decode($users[3]->country->name),
+                            "zip" => html_entity_decode($users[3]->zip),
+                            "activated" => html_entity_decode($users[3]->activated),
+                            "website" => html_entity_decode($users[3]->website),
                         ]
                     ]
                 ]
@@ -530,17 +530,17 @@ class UsersTest extends TestCase
                         [
                             "id" => $users[3]->id,
                             "email" => $users[3]->email,
-                            "name" => $users[3]->fullName,
-                            "first_name" => $users[3]->first_name,
-                            "last_name" => $users[3]->last_name,
-                            "phone" => $users[3]->phone,
-                            "address" => $users[3]->address,
-                            "city" => $users[3]->city,
-                            "state" => $users[3]->state,
-                            "country" => $users[3]->country->name,
-                            "zip" => $users[3]->zip,
-                            "activated" => $users[3]->activated,
-                            "website" => $users[3]->website,
+                            "name" => html_entity_decode($users[3]->fullName),
+                            "first_name" => html_entity_decode($users[3]->first_name),
+                            "last_name" => html_entity_decode($users[3]->last_name),
+                            "phone" => html_entity_decode($users[3]->phone),
+                            "address" => html_entity_decode($users[3]->address),
+                            "city" => html_entity_decode($users[3]->city),
+                            "state" => html_entity_decode($users[3]->state),
+                            "country" => html_entity_decode($users[3]->country->name),
+                            "zip" => html_entity_decode($users[3]->zip),
+                            "activated" => html_entity_decode($users[3]->activated),
+                            "website" => html_entity_decode($users[3]->website),
                         ]
                     ]
                 ]
@@ -591,17 +591,17 @@ class UsersTest extends TestCase
                     [
                         "id" => $user_to_delete->id,
                         "email" => $user_to_delete->email,
-                        "name" => $user_to_delete->fullName,
-                        "first_name" => $user_to_delete->first_name,
-                        "last_name" => $user_to_delete->last_name,
-                        "phone" => $user_to_delete->phone,
-                        "address" => $user_to_delete->address,
-                        "city" => $user_to_delete->city,
-                        "state" => $user_to_delete->state,
-                        "country" => $user_to_delete->country->name,
-                        "zip" => $user_to_delete->zip,
-                        "activated" => $user_to_delete->activated,
-                        "website" => $user_to_delete->website,
+                        "name" => html_entity_decode($user_to_delete->fullName),
+                        "first_name" => html_entity_decode($user_to_delete->first_name),
+                        "last_name" => html_entity_decode($user_to_delete->last_name),
+                        "phone" => html_entity_decode($user_to_delete->phone),
+                        "address" => html_entity_decode($user_to_delete->address),
+                        "city" => html_entity_decode($user_to_delete->city),
+                        "state" => html_entity_decode($user_to_delete->state),
+                        "country" => html_entity_decode($user_to_delete->country->name),
+                        "zip" => html_entity_decode($user_to_delete->zip),
+                        "activated" => html_entity_decode($user_to_delete->activated),
+                        "website" => html_entity_decode($user_to_delete->website),
                     ]
                 ]
             ]);
@@ -629,17 +629,17 @@ class UsersTest extends TestCase
                     [
                         "id" => $user->id,
                         "email" => $user->email,
-                        "name" => $user->fullName,
-                        "first_name" => $user->first_name,
-                        "last_name" => $user->last_name,
-                        "phone" => $user->phone,
-                        "address" => $user->address,
-                        "city" => $user->city,
-                        "state" => $user->state,
-                        "country" => $user->country->name,
-                        "zip" => $user->zip,
-                        "activated" => $user->activated,
-                        "website" => $user->website,
+                        "name" => html_entity_decode($user->fullName),
+                        "first_name" => html_entity_decode($user->first_name),
+                        "last_name" => html_entity_decode($user->last_name),
+                        "phone" => html_entity_decode($user->phone),
+                        "address" => html_entity_decode($user->address),
+                        "city" => html_entity_decode($user->city),
+                        "state" => html_entity_decode($user->state),
+                        "country" => html_entity_decode($user->country->name),
+                        "zip" => html_entity_decode($user->zip),
+                        "activated" => html_entity_decode($user->activated),
+                        "website" => html_entity_decode($user->website),
                     ]
                 ]
             ]);
