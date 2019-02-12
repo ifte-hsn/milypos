@@ -2,33 +2,13 @@
 
 namespace Tests\Feature;
 
-use App\Models\User;
-use Spatie\Permission\Models\Permission;
-use Spatie\Permission\Models\Role;
-use Faker\Factory as FakerFactory;
 use Tests\TestCase;
+use App\Models\User;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 
 class UsersTest extends TestCase
 {
-
-    private $superAdmin;
-    private $faker;
-
-    public function setUp()
-    {
-        parent::setUp();
-
-
-        $this->superAdmin = factory(User::class)->create(['activated' => 1]);
-
-        // Only super admin can access all the features
-        // so for the time being we will assign Super Admin
-        // Role to the user. To test other role and their
-        // permissions we have separate test.
-        $this->superAdmin->assignRole(Role::findByName('Super Admin'));
-        $this->faker = FakerFactory::create();
-    }
-
     /** @test */
     public function site_header_shows_authenticated_users_fullname()
     {

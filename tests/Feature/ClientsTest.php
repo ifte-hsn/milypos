@@ -3,34 +3,15 @@
 namespace Tests\Feature;
 
 
-use App\Helpers\Helper;
-use App\Models\Client;
-use App\Models\User;
-use Spatie\Permission\Models\Permission;
-use Spatie\Permission\Models\Role;
-use Faker\Factory as FakerFactory;
 use Tests\TestCase;
+use App\Models\User;
+use App\Models\Client;
+use App\Helpers\Helper;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 
 class ClientsTest extends TestCase
 {
-    private $superAdmin;
-    private $faker;
-
-    public function setUp()
-    {
-        parent::setUp();
-
-
-        $this->superAdmin = factory(User::class)->create(['activated' => 1]);
-
-        // Only super admin can access all the features
-        // so for the time being we will assign Super Admin
-        // Role to the user. To test other role and their
-        // permissions we have separate test.
-        $this->superAdmin->assignRole(Role::findByName('Super Admin'));
-        $this->faker = FakerFactory::create();
-    }
-
 
     /** @test */
     public function unauthenticated_user_redirects_to_login_page_when_he_tries_to_access_client_index_page()

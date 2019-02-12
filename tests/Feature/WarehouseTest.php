@@ -16,27 +16,11 @@ class WarehouseTest extends TestCase
 {
     use DatabaseMigrations;
 
-    private $super_admin;
-    private $super_admin_role;
-    private $faker;
-
-    public function setUp()
-    {
-        parent::setUp();
-        $this->super_admin = factory(User::class)->create(['activated' => 1]);
-
-        // Only super admin can access all the features
-        // so for the time being we will assign Super Admin
-        // Role to the user. To test other role and their
-        // permissions we have separate test.
-        $this->super_admin->assignRole(Role::findByName('Super Admin'));
-        $this->faker = FakerFactory::create();
-    }
 
     /** @test */
     public function it_has_an_index_page()
     {
-        $this->actingAs($this->super_admin)->get(route('warehouses.index'))
+        $this->actingAs($this->superAdmin)->get(route('warehouses.index'))
             ->assertViewIs('warehouses.index');
     }
 
