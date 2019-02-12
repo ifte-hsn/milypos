@@ -59,13 +59,7 @@ class UsersTest extends TestCase
     /** @test */
     public function user_can_see_user_index_page_if_he_is_authorized_to_view_user()
     {
-        $unauthorized_user = factory(User::class)->create(['activated' => 1]);
-        $role = Role::findByName('Admin');
-
-        $permission = Permission::findByName('view_user');
-        $permission->assignRole($role);
-
-        $unauthorized_user->assignRole($role);
+        $unauthorized_user = $this->create_user_and_assign_role_and_permission('Admin', 'view_user');
 
         $this->actingAs($unauthorized_user)
             ->get(route('users.index'))->assertViewIs('users.index');
@@ -81,48 +75,22 @@ class UsersTest extends TestCase
     /** @test */
     public function if_the_user_is_unauthorized_to_view_user_will_get_403_status_when_trying_to_view_user_list()
     {
-        $user = factory(User::class)->create(['activated' => 1]);
-        $role = Role::findByName('Admin');
-        $user->assignRole($role);
-
-        $permission = Permission::findByName('view_client');
-        $role->givePermissionTo($permission);
+        $user = $this->create_user_and_assign_role_and_permission('Admin', 'view_client');
 
         $this->actingAs($user)
             ->get(route('users.list'))
             ->assertStatus(403);
     }
 
+    /** @test */
     public function if_the_user_is_authorized_to_view_user_will_able_to_view_user_list_when_trying_to_view_user_list()
     {
-        $user = factory(User::class)->create(['activated' => 1]);
-        $role = Role::findByName('Admin');
-        $user->assignRole($role);
-
-        $permission = Permission::findByName('view_user');
-        $role->givePermissionTo($permission);
+        $user = $this->create_user_and_assign_role_and_permission('Admin', 'view_user');
 
         $this->actingAs($user)
             ->get(route('users.list'))
             ->assertJson([
-                "total" => 1,
-                "rows" => [
-                    [
-                        "id" => $user->id,
-                        "email" => $user->email,
-                        "name" => $user->fullName,
-                        "first_name" => $user->first_name,
-                        "last_name" => $user->last_name,
-                        "phone" => $user->phone,
-                        "address" => $user->address,
-                        "city" => $user->city,
-                        "state" => $user->state,
-                        "country" => $user->country->name,
-                        "zip" => $user->zip,
-                        "activated" => $user->activated,
-                        "website" => $user->website,
-                    ]
-                ]
+                "total" => 2,
             ]);
 
     }
@@ -165,13 +133,8 @@ class UsersTest extends TestCase
     /** @test */
     public function if_user_is_unauthorized_to_create_new_user_then_he_will_get_403_status_when_he_tries_to_visit_user_create_page()
     {
-        $user = factory(User::class)->create(['activated' => 1]);
-        $role = Role::findByName('Admin');
 
-        $permissin = Permission::findByName('view_user');
-        $role->givePermissionTo($permissin);
-
-        $user->assignRole($role);
+        $user = $this->create_user_and_assign_role_and_permission('Admin', 'view_user');
 
         $this->actingAs($user)
             ->get(route('users.create'))
@@ -181,13 +144,7 @@ class UsersTest extends TestCase
     /** @test */
     public function if_a_user_is_authorized_to_create_new_user_then_he_is_able_to_create_new_user()
     {
-        $user = factory(User::class)->create(['activated' => 1]);
-        $role = Role::findByName('Admin');
-
-        $permissin = Permission::findByName('add_user');
-        $role->givePermissionTo($permissin);
-
-        $user->assignRole($role);
+        $user = $this->create_user_and_assign_role_and_permission('Admin', 'add_user');
 
         $new_user = factory(User::class)->make(['activated' => 1]);
 
@@ -233,14 +190,9 @@ class UsersTest extends TestCase
     /** @test */
     public function super_admin_can_create_new_user()
     {
-        $user = factory(User::class)->create(['activated' => 1]);
-        $role = Role::findByName('Super Admin');
-
-        $user->assignRole($role);
-
         $new_user = factory(User::class)->make(['activated' => 1]);
 
-        $this->actingAs($user)
+        $this->actingAs($this->superAdmin)
             ->from(route('users.create'))
             ->post(route('users.store'), [
                 'email' => $new_user->email,
@@ -289,12 +241,7 @@ class UsersTest extends TestCase
     /** @test */
     public function if_user_is_unauthorized_to_update_user_will_get_403_status_when_try_to_view_user_edit_page()
     {
-        $user = factory(User::class)->create(['activated' => 1]);
-        $role = Role::findByName('Admin');
-        $permission = Permission::findByName('view_user');
-        $role->givePermissionTo($permission);
-
-        $user->assignRole($role);
+        $user = $this->create_user_and_assign_role_and_permission('Admin', 'view_user');
 
         $another_user = factory(User::class)->create();
 
@@ -306,12 +253,7 @@ class UsersTest extends TestCase
     /** @test */
     public function if_user_is_authorized_to_update_user_will_be_able_to_see_user_edit_page()
     {
-        $user = factory(User::class)->create(['activated' => 1]);
-        $role = Role::findByName('Admin');
-        $permission = Permission::findByName('edit_user');
-        $role->givePermissionTo($permission);
-
-        $user->assignRole($role);
+        $user = $this->create_user_and_assign_role_and_permission('Admin', 'edit_user');
 
         $another_user = factory(User::class)->create();
         $this->actingAs($user)
@@ -322,19 +264,20 @@ class UsersTest extends TestCase
     /** @test */
     public function if_user_is_authorized_to_update_user_then_he_is_able_to_update_the_user()
     {
-
-        $user = factory(User::class)->create(['activated' => 1]);
-        $role = Role::findByName('Admin');
-        $permission = Permission::findByName('edit_user');
-        $role->givePermissionTo($permission);
+        $user = $this->create_user_and_assign_role_and_permission('Admin', 'edit_user');
 
         $new_user = factory(User::class)->create(['activated' => 1]);
+
+        $user_to_update = factory(User::class)->make(['activated' => 1]);
         $this->actingAs($user)
             ->from(route('users.edit', ['user' => $new_user->id]))
-            ->put(route('users.update', ['user' => $new_user->id]), factory(User::class)->make(['activated' => 1])->toArray());
+            ->put(route('users.update', ['user' => $new_user->id]), $user_to_update->toArray());
 
         $updated_user = User::findOrFail($new_user->id);
-        $this->assertEquals($updated_user->first_name, $new_user->first_name);
+
+
+
+        $this->assertEquals($user_to_update->first_name, $updated_user->first_name);
     }
 
 
@@ -515,12 +458,8 @@ class UsersTest extends TestCase
     /** @test */
     public function if_a_user_is_not_authorized_to_delete_entry_then_they_will_get_403_status()
     {
-        $user = factory(User::class)->create(['activated' => 1]);
-        $role = Role::findByName('Admin');
-        $permission = Permission::findByName('view_user');
-        $role->givePermissionTo($permission);
+        $user = $this->create_user_and_assign_role_and_permission('Admin', 'view_user');
 
-        $user->assignRole($role);
 
         $this->actingAs($user)
             ->delete(route('users.destroy', ['user' => $user->id]))
@@ -531,13 +470,10 @@ class UsersTest extends TestCase
     public function if_a_user_is_authorized_to_delete_user_enty_then_he_will_able_to_delete_user()
     {
         $users = factory(User::class, 10)->create(['activated' => 1]);
-        $role = Role::findByName('Admin');
-        $permission = Permission::findByName('delete_user');
-        $role->givePermissionTo($permission);
 
-        $users[0]->assignRole($role);
+        $user = $this->create_user_and_assign_role_and_permission('Admin', 'delete_user');
 
-        $this->actingAs($users[0])
+        $this->actingAs($user)
             ->delete(route('users.destroy', ['user' => $users[3]->id]));
 
         $url = route('users.list') . '?deleted=true';
@@ -546,6 +482,7 @@ class UsersTest extends TestCase
         // without view user permission
         // the user will not able to
         // see deleted user
+        $role = Role::findByName('Admin');
         $role->givePermissionTo(Permission::findByName('view_user'));
 
         $this->get($url)
@@ -622,10 +559,7 @@ class UsersTest extends TestCase
     /** @test */
     public function if_the_user_is_unauthorized_to_restore_he_will_get_403_status_when_he_try_to_restore_deleted_user()
     {
-        $user = factory(User::class)->create(['activated' => 1]);
-        $role = Role::findByName('Admin');
-        $permission = Permission::findByName('view_user');
-        $role->givePermissionTo($permission);
+        $user = $this->create_user_and_assign_role_and_permission('Admin', 'view_user');
 
         $users = factory(User::class, 10)->create();
 
@@ -638,11 +572,7 @@ class UsersTest extends TestCase
     /** @test */
     public function if_a_user_is_authorized_then_he_will_be_able_to_restore_user()
     {
-        $user = factory(User::class)->create(['activated' => 1]);
-        $role = Role::findByName('Admin');
-        $permission = Permission::findByName('restore_user');
-        $role->givePermissionTo($permission);
-        $user->assignRole($role);
+        $user = $this->create_user_and_assign_role_and_permission('Admin', 'restore_user');
 
         $user_to_delete = factory(User::class)->create(['activated' => 1]);
 
@@ -650,6 +580,7 @@ class UsersTest extends TestCase
 
         $url = route('users.list') . '?deleted=true';
 
+        $role = Role::findByName('Admin');
         $role->givePermissionTo(Permission::findByName('view_user'));
 
         $this->actingAs($user)

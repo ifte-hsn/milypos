@@ -43,9 +43,7 @@ class ClientsTest extends TestCase
     /** @test */
     public function user_can_not_see_client_index_page_if_he_is_not_authorized_to_view_client()
     {
-        $unauthorized_user = factory(User::class)->create(['activated' => 1]);
-        $role = Role::findByName('Admin');
-        $unauthorized_user->assignRole($role);
+        $unauthorized_user = $this->create_user_and_assign_role_and_permission('Admin');
 
         $this->actingAs($unauthorized_user)
             ->get(route('clients.index'))
@@ -56,13 +54,7 @@ class ClientsTest extends TestCase
     /** @test */
     public function user_can_see_client_index_page_if_he_is_authorized_to_view_client()
     {
-        $authorized_user = factory(User::class)->create(['activated' => 1]);
-        $role = Role::findByName('Admin');
-
-        $permission = Permission::findByName('view_client');
-        $permission->assignRole($role);
-
-        $authorized_user->assignRole($role);
+        $authorized_user = $this->create_user_and_assign_role_and_permission('Admin', 'view_client');
 
         $this->actingAs($authorized_user)
             ->get(route('clients.index'))->assertViewIs('clients.index');
@@ -78,12 +70,7 @@ class ClientsTest extends TestCase
     /** @test */
     public function if_the_user_is_unauthorized_to_view_client_will_get_403_status_when_trying_to_view_client_list()
     {
-        $user = factory(User::class)->create(['activated' => 1]);
-        $role = Role::findByName('Admin');
-        $user->assignRole($role);
-
-        $permission = Permission::findByName('view_user');
-        $role->givePermissionTo($permission);
+        $user = $this->create_user_and_assign_role_and_permission('Admin', 'view_user');
 
         $this->actingAs($user)
             ->get(route('clients.list'))
@@ -93,12 +80,7 @@ class ClientsTest extends TestCase
     /** @test */
     public function if_the_user_is_authorized_to_view_client_will_be_able_to_view_client_list()
     {
-        $user = factory(User::class)->create(['activated' => 1]);
-        $role = Role::findByName('Admin');
-        $user->assignRole($role);
-
-        $permission = Permission::findByName('view_client');
-        $role->givePermissionTo($permission);
+        $user = $this->create_user_and_assign_role_and_permission('Admin', 'view_client');
 
         $client = factory(Client::class)->create();
 
@@ -175,13 +157,7 @@ class ClientsTest extends TestCase
     public function if_user_is_unauthorized_to_create_new_client_then_he_will_get_403_status_when_he_tries_to_visit_client_create_page(
     )
     {
-        $user = factory(User::class)->create(['activated' => 1]);
-        $role = Role::findByName('Admin');
-
-        $permission = Permission::findByName('view_user');
-        $role->givePermissionTo($permission);
-
-        $user->assignRole($role);
+        $user = $this->create_user_and_assign_role_and_permission('Admin', 'view_user');
 
         $this->actingAs($user)
             ->get(route('clients.create'))
@@ -192,13 +168,7 @@ class ClientsTest extends TestCase
     /** @test */
     public function if_a_user_is_authorized_to_create_new_client_then_he_is_able_to_create_new_client()
     {
-        $user = factory(User::class)->create(['activated' => 1]);
-        $role = Role::findByName('Admin');
-
-        $permission = Permission::findByName('add_client');
-        $role->givePermissionTo($permission);
-
-        $user->assignRole($role);
+        $user = $this->create_user_and_assign_role_and_permission('Admin', 'add_client');
 
         $client = factory(Client::class)->make();
 
@@ -237,14 +207,9 @@ class ClientsTest extends TestCase
     /** @test */
     public function super_user_can_create_new_client()
     {
-        $user = factory(User::class)->create(['activated' => 1]);
-        $role = Role::findByName('Super Admin');
-
-        $user->assignRole($role);
-
         $client = factory(Client::class)->make();
 
-        $this->actingAs($user)
+        $this->actingAs($this->superAdmin)
             ->from(route('clients.create'))
             ->post(route('clients.store'), [
                 'email' => $client->email,
@@ -287,12 +252,8 @@ class ClientsTest extends TestCase
     /** @test */
     public function if_user_is_unauthorized_to_update_client_will_get_403_status_when_try_to_view_client_edit_page()
     {
-        $user = factory(User::class)->create(['activated' => 1]);
-        $role = Role::findByName('Admin');
-        $permission = Permission::findByName('view_user');
-        $role->givePermissionTo($permission);
+        $user = $this->create_user_and_assign_role_and_permission('Admin', 'view_user');
 
-        $user->assignRole($role);
 
         $client = factory(Client::class)->create();
 
@@ -304,12 +265,7 @@ class ClientsTest extends TestCase
     /** @test */
     public function if_user_is_authorized_to_update_client_will_be_able_to_see_client_edit_page()
     {
-        $user = factory(User::class)->create(['activated' => 1]);
-        $role = Role::findByName('Admin');
-        $permission = Permission::findByName('edit_client');
-        $role->givePermissionTo($permission);
-
-        $user->assignRole($role);
+        $user = $this->create_user_and_assign_role_and_permission('Admin', 'edit_client');
 
         $client = factory(Client::class)->create();
         $this->actingAs($user)
@@ -320,12 +276,7 @@ class ClientsTest extends TestCase
     /** @test */
     public function if_user_is_authorized_to_update_client_then_he_will_be_able_to_update_clients()
     {
-        $user = factory(User::class)->create(['activated' => 1]);
-        $role = Role::findByName('Admin');
-        $permission = Permission::findByName('edit_client');
-        $role->givePermissionTo($permission);
-
-        $user->assignRole($role);
+        $user = $this->create_user_and_assign_role_and_permission('Admin', 'edit_client');
 
         $clients = factory(Client::class, 10)->create();
 
@@ -462,12 +413,7 @@ class ClientsTest extends TestCase
     /** @test */
     public function if_a_user_is_not_authorized_to_delete_entry_then_they_will_get_403_status()
     {
-        $user = factory(User::class)->create(['activated' => 1]);
-        $role = Role::findByName('Admin');
-        $permission = Permission::findByName('view_user');
-        $role->givePermissionTo($permission);
-
-        $user->assignRole($role);
+        $user = $this->create_user_and_assign_role_and_permission('Admin', 'view_user');
 
         $client = factory(Client::class)->create();
 
@@ -482,14 +428,10 @@ class ClientsTest extends TestCase
     {
         $clients = factory(Client::class, 10)->create();
 
-        $adminUser = factory(User::class)->create();
-        $role = Role::findByName('Admin');
-        $permission = Permission::findByName('delete_client');
-        $role->givePermissionTo($permission);
+        $user = $this->create_user_and_assign_role_and_permission('Admin', 'delete_client');
 
-        $adminUser->assignRole($role);
 
-        $this->actingAs($adminUser)
+        $this->actingAs($user)
             ->delete(route('clients.destroy', ['client' => $clients[3]->id]));
 
         $url = route('clients.list') . '?deleted=true';
@@ -498,6 +440,7 @@ class ClientsTest extends TestCase
         // without view user permission
         // the user will not able to
         // see deleted user
+        $role = Role::findByName('Admin');
         $role->givePermissionTo(Permission::findByName('view_client'));
 
         $this->get($url)
@@ -570,10 +513,8 @@ class ClientsTest extends TestCase
     public function if_the_user_is_unauthorized_to_restore_he_will_get_403_status_when_he_try_to_restore_deleted_client(
     )
     {
-        $user = factory(User::class)->create(['activated' => 1]);
-        $role = Role::findByName('Admin');
-        $permission = Permission::findByName('view_user');
-        $role->givePermissionTo($permission);
+        $user = $this->create_user_and_assign_role_and_permission('Admin', 'view_user');
+
 
         $clients = factory(Client::class, 10)->create();
 
@@ -587,17 +528,15 @@ class ClientsTest extends TestCase
     /** @test */
     public function if_a_user_is_authorized_then_he_will_be_able_to_restore_client()
     {
-        $user = factory(User::class)->create(['activated' => 1]);
-        $role = Role::findByName('Admin');
-        $permission = Permission::findByName('restore_client');
-        $role->givePermissionTo($permission);
-        $user->assignRole($role);
+        $user = $this->create_user_and_assign_role_and_permission('Admin', 'restore_client');
 
         $client_to_delete = factory(Client::class)->create();
 
         $client_to_delete->delete();
 
         $url = route('clients.list') . '?deleted=true';
+
+        $role = Role::findByName('Admin');
 
         $role->givePermissionTo(Permission::findByName('view_client'));
 
@@ -698,12 +637,7 @@ class ClientsTest extends TestCase
     /** @test */
     public function if_the_user_is_authorized_to_bulk_delete_then_he_will_able_to_bulk_delete_clients()
     {
-        $user = factory(User::class)->create(['activated' => 1]);
-        $role = Role::findByName('Admin');
-        $permission = Permission::findByName('bulk_delete_clients');
-        $role->givePermissionTo($permission);
-        $user->assignRole($role);
-
+        $user = $this->create_user_and_assign_role_and_permission('Admin', 'bulk_delete_clients');
 
         $clients = factory(Client::class, 10)->create();
         $ids = [];
@@ -716,6 +650,7 @@ class ClientsTest extends TestCase
         $this->actingAs($user)
             ->post(route('clients.bulkSave'), ['ids' => $ids]);
 
+        $role = Role::findByName('Admin');
         $role->givePermissionTo(Permission::findByName('view_client'));
 
         $this->get(route('clients.list'))
