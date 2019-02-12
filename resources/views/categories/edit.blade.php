@@ -22,7 +22,7 @@
     <div class="box box-primary">
         <div class="box-body">
             <form method="post" autocomplete="off"
-                  action="{{ ($category) ? route('categories', ['category'=> $category->id]) : route('categories.store') }}"
+                  action="{{ ($category) ? route('categories.update', ['category'=> $category->id]) : route('categories.store') }}"
                   class="form-horizontal form-label-left" enctype="multipart/form-data">
                 @csrf
                 @if($category->id)
