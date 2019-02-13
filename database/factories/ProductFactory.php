@@ -11,6 +11,6 @@ $factory->define(App\Models\Product::class, function (Faker $faker) {
         'purchase_price' => $purchase_price = round($faker->randomFloat(2, 1, 100), 2),
         'selling_price' => round($purchase_price + ($purchase_price * 0.25), 2),
         'sales' => $faker->numberBetween(1, 10),
-        'category_id' => $faker->numberBetween(1, 20)
+        'category_id' => factory(\App\Models\Category::class)->create()->id
     ];
 });
