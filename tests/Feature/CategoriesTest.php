@@ -73,7 +73,7 @@ class CategoriesTest extends TestCase
                 "rows" => [
                     [
                         "id" => $category->id,
-                        "name" => html_entity_decode($category->name),
+                        "name" => e($category->name),
                     ]
                 ]
             ]);
@@ -93,7 +93,7 @@ class CategoriesTest extends TestCase
                 "rows" => [
                     [
                         "id" => $category->id,
-                        "name" => html_entity_decode($category->name),
+                        "name" => e($category->name),
                     ]
                 ]
             ]);
@@ -327,7 +327,7 @@ class CategoriesTest extends TestCase
                     "total" => 1,
                     "rows" => [
                         [
-                            "name" => html_entity_decode($categories[3]->name),
+                            "name" => e($categories[3]->name),
                         ]
                     ]
                 ]
@@ -353,7 +353,7 @@ class CategoriesTest extends TestCase
                     "total" => 1,
                     "rows" => [
                         [
-                            "name" => html_entity_decode($categories[3]->name),
+                            "name" => e($categories[3]->name),
                         ]
                     ]
                 ]
@@ -406,7 +406,7 @@ class CategoriesTest extends TestCase
                 "total" => 1,
                 "rows" => [
                     [
-                        "name" => html_entity_decode($category_to_delete->name)
+                        "name" => e($category_to_delete->name)
                     ]
                 ]
             ]);
@@ -433,7 +433,7 @@ class CategoriesTest extends TestCase
                 "total" => 1,
                 "rows" => [
                     [
-                        "name" => html_entity_decode($category->name),
+                        "name" => e($category->name),
                     ]
                 ]
             ]);
