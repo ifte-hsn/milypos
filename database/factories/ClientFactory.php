@@ -6,8 +6,8 @@ use Faker\Generator as Faker;
 $factory->define(Client::class, function (Faker $faker) {
     return [
         'email' => $faker->unique()->safeEmail,
-        'first_name' => $faker->firstName,
-        'last_name' => $faker->lastName,
+        'first_name' => $faker->unique()->firstName,
+        'last_name' => $faker->unique()->lastName,
         'phone' => $faker->phoneNumber(),
         'address' => $faker->address,
         'city' => $faker->city,
