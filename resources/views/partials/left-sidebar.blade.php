@@ -125,6 +125,22 @@
                 </li>
             @endif
 
+            @if (Auth::user()->hasAnyPermission(
+                [
+                    'add_warehouse',
+                    'view_warehouse',
+                    'edit_warehouse',
+                    'delete_warehouse'
+                ]) || Auth::user()->hasRole('Super Admin')
+            )
+                <li {!! (Request::is('warehouses*') ? 'class="active"':'') !!}>
+                    <a href="{{ route('warehouses.index') }}">
+                        <i class="fa fa-university"></i>
+                        <span>{{ __('menu.warehouse') }}</span>
+                    </a>
+                </li>
+            @endif
+
             <li class="treeview{{ (Request::is('sales*') ? ' active':'') }}">
                 <a href="#">
                     <i class="fa fa-list-ul"></i>

@@ -7,5 +7,7 @@ return [
     'roles'     => 'Roles',
     'settings' => 'Settings',
     'staff'    => 'Staff',
-    'users' => 'Users'
+    'warehouse' => 'Warehouse',
+    'warehouses' => 'Warehouses',
+    'users' => 'Users',
 ];
